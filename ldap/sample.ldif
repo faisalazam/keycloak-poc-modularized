@@ -1,0 +1,80 @@
+dn: cn=admin,dc=example,dc=com
+objectClass: inetOrgPerson
+cn: admin
+givenName: Admin
+sn: Admin
+userPassword: ldap_admin_password
+description: LDAP Administrator
+mail: admin@example.com
+telephoneNumber: +1234567890
+title: Directory Administrator
+
+# Organizational Units
+dn: ou=users,dc=example,dc=com
+objectClass: organizationalUnit
+ou: users
+
+dn: ou=groups,dc=example,dc=com
+objectClass: organizationalUnit
+ou: groups
+
+dn: ou=departments,dc=example,dc=com
+objectClass: organizationalUnit
+ou: departments
+
+# Sample Group
+dn: cn=developers,ou=groups,dc=example,dc=com
+objectClass: groupOfNames
+cn: developers
+description: Development Team
+member: uid=user1,ou=users,dc=example,dc=com
+member: uid=user2,ou=users,dc=example,dc=com
+
+# Sample Users
+dn: uid=user1,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+uid: user1
+givenName: User
+sn: User1
+cn: User One
+userPassword: password1
+mail: user1@example.com
+telephoneNumber: +1234567891
+title: Software Engineer
+departmentNumber: 101
+
+dn: uid=user2,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+uid: user2
+givenName: User
+sn: User2
+cn: User Two
+userPassword: password2
+mail: user2@example.com
+telephoneNumber: +1234567892
+title: QA Engineer
+departmentNumber: 102
+
+dn: uid=user3,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+uid: user3
+givenName: User
+sn: User3
+cn: User Three
+userPassword: password3
+mail: user3@example.com
+telephoneNumber: +1234567893
+title: DevOps Engineer
+departmentNumber: 103
+
+dn: uid=user4,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+uid: user4
+givenName: User
+sn: User4
+cn: User Four
+userPassword: password4
+mail: user4@example.com
+telephoneNumber: +1234567894
+title: Project Manager
+departmentNumber: 104

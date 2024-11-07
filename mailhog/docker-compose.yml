@@ -1,0 +1,20 @@
+
+services:
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog:latest
+    ports:
+      - "${MAILHOG_WEB_PORT:-8025}:8025"
+      - "${MAILHOG_SMTP_PORT:-1025}:1025"
+    healthcheck:
+      test: ["CMD", "sh", "-c", "nc -z localhost 8025"]
+      interval: ${MAILHOG_HEALTHCHECK_INTERVAL:-30s}
+      timeout: ${MAILHOG_HEALTHCHECK_TIMEOUT:-10s}
+      retries: ${MAILHOG_HEALTHCHECK_RETRIES:-5} #ignore the intellij error
+    networks:
+      - keycloak_network
+
+networks:
+  keycloak_network:
+    driver: bridge  # Creates a new bridge network for this service
+    name: keycloak_network  # This will match the name in the main compose file

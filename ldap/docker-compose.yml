@@ -12,7 +12,37 @@ services:
       - ldap_data:/var/lib/ldap
       - ldap_config:/etc/ldap/slapd.d
     healthcheck:
-      test: ["CMD", "ldapsearch", "-x", "-b", "${LDAP_BASE_DN}", "-D", "cn=admin,${LDAP_BASE_DN}", "-w", "${LDAP_ADMIN_PASSWORD}"]
+      test: [
+        "CMD",
+        "ldapsearch",
+        "-x",
+        "-b", "${LDAP_BASE_DN}",
+        "-D", "cn=admin,${LDAP_BASE_DN}",
+        "-w", "${LDAP_ADMIN_PASSWORD}"
+      ]
+      interval: ${HEALTHCHECK_INTERVAL:-30s}
+      timeout: ${HEALTHCHECK_TIMEOUT:-10s}
+      retries: ${HEALTHCHECK_RETRIES:-5}
+    networks:
+      - keycloak_network
+
+  phpadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: ${PHP_ADMIN_HOST_NAME}
+    env_file:
+      - ./.env
+    ports:
+      - "${PHP_LDAPADMIN_PORT:-6443}:80"
+    depends_on:
+      openldap:
+        condition: service_healthy
+    healthcheck:
+      test: [
+        "CMD",
+        "php",
+        "-r",
+        "if (@file_get_contents('http://localhost:80')) exit(0); else exit(1);"
+      ]
       interval: ${HEALTHCHECK_INTERVAL:-30s}
       timeout: ${HEALTHCHECK_TIMEOUT:-10s}
       retries: ${HEALTHCHECK_RETRIES:-5}

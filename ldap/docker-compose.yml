@@ -3,17 +3,8 @@ services:
   openldap:
     image: osixia/openldap:stable
     container_name: ${LDAP_HOST_NAME}
-    environment:
-      LDAP_DOMAIN: ${LDAP_DOMAIN}
-      LDAP_BASE_DN: ${LDAP_BASE_DN}
-      LDAP_ORGANISATION: ${LDAP_ORGANISATION}
-      LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
-      LDAP_CONFIG_PASSWORD: ${LDAP_CONFIG_PASSWORD}
-      LDAP_TLS: ${LDAP_TLS:-"false"}
-      LDAP_REPLICATION: ${LDAP_REPLICATION:-"false"}
-      LDAP_TLS_ENFORCE: ${LDAP_TLS_ENFORCE:-"false"}
-      LDAP_DEFAULT_USERNAME: ${LDAP_DEFAULT_USERNAME:-""}
-      LDAP_DEFAULT_PASSWORD: ${LDAP_DEFAULT_PASSWORD:-""}
+    env_file:
+      - ./.env
     ports:
       - "${LDAP_PORT:-389}:389"
       - "${LDAPS_PORT:-636}:636"

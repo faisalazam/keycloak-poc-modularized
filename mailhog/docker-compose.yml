@@ -1,8 +1,8 @@
 
 services:
   mailhog:
-    container_name: mailhog
-    image: mailhog/mailhog:latest
+    image: mailhog/mailhog:v1.0.1
+    container_name: ${MAILHOG_SMTP_HOST}
     ports:
       - "${MAILHOG_WEB_PORT:-8025}:8025"
       - "${MAILHOG_SMTP_PORT:-1025}:1025"

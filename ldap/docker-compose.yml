@@ -1,7 +1,16 @@
-
 services:
   openldap:
-    image: osixia/openldap:stable
+    # In this setup, Docker Compose will build an image using the Dockerfile
+    # from the specified context and use it to start the container.
+    # This approach is useful when you need to create a custom image from a
+    # Dockerfile before running the container.
+    # the 'image' tag below: This sets the name and optionally the tag of the
+    # image that will be created. For example, custom-openldap:latest creates
+    # an image named custom-openldap with the tag latest.
+    build:
+      context: .
+      dockerfile: Dockerfile # Optional, if the Dockerfile has a custom name, specify it here
+    image: custom-openldap:latest
     container_name: ${LDAP_HOST_NAME}
     env_file:
       - ./.env
@@ -12,7 +21,6 @@ services:
     volumes:
       - ldap_data:/var/lib/ldap
       - ldap_config:/etc/ldap/slapd.d
-      - ./sample.ldif:/container/service/slapd/assets/config/bootstrap/ldif/sample.ldif
     healthcheck:
       test: [
         "CMD",

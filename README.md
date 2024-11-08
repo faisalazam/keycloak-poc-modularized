@@ -22,3 +22,4 @@ Each folder has its own `README.md` file with service-specific setup and testing
    docker-compose -f main-docker-compose.yml up -d
 
 [Mailhog](mailhog/README.md)
+[Postgres](postgres/README.md)

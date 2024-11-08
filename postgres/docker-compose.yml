@@ -17,6 +17,25 @@ services:
     networks:
       - keycloak_network
 
+  # To access the PostgreSQL database using pgAdmin
+  pgadmin:
+    image: dpage/pgadmin4:8.12
+    container_name: ${PGADMIN_HOST_NAME}
+    env_file:
+      - ./.env
+    ports:
+      - "5050:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - keycloak_network
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "80"]
+      interval: ${HEALTHCHECK_INTERVAL:-30s}
+      timeout: ${HEALTHCHECK_TIMEOUT:-10s}
+      retries: ${HEALTHCHECK_RETRIES:-5} #ignore the intellij error
+
 networks:
   keycloak_network:
     driver: bridge  # Creates a new bridge network for this service

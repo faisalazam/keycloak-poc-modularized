@@ -8,12 +8,11 @@ services:
     ports:
       - "${LDAP_PORT:-389}:389"
       - "${LDAPS_PORT:-636}:636"
-    entrypoint: ["/init-ldap.sh"]
+    command: --copy-service
     volumes:
       - ldap_data:/var/lib/ldap
       - ldap_config:/etc/ldap/slapd.d
-      - ./init-ldap.sh:/init-ldap.sh
-      - ./sample.ldif:/container/service/slapd/assets/sample.ldif
+      - ./sample.ldif:/container/service/slapd/assets/config/bootstrap/ldif/sample.ldif
     healthcheck:
       test: [
         "CMD",

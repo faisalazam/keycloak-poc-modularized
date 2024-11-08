@@ -46,6 +46,8 @@ services:
     depends_on:
       openldap:
         condition: service_healthy
+    volumes:
+      - phpldapadmin_data:/var/www/phpldapadmin
     healthcheck:
       test: [
         "CMD",
@@ -62,6 +64,7 @@ services:
 volumes:
   ldap_data:
   ldap_config:
+  phpldapadmin_data:
 
 networks:
   keycloak_network:

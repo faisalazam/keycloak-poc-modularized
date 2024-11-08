@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:17.0
+    container_name: ${KEYCLOAK_DB_HOST_NAME}
+    env_file:
+      - ./.env
+    ports:
+      - "5433:5432" # 5432 already bound error - so using 5433 for now
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
+      interval: ${HEALTHCHECK_INTERVAL:-30s}
+      timeout: ${HEALTHCHECK_TIMEOUT:-10s}
+      retries: ${HEALTHCHECK_RETRIES:-5} #ignore the intellij error
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - keycloak_network
+
+networks:
+  keycloak_network:
+    driver: bridge  # Creates a new bridge network for this service
+    name: keycloak_network  # This will match the name in the main compose file
+
+volumes:
+  postgres_data:

@@ -25,6 +25,9 @@ services:
       - ./.env
     ports:
       - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./servers.json:/pgadmin4/servers.json
     depends_on:
       postgres:
         condition: service_healthy
@@ -42,4 +45,5 @@ networks:
     name: keycloak_network  # This will match the name in the main compose file
 
 volumes:
+  pgadmin_data:
   postgres_data:

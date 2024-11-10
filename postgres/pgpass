@@ -1,2 +1,0 @@
-postgres:5432:*:keycloak:password
-keycloak-db:5432:*:keycloak:password

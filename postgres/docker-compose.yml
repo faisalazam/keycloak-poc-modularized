@@ -27,23 +27,25 @@ services:
       - "${PGADMIN_HTTP_PORT}:80"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
-      - ./pgpass:/pgadmin4/pgpass
       - ./init_pgadmin.sh:/init_pgadmin.sh
+      - ./pgpass.template:/pgadmin4/pgpass.template
       - ./servers.json.template:/pgadmin4/servers.json.template # preconfigured servers/connections
     user: 'root' # TODO avoid using the root user and try to use the pgadmin user
     #    user: '5050:5050'  # Ensure that pgadmin runs as pgadmin user (UID 5050)
     entrypoint: >
       /bin/sh -c "
         echo 'Starting setup...';
-        cp -f /pgadmin4/pgpass /var/lib/pgadmin/;
-        chmod 600 /var/lib/pgadmin/pgpass;
-        # pgadmin user typically has a UID and GID of 5050
-        chown 5050:5050 /var/lib/pgadmin/pgpass;
-
         chmod +x /init_pgadmin.sh;
 
         # Run the init_pgadmin.sh script to configure pgAdmin
         /init_pgadmin.sh;
+
+        cp -f /pgadmin4/pgpass /var/lib/pgadmin/;
+        chmod 600 /var/lib/pgadmin/pgpass;
+        # pgadmin user typically has a UID and GID of 5050
+        chown 5050:5050 /var/lib/pgadmin/pgpass;
+      
+      cat /var/lib/pgadmin/pgpass;
 
         # Ensure permissions on servers.json
         chmod 600 /pgadmin4/servers.json;

@@ -28,13 +28,30 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin
       - ./pgpass:/pgadmin4/pgpass
-      - ./servers.json:/pgadmin4/servers.json
+      - ./init_pgadmin.sh:/init_pgadmin.sh
+      - ./servers.json.template:/pgadmin4/servers.json.template # preconfigured servers/connections
+    user: 'root'
     entrypoint: >
       /bin/sh -c "
+        echo 'Starting setup...';
         cp -f /pgadmin4/pgpass /var/lib/pgadmin/;
         chmod 600 /var/lib/pgadmin/pgpass;
-        chown pgadmin:pgadmin /var/lib/pgadmin/pgpass;
-        /entrypoint.sh
+        # pgadmin user typically has a UID and GID of 5050
+        chown 5050:5050 /var/lib/pgadmin/pgpass;
+      
+        # Run the init_pgadmin.sh script to configure pgAdmin
+        /init_pgadmin.sh;
+      
+        # Ensure permissions on servers.json
+        chmod 644 /pgadmin4/servers.json;
+        chown 5050:5050 /pgadmin4/servers.json;
+      
+        # Debugging step to ensure servers.json is correctly set
+        echo 'Checking content of /pgadmin4/servers.json:';
+        cat /pgadmin4/servers.json;
+      
+        # Run the original entrypoint
+        /entrypoint.sh;
       "
     depends_on:
       postgres:

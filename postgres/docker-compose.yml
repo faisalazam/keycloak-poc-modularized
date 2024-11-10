@@ -43,7 +43,7 @@ services:
         /init_pgadmin.sh;
       
         # Ensure permissions on servers.json
-        chmod 644 /pgadmin4/servers.json;
+        chmod 600 /pgadmin4/servers.json;
         chown 5050:5050 /pgadmin4/servers.json;
       
         # Debugging step to ensure servers.json is correctly set

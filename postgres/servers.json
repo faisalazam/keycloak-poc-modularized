@@ -8,8 +8,8 @@
       "SavePassword": true,
       "SSLMode": "disable",
       "Username": "keycloak",
-      "Password": "password",
-      "MaintenanceDB": "postgres"
+      "MaintenanceDB": "postgres",
+      "PassFile": "/var/lib/pgadmin/pgpass"
     }
   }
 }

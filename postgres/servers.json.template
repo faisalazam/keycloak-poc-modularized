@@ -1,0 +1,15 @@
+{
+  "Servers": {
+    "1": {
+      "Group": "Servers",
+      "SSLMode": "disable",
+      "Name": "PostgreSQL",
+      "SavePassword": true,
+      "MaintenanceDB": "postgres",
+      "Port": {{PGADMIN_SERVER_PORT}},
+      "Host": "{{PGADMIN_SERVER_HOST}}",
+      "Username": "{{PGADMIN_SERVER_USER}}",
+      "PassFile": "{{PGADMIN_SERVER_PASS_FILE}}"
+    }
+  }
+}

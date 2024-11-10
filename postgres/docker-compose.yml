@@ -8,7 +8,7 @@ services:
       - "${POSTGRES_PORT}:${POSTGRES_INTERNAL_PORT}" # 5432 already bound error - so using 5433 for now
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
+      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       interval: ${HEALTHCHECK_INTERVAL:-30s}
       timeout: ${HEALTHCHECK_TIMEOUT:-10s}
       retries: ${HEALTHCHECK_RETRIES:-5} #ignore the intellij error
@@ -30,7 +30,8 @@ services:
       - ./pgpass:/pgadmin4/pgpass
       - ./init_pgadmin.sh:/init_pgadmin.sh
       - ./servers.json.template:/pgadmin4/servers.json.template # preconfigured servers/connections
-    user: 'root'
+    user: 'root' # TODO avoid using the root user and try to use the pgadmin user
+    #    user: '5050:5050'  # Ensure that pgadmin runs as pgadmin user (UID 5050)
     entrypoint: >
       /bin/sh -c "
         echo 'Starting setup...';
@@ -38,28 +39,25 @@ services:
         chmod 600 /var/lib/pgadmin/pgpass;
         # pgadmin user typically has a UID and GID of 5050
         chown 5050:5050 /var/lib/pgadmin/pgpass;
-      
+
         # Run the init_pgadmin.sh script to configure pgAdmin
         /init_pgadmin.sh;
-      
+
         # Ensure permissions on servers.json
         chmod 600 /pgadmin4/servers.json;
         chown 5050:5050 /pgadmin4/servers.json;
-      
-        # Debugging step to ensure servers.json is correctly set
-        echo 'Checking content of /pgadmin4/servers.json:';
-        cat /pgadmin4/servers.json;
-      
+
         # Run the original entrypoint
         /entrypoint.sh;
       "
+
     depends_on:
       postgres:
         condition: service_healthy
     networks:
       - keycloak_network
     healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "80"]
+      test: [ "CMD", "nc", "-z", "localhost", "80" ]
       interval: ${HEALTHCHECK_INTERVAL:-30s}
       timeout: ${HEALTHCHECK_TIMEOUT:-10s}
       retries: ${HEALTHCHECK_RETRIES:-5} #ignore the intellij error

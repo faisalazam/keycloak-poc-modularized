@@ -44,8 +44,6 @@ services:
         chmod 600 /var/lib/pgadmin/pgpass;
         # pgadmin user typically has a UID and GID of 5050
         chown 5050:5050 /var/lib/pgadmin/pgpass;
-      
-      cat /var/lib/pgadmin/pgpass;
 
         # Ensure permissions on servers.json
         chmod 600 /pgadmin4/servers.json;

@@ -40,6 +40,8 @@ services:
         # pgadmin user typically has a UID and GID of 5050
         chown 5050:5050 /var/lib/pgadmin/pgpass;
 
+        chmod +x /init_pgadmin.sh;
+
         # Run the init_pgadmin.sh script to configure pgAdmin
         /init_pgadmin.sh;
 

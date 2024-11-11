@@ -5,6 +5,80 @@
         "id": "quantum-auth-ldap",
         "name": "QuantumAuthHub",
         "providerId": "ldap",
+        "subComponents": {
+          "org.keycloak.storage.ldap.mappers.LDAPStorageMapper": [
+            {
+              "name": "uid-ldap-mapper",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["uid"],
+                "user.model.attribute": ["username"],
+                "is.mandatory.in.ldap": ["false"],
+                "read.only": ["false"]
+              }
+            },
+            {
+              "name": "first-name-ldap-mapper",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["givenName"],
+                "user.model.attribute": ["firstName"],
+                "is.mandatory.in.ldap": ["false"],
+                "read.only": ["false"]
+              }
+            },
+            {
+              "name": "last-name-ldap-mapper",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["sn"],
+                "user.model.attribute": ["lastName"],
+                "is.mandatory.in.ldap": ["false"],
+                "read.only": ["false"]
+              }
+            },
+            {
+              "name": "email-ldap-mapper",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["mail"],
+                "user.model.attribute": ["email"],
+                "is.mandatory.in.ldap": ["false"],
+                "read.only": ["false"]
+              }
+            },
+            {
+              "name": "phone-ldap-mapper",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["telephoneNumber"],
+                "user.model.attribute": ["phoneNumber"],
+                "is.mandatory.in.ldap": ["false"],
+                "read.only": ["false"]
+              }
+            },
+            {
+              "name": "title-ldap-mapper",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["title"],
+                "user.model.attribute": ["title"],
+                "is.mandatory.in.ldap": ["false"],
+                "read.only": ["false"]
+              }
+            },
+            {
+              "name": "department-ldap-mapper",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["departmentNumber"],
+                "user.model.attribute": ["department"],
+                "is.mandatory.in.ldap": ["false"],
+                "read.only": ["false"]
+              }
+            }
+          ]
+        },
         "config": {
           "enabled": ["true"],
           "priority": ["0"],

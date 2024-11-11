@@ -1,0 +1,16 @@
+{
+  "realm": "QuantumRealm",
+  "enabled": true,
+  "resetPasswordAllowed": true,
+  "clients": [
+    {
+      "enabled": true,
+      "protocol": "openid-connect",
+      "clientId": "quantum-api-client",
+      "redirectUris": [
+        "http://localhost:8080/*"
+      ]
+    }
+  ],
+  "users": []
+}

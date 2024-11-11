@@ -143,12 +143,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"pm.environment.set(\"refresh_token\", jsonData.refresh_token);\r",
-									""
+									"var jsonData = pm.response.json();",
+									"const currentFolder = FolderNames.logoutFolder;",
+									"FolderVariables.setVariable(pm, currentFolder, \"REFRESH_TOKEN\", jsonData.refresh_token);"
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -191,6 +190,28 @@
 				},
 				{
 					"name": "2 - Logout - User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const currentFolder = FolderNames.logoutFolder;",
+									"const refreshToken = FolderVariables.getVariable(pm, currentFolder, \"REFRESH_TOKEN\");",
+									"pm.environment.set(\"REFRESH_TOKEN\", refreshToken);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.unset(\"REFRESH_TOKEN\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -208,22 +229,14 @@
 								},
 								{
 									"key": "refresh_token",
-									"value": "{{refresh_token}}"
+									"value": "{{REFRESH_TOKEN}}"
 								}
 							]
 						},
 						"url": {
 							"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/protocol/openid-connect/logout",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"realms",
-								"{{USER_REALM_NAME}}",
-								"protocol",
-								"openid-connect",
-								"logout"
-							]
+							"host": ["{{BASE_URL}}"],
+							"path": ["realms", "{{USER_REALM_NAME}}", "protocol", "openid-connect", "logout"]
 						}
 					},
 					"response": []
@@ -1348,6 +1361,7 @@
 				"exec": [
 					"// Collection-level variable manager\r",
 					"FolderNames = {\r",
+					"    logoutFolder: \"logoutFolder\",\r",
 					"    deleteUserFolder: \"deleteUserFolder\",\r",
 					"    resetPasswordFolder: \"resetPasswordFolder\",\r",
 					"    forgotPasswordFolder: \"forgotPasswordFolder\",\r",

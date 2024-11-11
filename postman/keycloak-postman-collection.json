@@ -72,6 +72,13 @@
 									"pm.test('Log token for debugging', function () {",
 									"    var jsonData = pm.response.json();",
 									"    console.log('Admin Access Token:', jsonData.access_token);",
+									"});",
+									"",
+									"pm.test('Handle error if status code is not 200', function () {",
+									"    if (pm.response.status !== 200) {",
+									"        console.error('Error: Expected 200 but got', pm.response.status);",
+									"        throw new Error('Unexpected status code: ' + pm.response.status);",
+									"    }",
 									"});"
 								]
 							}
@@ -141,6 +148,13 @@
 									"pm.test('Log token for debugging', function () {",
 									"    var jsonData = pm.response.json();",
 									"    console.log('User Access Token:', jsonData.access_token);",
+									"});",
+									"",
+									"pm.test('Handle error if status code is not 200', function () {",
+									"    if (pm.response.status !== 200) {",
+									"        console.error('Error: Expected 200 but got', pm.response.status);",
+									"        throw new Error('Unexpected status code: ' + pm.response.status);",
+									"    }",
 									"});"
 								]
 							}
@@ -254,6 +268,13 @@
 									"    console.log(\"Logout - User: Successfully logged out with 204 status.\");",
 									"});",
 									"",
+									"pm.test('Handle error if status code is not 204', function () {",
+									"    if (pm.response.status !== 204) {",
+									"        console.error('Error: Expected 204 but got', pm.response.status);",
+									"        throw new Error('Unexpected status code: ' + pm.response.status);",
+									"    }",
+									"});",
+									"",
 									"pm.environment.unset(\"REFRESH_TOKEN\");",
 									"console.log(\"REFRESH_TOKEN cleared from environment\");"
 								],
@@ -287,8 +308,7 @@
 							"host": ["{{BASE_URL}}"],
 							"path": ["realms", "{{USER_REALM_NAME}}", "protocol", "openid-connect", "logout"]
 						}
-					},
-					"response": []
+					}
 				}
 			]
 		},

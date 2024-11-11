@@ -22,13 +22,33 @@ dn: ou=departments,{{ LDAP_BASE_DN }}
 objectClass: organizationalUnit
 ou: departments
 
-# Sample Group
+# Sample Groups
 dn: cn=developers,ou=groups,{{ LDAP_BASE_DN }}
 objectClass: groupOfNames
 cn: developers
 description: Development Team
 member: uid=user1,ou=users,{{ LDAP_BASE_DN }}
 member: uid=user2,ou=users,{{ LDAP_BASE_DN }}
+member: uid=user5,ou=users,{{ LDAP_BASE_DN }}
+
+dn: cn=qa,ou=groups,{{ LDAP_BASE_DN }}
+objectClass: groupOfNames
+cn: qa
+description: Quality Assurance Team
+member: uid=user2,ou=users,{{ LDAP_BASE_DN }}
+member: uid=user6,ou=users,{{ LDAP_BASE_DN }}
+
+dn: cn=ops,ou=groups,{{ LDAP_BASE_DN }}
+objectClass: groupOfNames
+cn: ops
+description: Operations Team
+member: uid=user3,ou=users,{{ LDAP_BASE_DN }}
+
+dn: cn=managers,ou=groups,{{ LDAP_BASE_DN }}
+objectClass: groupOfNames
+cn: managers
+description: Management Team
+member: uid=user4,ou=users,{{ LDAP_BASE_DN }}
 
 # Sample Users
 dn: uid=user1,ou=users,{{ LDAP_BASE_DN }}
@@ -77,4 +97,52 @@ userPassword: password4
 mail: user4@example.com
 telephoneNumber: +1234567894
 title: Project Manager
+departmentNumber: 104
+
+dn: uid=user5,ou=users,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+uid: user5
+givenName: User
+sn: User5
+cn: User Five
+userPassword: password5
+mail: user5@example.com
+telephoneNumber: +1234567895
+title: Full Stack Developer
+departmentNumber: 101
+
+dn: uid=user6,ou=users,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+uid: user6
+givenName: User
+sn: User6
+cn: User Six
+userPassword: password6
+mail: user6@example.com
+telephoneNumber: +1234567896
+title: Test Engineer
+departmentNumber: 102
+
+dn: uid=user7,ou=users,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+uid: user7
+givenName: User
+sn: User7
+cn: User Seven
+userPassword: password7
+mail: user7@example.com
+telephoneNumber: +1234567897
+title: System Administrator
+departmentNumber: 103
+
+dn: uid=user8,ou=users,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+uid: user8
+givenName: User
+sn: User8
+cn: User Eight
+userPassword: password8
+mail: user8@example.com
+telephoneNumber: +1234567898
+title: Senior Project Manager
 departmentNumber: 104

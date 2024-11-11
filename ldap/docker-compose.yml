@@ -7,6 +7,7 @@ services:
     # the 'image' tag below: This sets the name and optionally the tag of the
     # image that will be created. For example, custom-openldap:latest creates
     # an image named custom-openldap with the tag latest.
+    # To re-build the image: docker build -t custom-openldap -f Dockerfile .
     build:
       context: .
       dockerfile: Dockerfile # Optional, if the Dockerfile has a custom name, specify it here

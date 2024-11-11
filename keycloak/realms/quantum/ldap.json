@@ -1,0 +1,35 @@
+{
+  "components": {
+    "org.keycloak.storage.UserStorageProvider": [
+      {
+        "id": "quantum-auth-ldap",
+        "name": "QuantumAuthHub",
+        "providerId": "ldap",
+        "config": {
+          "enabled": ["true"],
+          "priority": ["0"],
+          "fullSyncPeriod": ["-1"],
+          "changedSyncPeriod": ["-1"],
+          "cachePolicy": ["DEFAULT"],
+          "bindDn": ["${LDAP_BIND_DN}"],
+          "bindCredential": ["${LDAP_BIND_CREDENTIAL}"],
+          "connectionUrl": ["${LDAP_URL}"],
+          "usersDn": ["${LDAP_USERS_DN}"],
+          "authType": ["simple"],
+          "useTruststoreSpi": ["ldapsOnly"],
+          "connectionPooling": ["true"],
+          "connectionTimeout": ["5000"],
+          "startTls": ["false"],
+          "editMode": ["WRITABLE"],
+          "userObjectClasses": ["inetOrgPerson"],
+          "usernameLDAPAttribute": ["uid"],
+          "rdnLDAPAttribute": ["uid"],
+          "uuidLDAPAttribute": ["entryUUID"],
+          "ldapSyncTimeout": ["30000"],
+          "pagination": ["true"],
+          "userSearchFilter": ["(objectClass=inetOrgPerson)"]
+        }
+      }
+    ]
+  }
+}

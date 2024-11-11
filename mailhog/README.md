@@ -117,11 +117,12 @@ networks:
 
 - **image**: Specifies the Docker image to use (`mailhog/mailhog:v1.0.1`).
 - **container_name**: Sets the container name to the value of `MAILHOG_SMTP_HOST`, defined in `.env`.
-- **ports**: Maps the SMTP port (`1025`) and HTTP port (`8025`) to your host system, allowing you to access MailHog on `localhost`:
-  - **MAILHOG_HTTP_PORT**: The port to access MailHog's web interface.
-  - **MAILHOG_SMTP_PORT**: The port to use MailHog as an SMTP server.
-- **healthcheck**: Configures a health check using Netcat to ensure that MailHog’s SMTP service is responsive (explained in detail below).
-
+- **ports**: Maps the SMTP port (`1025`) and HTTP port (`8025`) to your host system, allowing you to access MailHog on
+  `localhost`:
+    - **MAILHOG_HTTP_PORT**: The port to access MailHog's web interface.
+    - **MAILHOG_SMTP_PORT**: The port to use MailHog as an SMTP server.
+- **healthcheck**: Configures a health check using Netcat to ensure that MailHog’s SMTP service is responsive (explained
+  in detail below).
 
 ## MailHog Configuration
 
@@ -135,14 +136,23 @@ networks:
 Run the following command to start MailHog and any associated services:
 
 ```bash
-docker-compose up -d
+./start.sh
 ```
 
-## This Command Will:
+#### This Command Will:
 
+- Cleans up all containers, volumes, network before starting which are defined in the `docker-compose.yml` file.
+- Start all the services defined in the `docker-compose.yml` file in detached mode (`-d`).
+- Connect all services through the defined `keycloak_network`.
 - Start the MailHog container in detached mode.
 - Expose port `8025` for the web interface and `1025` for SMTP.
 - Perform healthchecks to ensure MailHog is up and running.
+
+You can also use:
+
+```bash
+docker-compose up -d
+```
 
 ### 2. Access MailHog Web Interface
 
@@ -154,15 +164,19 @@ You can view all the emails captured by MailHog through this interface. This is 
 send emails, like Keycloak.
 
 ### Testing the Setup
+
 After the container is up, verify the following:
 
 1. **Access the MailHog web interface**:
-  - Open your browser and go to `http://localhost:<MAILHOG_HTTP_PORT>` (default port is `8025`).
-  - This interface allows you to view and manage captured emails.
+
+- Open your browser and go to `http://localhost:<MAILHOG_HTTP_PORT>` (default port is `8025`).
+- This interface allows you to view and manage captured emails.
 
 2. **Send a test email**:
-  - Use an SMTP client or application configured to send emails to `MAILHOG_SMTP_HOST` and `MAILHOG_SMTP_PORT` (default is `localhost:1025`).
-  - Check if the email appears in the MailHog web interface.
+
+- Use an SMTP client or application configured to send emails to `MAILHOG_SMTP_HOST` and `MAILHOG_SMTP_PORT` (default is
+  `localhost:1025`).
+- Check if the email appears in the MailHog web interface.
 
 ## Healthcheck Explanation
 

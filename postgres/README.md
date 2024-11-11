@@ -370,7 +370,7 @@ volumes:
 To start all services, use the following command:
 
 ```bash
-docker-compose up -d
+./start.sh
 ```
 
 This will:
@@ -379,6 +379,12 @@ This will:
 - Start all the services defined in the `docker-compose.yml` file in detached mode (`-d`).
 - Set up the PostgreSQL database and pgAdmin services.
 - Connect all services through the defined `keycloak_network`.
+
+You can also use:
+
+```bash
+docker-compose up -d
+```
 
 To run each service individually if needed:
 

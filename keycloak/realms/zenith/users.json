@@ -1,0 +1,32 @@
+{
+  "users": [
+    {
+      "username": "kzUser1",
+      "enabled": true,
+      "firstName": "User",
+      "lastName": "One",
+      "email": "kzuser1@example.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password1",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "kzUser2",
+      "enabled": true,
+      "firstName": "User",
+      "lastName": "Two",
+      "email": "kzuser2@example.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password2",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}

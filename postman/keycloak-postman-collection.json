@@ -103,7 +103,7 @@
 								},
 								{
 									"key": "username",
-									"value": "kuser1"
+									"value": "kzuser1"
 								},
 								{
 									"key": "password",
@@ -169,7 +169,7 @@
 								},
 								{
 									"key": "username",
-									"value": "kuser1"
+									"value": "kzuser1"
 								},
 								{
 									"key": "password",
@@ -344,7 +344,7 @@
 								},
 								{
 									"key": "username",
-									"value": "kuser1"
+									"value": "kzuser1"
 								},
 								{
 									"key": "password",
@@ -415,7 +415,7 @@
 								},
 								{
 									"key": "username",
-									"value": "kuser1"
+									"value": "kzuser1"
 								},
 								{
 									"key": "password",
@@ -756,7 +756,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?email=kuser1@example.com",
+							"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?email=kzuser1@example.com",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -769,7 +769,7 @@
 							"query": [
 								{
 									"key": "email",
-									"value": "kuser1@example.com"
+									"value": "kzuser1@example.com"
 								}
 							]
 						}
@@ -911,7 +911,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?email=kuser1@example.com",
+							"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?email=kzuser1@example.com",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -924,7 +924,7 @@
 							"query": [
 								{
 									"key": "email",
-									"value": "kuser1@example.com"
+									"value": "kzuser1@example.com"
 								}
 							]
 						}

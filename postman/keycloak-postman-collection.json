@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "10ebb47a-2700-43ba-b4d9-2129bf9354b2",
-		"name": "Keycloak API Testing",
+		"name": "Keycloak",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "39468559"
 	},
@@ -183,16 +183,8 @@
 						},
 						"url": {
 							"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/protocol/openid-connect/token",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"realms",
-								"{{USER_REALM_NAME}}",
-								"protocol",
-								"openid-connect",
-								"token"
-							]
+							"host": ["{{BASE_URL}}"],
+							"path": ["realms", "{{USER_REALM_NAME}}", "protocol", "openid-connect", "token"]
 						}
 					},
 					"response": []
@@ -239,7 +231,7 @@
 			]
 		},
 		{
-			"name": "User Info",
+			"name": "Get User Info",
 			"item": [
 				{
 					"name": "1 - Login - Admin",
@@ -703,6 +695,212 @@
 			]
 		},
 		{
+			"name": "Delete User",
+			"item": [
+				{
+					"name": "1 - Login - Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"const currentFolder = FolderNames.deleteUserFolder;\r",
+									"FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "{{ADMIN_CLIENT_ID}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}/protocol/openid-connect/token",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"realms",
+								"{{ADMIN_REALM_NAME}}",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2 - Get User (Name)- Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");\r",
+									"\r",
+									"const username = pm.request.url.query.get(\"username\");\r",
+									"const user = Utilities.getUserIdByCriteria(pm, username, \"username\");\r",
+									"\r",
+									"const currentFolder = FolderNames.deleteUserFolder;\r",
+									"\r",
+									"FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);\r",
+									"\r",
+									"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");\r",
+									"console.log(`USER_ID for ${currentFolder} is:`, userId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const currentFolder = FolderNames.deleteUserFolder;\r",
+									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");\r",
+									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?username=user8",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{USER_REALM_NAME}}",
+								"users"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "user8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3 - Delete User - Admin",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const currentFolder = FolderNames.deleteUserFolder;\r",
+									"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");\r",
+									"pm.environment.set(\"USER_ID\", userId);\r",
+									"\r",
+									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");\r",
+									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.unset(\"USER_ID\");\r",
+									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users/{{USER_ID}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{USER_REALM_NAME}}",
+								"users",
+								"{{USER_ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Reset/Forgot Password via Email",
 			"item": [
 				{
@@ -934,212 +1132,6 @@
 			]
 		},
 		{
-			"name": "Delete User",
-			"item": [
-				{
-					"name": "1 - Login - Admin",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"const currentFolder = FolderNames.deleteUserFolder;\r",
-									"FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"packages": {},
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "client_id",
-									"value": "{{ADMIN_CLIENT_ID}}",
-									"type": "text"
-								},
-								{
-									"key": "username",
-									"value": "admin",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "admin",
-									"type": "text"
-								},
-								{
-									"key": "grant_type",
-									"value": "password",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}/protocol/openid-connect/token",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"realms",
-								"{{ADMIN_REALM_NAME}}",
-								"protocol",
-								"openid-connect",
-								"token"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2 - Get User (Name)- Admin",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");\r",
-									"\r",
-									"const username = pm.request.url.query.get(\"username\");\r",
-									"const user = Utilities.getUserIdByCriteria(pm, username, \"username\");\r",
-									"\r",
-									"const currentFolder = FolderNames.deleteUserFolder;\r",
-									"\r",
-									"FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);\r",
-									"\r",
-									"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");\r",
-									"console.log(`USER_ID for ${currentFolder} is:`, userId);\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"const currentFolder = FolderNames.deleteUserFolder;\r",
-									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");\r",
-									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?username=user8",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"admin",
-								"realms",
-								"{{USER_REALM_NAME}}",
-								"users"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": "user8"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "3 - Delete User - Admin",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"const currentFolder = FolderNames.deleteUserFolder;\r",
-									"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");\r",
-									"pm.environment.set(\"USER_ID\", userId);\r",
-									"\r",
-									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");\r",
-									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.environment.unset(\"USER_ID\");\r",
-									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users/{{USER_ID}}",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"admin",
-								"realms",
-								"{{USER_REALM_NAME}}",
-								"users",
-								"{{USER_ID}}"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Reset Password Directly",
 			"item": [
 				{
@@ -1205,7 +1197,7 @@
 					"response": []
 				},
 				{
-					"name": "2 - Get User (Email)- Admin Copy",
+					"name": "2 - Get User (Email)- Admin",
 					"event": [
 						{
 							"listen": "test",

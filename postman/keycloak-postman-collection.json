@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e1edeea9-17fb-4ea3-836d-c9976b81c8d6",
+		"_postman_id": "6e1793b1-ea32-4647-a7a3-3e1d3cf5a573",
 		"name": "Keycloak API Testing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "39468559"
@@ -731,9 +731,10 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"pm.environment.set(\"USER_ID\", jsonData[0].id);\r",
-									"pm.environment.set(\"USER_NAME\", jsonData[0].username);\r",
+									"// Get the email from the request URL (query parameter)\r",
+									"let email = pm.request.url.query.get(\"email\");\r",
+									"// Get the username from the request URL (query parameter)\r",
+									"Utilities.getUserIdByCriteria(pm, email, \"email\");\r",
 									""
 								],
 								"type": "text/javascript",
@@ -808,6 +809,172 @@
 								"users",
 								"{{USER_ID}}",
 								"execute-actions-email"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete User",
+			"item": [
+				{
+					"name": "1 - Login - Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", jsonData.access_token);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "{{ADMIN_CLIENT_ID}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}/protocol/openid-connect/token",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"realms",
+								"{{ADMIN_REALM_NAME}}",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2 - Get User (Name)- Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Get the username from the request URL (query parameter)\r",
+									"let username = pm.request.url.query.get(\"username\");\r",
+									"Utilities.getUserIdByCriteria(pm, username, \"username\");\r",
+									"\r",
+									"// Set local variables (accessible immediately after this request)\r",
+									"pm.variables.set(\"USER_ID\", pm.environment.get(\"USER_ID\"));\r",
+									"pm.variables.set(\"USER_NAME\", pm.environment.get(\"USER_NAME\"));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?username=user8",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{USER_REALM_NAME}}",
+								"users"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "user8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3 - Delete User - Admin",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users/{{USER_ID}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{USER_REALM_NAME}}",
+								"users",
+								"{{USER_ID}}"
 							]
 						}
 					},
@@ -967,6 +1134,57 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"// Object.prototype.getUserIdByCriteria = (value, searchBy = 'username') => {...}\r",
+					"// pm.getUserIdByCriteria('username', 'username');\r",
+					"Utilities = {};\r",
+					"Utilities.getUserIdByCriteria = (pmInstance, value, searchBy = 'username') => {\r",
+					"    pmInstance.environment.unset(\"USER_ID\");\r",
+					"    pmInstance.environment.unset(\"USER_NAME\");\r",
+					"\r",
+					"    let users = pmInstance.response.json();\r",
+					"\r",
+					"    // Check if we're searching by email or username\r",
+					"    let exactUser;\r",
+					"    if (searchBy === 'email') {\r",
+					"        exactUser = users.filter(user => user.email === value);\r",
+					"    } else {\r",
+					"        exactUser = users.filter(user => user.username === value);\r",
+					"    }\r",
+					"\r",
+					"    if (exactUser.length === 1) {\r",
+					"        pmInstance.environment.set(\"USER_ID\", exactUser[0].id);\r",
+					"        pmInstance.environment.set(\"USER_NAME\", exactUser[0].username);\r",
+					"        pmInstance.test(\"Exact user found\", function () {\r",
+					"            pmInstance.expect(exactUser[0].username).to.eql(value);\r",
+					"        });\r",
+					"    } else {\r",
+					"        pmInstance.test(\"Exact user not found or multiple matches\", function () {\r",
+					"            pmInstance.expect(exactUser.length).to.eql(1);\r",
+					"        });\r",
+					"    }\r",
+					"};\r",
+					""
+				]
+			}
 		}
 	]
 }

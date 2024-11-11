@@ -786,19 +786,18 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"const currentFolder = FolderNames.deleteUserFolder;\r",
-									"FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);\r",
-									""
+									"var jsonData = pm.response.json();",
+									"const currentFolder = FolderNames.deleteUserFolder;",
+									"if (jsonData && jsonData.access_token) {",
+									"    FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);",
+									"    console.log('Admin access token set successfully.');",
+									"} else {",
+									"    console.error('Error: No access token found in response.');",
+									"    pm.test('Admin Login: Access token should be present', function () {",
+									"        pm.expect(jsonData.access_token).to.exist;",
+									"    });",
+									"}"
 								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"packages": {},
 								"type": "text/javascript"
 							}
 						}
@@ -850,43 +849,47 @@
 								"token"
 							]
 						}
-					},
-					"response": []
+					}
 				},
 				{
-					"name": "2 - Get User (Name)- Admin",
+					"name": "2 - Get User (Name) - Admin",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");\r",
-									"\r",
-									"const username = pm.request.url.query.get(\"username\");\r",
-									"const user = Utilities.getUserIdByCriteria(pm, username, \"username\");\r",
-									"\r",
-									"const currentFolder = FolderNames.deleteUserFolder;\r",
-									"\r",
-									"FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);\r",
-									"\r",
-									"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");\r",
-									"console.log(`USER_ID for ${currentFolder} is:`, userId);\r",
-									""
+									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
+									"const username = pm.request.url.query.get(\"username\");",
+									"const user = Utilities.getUserIdByCriteria(pm, username, \"username\");",
+									"if (user && user.userId) {",
+									"    const currentFolder = FolderNames.deleteUserFolder;",
+									"    FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);",
+									"    console.log(`USER_ID for ${currentFolder} is:`, user.userId);",
+									"} else {",
+									"    console.error('Error: User not found or userId is missing.');",
+									"    pm.test('User retrieval test', function () {",
+									"        pm.expect(user).to.exist;",
+									"        pm.expect(user.userId).to.exist;",
+									"    });",
+									"}"
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"const currentFolder = FolderNames.deleteUserFolder;\r",
-									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");\r",
-									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
+									"const currentFolder = FolderNames.deleteUserFolder;",
+									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
+									"if (accessToken) {",
+									"    pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
+									"    console.log('Admin access token set in environment.');",
+									"} else {",
+									"    console.error('Error: Admin access token not found in environment.');",
+									"}"
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -922,8 +925,7 @@
 								}
 							]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "3 - Delete User - Admin",
@@ -932,26 +934,38 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"const currentFolder = FolderNames.deleteUserFolder;\r",
-									"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");\r",
-									"pm.environment.set(\"USER_ID\", userId);\r",
-									"\r",
-									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");\r",
-									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
+									"const currentFolder = FolderNames.deleteUserFolder;",
+									"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");",
+									"if (userId) {",
+									"    pm.environment.set(\"USER_ID\", userId);",
+									"    console.log(`User ID set for deletion: ${userId}`);",
+									"} else {",
+									"    console.error('Error: User ID not found for deletion.');",
+									"    pm.test('User ID should be available for deletion', function () {",
+									"        pm.expect(userId).to.exist;",
+									"    });",
+									"}"
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.environment.unset(\"USER_ID\");\r",
-									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");"
+									"pm.environment.unset(\"USER_ID\");",
+									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
+									"pm.test(\"Delete User - Admin: User should be deleted successfully\", function () {",
+									"    pm.response.to.have.status(204);",
+									"    console.log('User successfully deleted with status code 204.');",
+									"});",
+									"pm.test('Ensure no unexpected error during deletion', function () {",
+									"    if (pm.response.status !== 204) {",
+									"        console.error('Error: Unexpected status code during user deletion: ' + pm.response.status);",
+									"    }",
+									"});"
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -977,8 +991,7 @@
 								"{{USER_ID}}"
 							]
 						}
-					},
-					"response": []
+					}
 				}
 			]
 		},

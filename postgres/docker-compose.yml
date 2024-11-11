@@ -5,7 +5,7 @@ services:
     env_file:
       - ./.env
     ports:
-      - "${POSTGRES_PORT}:${POSTGRES_INTERNAL_PORT}" # 5432 already bound error - so using 5433 for now
+      - "${POSTGRES_PORT}:${POSTGRES_INTERNAL_PORT}"
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]

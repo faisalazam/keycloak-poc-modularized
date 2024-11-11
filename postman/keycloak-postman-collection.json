@@ -143,9 +143,23 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();",
-									"const currentFolder = FolderNames.logoutFolder;",
-									"FolderVariables.setVariable(pm, currentFolder, \"REFRESH_TOKEN\", jsonData.refresh_token);"
+									"try {",
+									"    var jsonData = pm.response.json();",
+									"    const currentFolder = FolderNames.logoutFolder;",
+									"    FolderVariables.setVariable(pm, currentFolder, \"REFRESH_TOKEN\", jsonData.refresh_token);",
+									"",
+									"    console.log(`REFRESH_TOKEN for ${currentFolder} set to: ${jsonData.refresh_token}`);",
+									"",
+									"    // Test to ensure token is set",
+									"    pm.test(\"Login - User: Refresh token retrieved and stored\", function () {",
+									"        pm.expect(jsonData.refresh_token).to.exist;",
+									"        pm.expect(FolderVariables.getVariable(pm, currentFolder, \"REFRESH_TOKEN\")).to.eql(jsonData.refresh_token);",
+									"    });",
+									"} catch (e) {",
+									"    pm.test(\"Login - User: Error in setting refresh token\", function () {",
+									"        throw new Error(\"Failed to parse refresh token from response\");",
+									"    });",
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -195,9 +209,22 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"const currentFolder = FolderNames.logoutFolder;",
-									"const refreshToken = FolderVariables.getVariable(pm, currentFolder, \"REFRESH_TOKEN\");",
-									"pm.environment.set(\"REFRESH_TOKEN\", refreshToken);"
+									"try {",
+									"    const currentFolder = FolderNames.logoutFolder;",
+									"    const refreshToken = FolderVariables.getVariable(pm, currentFolder, \"REFRESH_TOKEN\");",
+									"",
+									"    if (refreshToken) {",
+									"        pm.environment.set(\"REFRESH_TOKEN\", refreshToken);",
+									"        console.log(`Using REFRESH_TOKEN for logout: ${refreshToken}`);",
+									"    } else {",
+									"        throw new Error(\"REFRESH_TOKEN is not set in folder-level variables\");",
+									"    }",
+									"} catch (e) {",
+									"    console.error(e.message);",
+									"    pm.test(\"Logout - User: Error setting refresh token\", function () {",
+									"        throw new Error(\"Failed to set REFRESH_TOKEN before logout\");",
+									"    });",
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -206,7 +233,13 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.environment.unset(\"REFRESH_TOKEN\");"
+									"pm.test(\"Logout - User: Logout request successful\", function () {",
+									"    pm.response.to.have.status(204);",
+									"    console.log(\"Logout - User: Successfully logged out with 204 status.\");",
+									"});",
+									"",
+									"pm.environment.unset(\"REFRESH_TOKEN\");",
+									"console.log(\"REFRESH_TOKEN cleared from environment\");"
 								],
 								"type": "text/javascript"
 							}

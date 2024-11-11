@@ -24,16 +24,16 @@ network for secure inter-container communication.
 1. [Prerequisites](#prerequisites)
 2. [Directory Structure](#directory-structure)
 3. [Environment Variables](#environment-variables)
-   1. [Explanation of Key Variables](#explanation-of-key-variables)
-      1. [PostgreSQL Settings](#postgresql-settings)
-      2. [pgAdmin Settings](#pgadmin-settings)
-      3. [Health Check Settings](#health-check-settings)
-      4. [PgPass](#pgpass)
+    1. [Explanation of Key Variables](#explanation-of-key-variables)
+        1. [PostgreSQL Settings](#postgresql-settings)
+        2. [pgAdmin Settings](#pgadmin-settings)
+        3. [Health Check Settings](#health-check-settings)
+        4. [PgPass](#pgpass)
 4. [Docker Compose Configuration](#docker-compose-configuration)
-   1. [PostgreSQL Service](#postgresql-service)
-   2. [pgAdmin Service](#pgadmin-service)
-   3. [Healthcheck Explanation](#healthcheck-explanation)
-   4. [Docker Bridge Network](#docker-bridge-network)
+    1. [PostgreSQL Service](#postgresql-service)
+    2. [pgAdmin Service](#pgadmin-service)
+    3. [Healthcheck Explanation](#healthcheck-explanation)
+    4. [Docker Bridge Network](#docker-bridge-network)
 5. [Setup Instructions](#setup-instructions)
 6. [Testing the Setup](#testing-the-setup)
 
@@ -275,25 +275,23 @@ services:
   database connection details, etc.
 - **ports**: Exposes pgAdmin's web interface on the port specified in the `.env` file (`PGADMIN_HTTP_PORT`).
 - **volumes**:
-  - `pgadmin_data`: Stores persistent data for pgAdmin.
-  - `init_pgadmin.sh`: A script used to initialize pgAdmin with necessary configurations.
-  - `pgpass.template`: A template for the pgAdmin `pgpass` file, which stores database login credentials securely.
-  - `servers.json.template`: A template for the pgAdmin `servers.json` file, which stores information about the
-    servers.
+    - `pgadmin_data`: Stores persistent data for pgAdmin.
+    - `init_pgadmin.sh`: A script used to initialize pgAdmin with necessary configurations.
+    - `pgpass.template`: A template for the pgAdmin `pgpass` file, which stores database login credentials securely.
+    - `servers.json.template`: A template for the pgAdmin `servers.json` file, which stores information about the
+      servers.
 - **user**: Runs the container as the root user to allow for the execution of setup scripts.
 - **entrypoint**: Customizes the startup process by:
-  - Making the `init_pgadmin.sh` script executable.
-  - Running the setup script.
-  - Copying configuration files and adjusting permissions.
+    - Making the `init_pgadmin.sh` script executable.
+    - Running the setup script.
+    - Copying configuration files and adjusting permissions.
 - **depends_on**: Ensures that the `postgres` service is healthy before pgAdmin starts.
 - **networks**: Connects pgAdmin to the same Docker network as other services (e.g., PostgreSQL).
 - **healthcheck**: Monitors the health of the pgAdmin container by checking if the HTTP service is responding on port
-  80.
+    80.
 
 This configuration sets up pgAdmin to run with the necessary initialization and security settings, including the
 handling of database credentials with `pgpass` and server configurations with `servers.json`.
-
-
 
 #### Healthcheck Explanation
 
@@ -387,6 +385,12 @@ To run each service individually if needed:
 ```bash
 docker-compose up -d postgres
 docker-compose up -d pgadmin
+```
+
+To re-build the image:
+
+```bash
+docker build -t custom-pgadmin -f Dockerfile.pgadmin .
 ```
 
 #### Stopping Services

@@ -1,0 +1,24 @@
+FROM dpage/pgadmin4:8.12
+
+# Copy custom initialization script
+COPY init_pgadmin.sh /init_pgadmin.sh
+
+COPY pgpass.template /pgadmin4/pgpass.template
+COPY servers.json.template /pgadmin4/servers.json.template
+
+# Set custom entrypoint with properly escaped commands
+ENTRYPOINT ["/bin/sh", "-c", " \
+  echo 'Starting setup...'; \
+
+  chmod +x /init_pgadmin.sh; \
+  /init_pgadmin.sh; \
+
+  cp -f /pgadmin4/pgpass /var/lib/pgadmin/; \
+  chmod 600 /var/lib/pgadmin/pgpass; \
+  chown 5050:5050 /var/lib/pgadmin/pgpass; \
+
+  chmod 600 /pgadmin4/servers.json; \
+  chown 5050:5050 /pgadmin4/servers.json; \
+
+  /entrypoint.sh; \
+"]

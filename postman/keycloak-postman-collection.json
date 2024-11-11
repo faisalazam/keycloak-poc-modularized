@@ -1205,8 +1205,19 @@
 								"exec": [
 									"var jsonData = pm.response.json();\r",
 									"const currentFolder = FolderNames.resetPasswordFolder;\r",
-									"FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);\r",
-									""
+									"if (jsonData.access_token) {\r",
+									"    FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);\r",
+									"    pm.test('Access token retrieved successfully', function () {\r",
+									"        pm.expect(jsonData.access_token).to.not.be.null;\r",
+									"        pm.expect(jsonData.access_token).to.not.be.undefined;\r",
+									"    });\r",
+									"} else {\r",
+									"    pm.test('Failed to retrieve access token', function () {\r",
+									"        pm.expect(jsonData.access_token).to.not.be.null;\r",
+									"        pm.expect(jsonData.access_token).to.not.be.undefined;\r",
+									"    });\r",
+									"    console.error('Access token not found');\r",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1266,18 +1277,24 @@
 							"script": {
 								"exec": [
 									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");\r",
-									"\r",
 									"const email = pm.request.url.query.get(\"email\");\r",
 									"const user = Utilities.getUserIdByCriteria(pm, email, \"email\");\r",
-									"\r",
-									"const currentFolder = FolderNames.resetPasswordFolder;\r",
-									"\r",
-									"FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);\r",
-									"FolderVariables.setVariable(pm, currentFolder, \"USER_NAME\", user.username);\r",
-									"\r",
-									"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");\r",
-									"console.log(`USER_ID for ${currentFolder} is:`, userId);\r",
-									""
+									"if (user && user.userId) {\r",
+									"    const currentFolder = FolderNames.resetPasswordFolder;\r",
+									"    FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);\r",
+									"    FolderVariables.setVariable(pm, currentFolder, \"USER_NAME\", user.username);\r",
+									"    const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");\r",
+									"    pm.test('User ID retrieved successfully', function () {\r",
+									"        pm.expect(userId).to.not.be.null;\r",
+									"        pm.expect(userId).to.not.be.undefined;\r",
+									"    });\r",
+									"    console.log(`USER_ID for ${currentFolder} is:`, userId);\r",
+									"} else {\r",
+									"    pm.test('Failed to retrieve User ID', function () {\r",
+									"        pm.expect(user).to.have.property('userId').that.is.not.null;\r",
+									"    });\r",
+									"    console.error('User not found for email:', email);\r",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1289,7 +1306,14 @@
 								"exec": [
 									"const currentFolder = FolderNames.resetPasswordFolder;\r",
 									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");\r",
-									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
+									"if (!accessToken) {\r",
+									"    console.error('Access token is missing. Cannot proceed.');\r",
+									"    pm.test('Access token is missing', function () {\r",
+									"        pm.expect(accessToken).to.not.be.null;\r",
+									"    });\r",
+									"} else {\r",
+									"    pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);\r",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1332,7 +1356,7 @@
 					"response": []
 				},
 				{
-					"name": "2 - Reset Password",
+					"name": "3 - Reset Password",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -1340,13 +1364,27 @@
 								"exec": [
 									"const currentFolder = FolderNames.resetPasswordFolder;\r",
 									"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");\r",
-									"pm.environment.set(\"USER_ID\", userId);\r",
+									"if (!userId) {\r",
+									"    console.error('USER_ID is missing. Cannot reset password.');\r",
+									"    pm.test('USER_ID is missing', function () {\r",
+									"        pm.expect(userId).to.not.be.null;\r",
+									"    });\r",
+									"} else {\r",
+									"    pm.environment.set(\"USER_ID\", userId);\r",
+									"}\r",
 									"\r",
 									"const username = FolderVariables.getVariable(pm, currentFolder, \"USER_NAME\");\r",
 									"pm.environment.set(\"USER_ID\", username);\r",
 									"\r",
 									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");\r",
-									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
+									"if (!accessToken) {\r",
+									"    console.error('Access token is missing. Cannot reset password.');\r",
+									"    pm.test('Access token is missing', function () {\r",
+									"        pm.expect(accessToken).to.not.be.null;\r",
+									"    });\r",
+									"} else {\r",
+									"    pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);\r",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1356,9 +1394,16 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.environment.unset(\"USER_ID\");\r",
-									"pm.environment.unset(\"USER_NAME\");\r",
-									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");"
+									"if (pm.response.code === 204) {\r",
+									"    pm.test('Password reset successfully', function () {\r",
+									"        pm.response.to.have.status(204);\r",
+									"    });\r",
+									"} else {\r",
+									"    console.error('Failed to reset password:', pm.response.body);\r",
+									"    pm.test('Failed to reset password', function () {\r",
+									"        pm.response.to.have.status(204);\r",
+									"    });\r",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}

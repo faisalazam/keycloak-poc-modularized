@@ -1,0 +1,14 @@
+{
+  "smtpServer": {
+    "auth": "${SMTP_AUTH}",
+    "port": "${SMTP_PORT}",
+    "host": "${SMTP_HOST}",
+    "user": "${SMTP_USER}",
+    "from": "${SMTP_FROM}",
+    "replyTo": "${SMTP_REPLY_TO}",
+    "password": "${SMTP_PASSWORD}",
+    "starttls": "${SMTP_STARTTLS}",
+    "encryption": "${SMTP_ENCRYPTION}",
+    "fromDisplayName": "${SMTP_FROM_DISPLAY_NAME}"
+  }
+}

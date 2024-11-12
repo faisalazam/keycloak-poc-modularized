@@ -90,6 +90,7 @@ jobs:
           # Check if docker-compose is available before running the start.sh script
           which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
           cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
+          ls -lart .
           ./start.sh
 
       - name: Install Newman with specific version
@@ -106,7 +107,7 @@ jobs:
           count=0
           until [ $count -ge $max_retries ]
           do
-            response=$(curl -s http://localhost:9000)
+            response=$(curl -s http://localhost:9000/health/ready)
             if [[ "$response" == *'"status": "UP"'* ]]; then
               echo "Service is up!"
               break

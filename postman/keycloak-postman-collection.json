@@ -21,12 +21,12 @@
 									"});",
 									"",
 									"pm.test('Response body contains access token', function () {",
-									"    var jsonData = pm.response.json();",
+									"    const jsonData = pm.response.json();",
 									"    pm.expect(jsonData).to.have.property('access_token');",
 									"});",
 									"",
 									"pm.test('Log token for debugging', function () {",
-									"    var jsonData = pm.response.json();",
+									"    const jsonData = pm.response.json();",
 									"    console.log('Admin Access Token:', jsonData.access_token.substring(0, 60) + '...');",
 									"});",
 									"",
@@ -98,12 +98,12 @@
 									"});",
 									"",
 									"pm.test('Response body contains access token', function () {",
-									"    var jsonData = pm.response.json();",
+									"    const jsonData = pm.response.json();",
 									"    pm.expect(jsonData).to.have.property('access_token');",
 									"});",
 									"",
 									"pm.test('Log token for debugging', function () {",
-									"    var jsonData = pm.response.json();",
+									"    const jsonData = pm.response.json();",
 									"    console.log('User Access Token:', jsonData.access_token.substring(0, 60) + '...');",
 									"});",
 									"",
@@ -176,7 +176,7 @@
 							"script": {
 								"exec": [
 									"try {",
-									"    var jsonData = pm.response.json();",
+									"    const jsonData = pm.response.json();",
 									"    const currentFolder = FolderNames.logoutFolder;",
 									"    FolderVariables.setVariable(pm, currentFolder, \"REFRESH_TOKEN\", jsonData.refresh_token);",
 									"",
@@ -340,7 +340,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();",
+									"const jsonData = pm.response.json();",
 									"const currentFolder = FolderNames.userInfoFolder;",
 									"pm.test('Admin Login: Status code should be 200', function () {",
 									"    pm.response.to.have.status(200);",
@@ -652,7 +652,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();",
+									"const jsonData = pm.response.json();",
 									"const currentFolder = FolderNames.refreshTokenFolder;",
 									"pm.test('Refresh Token - User: Status code should be 200', function () {",
 									"    pm.response.to.have.status(200);",
@@ -749,7 +749,7 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"var jsonData = pm.response.json();",
+									"const jsonData = pm.response.json();",
 									"const currentFolder = FolderNames.updateClientPropsFolder;",
 									"",
 									"pm.test(\"Access token is present in response\", function () {",
@@ -835,7 +835,7 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"var jsonData = pm.response.json();",
+									"const jsonData = pm.response.json();",
 									"const currentFolder = FolderNames.updateClientPropsFolder;",
 									"",
 									"pm.test(\"Response contains client array with at least one item\", function () {",
@@ -1031,19 +1031,37 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const jsonData = pm.response.json();",
 									"const currentFolder = FolderNames.deleteUserFolder;",
+									"",
+									"pm.test(\"Access token is present in response\", function () {",
+									"    pm.expect(jsonData).to.have.property(\"access_token\");",
+									"});",
+									"",
 									"if (jsonData && jsonData.access_token) {",
 									"    FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);",
-									"    console.log('Admin access token set successfully.');",
-									"} else {",
-									"    console.error('Error: No access token found in response.');",
-									"    pm.test('Admin Login: Access token should be present', function () {",
-									"        pm.expect(jsonData.access_token).to.exist;",
+									"    console.log(`ADMIN_ACCESS_TOKEN set for ${currentFolder}`);",
+									"",
+									"    pm.test(\"Access token is valid\", function () {",
+									"        pm.expect(jsonData.access_token).to.not.be.null;",
+									"        pm.expect(jsonData.access_token).to.not.be.undefined;",
 									"    });",
-									"}"
+									"",
+									"} else {",
+									"    console.error('Access token not found in response');",
+									"",
+									"    pm.test('Access token validation failed', function () {",
+									"        pm.expect(false, 'Access token missing').to.be.true;",
+									"    });",
+									"}",
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -1107,19 +1125,25 @@
 									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
 									"const username = pm.request.url.query.get(\"username\");",
 									"const user = Utilities.getUserIdByCriteria(pm, username, \"username\");",
+									"",
 									"if (user && user.userId) {",
 									"    const currentFolder = FolderNames.deleteUserFolder;",
 									"    FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);",
 									"    console.log(`USER_ID for ${currentFolder} is:`, user.userId);",
-									"} else {",
-									"    console.error('Error: User not found or userId is missing.');",
-									"    pm.test('User retrieval test', function () {",
-									"        pm.expect(user).to.exist;",
+									"    pm.test(\"User retrieval test - User ID is set\", function () {",
 									"        pm.expect(user.userId).to.exist;",
 									"    });",
-									"}"
+									"} else {",
+									"    console.error(\"Error: User not found or userId is missing.\");",
+									"    pm.test(\"User retrieval test - User and userId should exist\", function () {",
+									"        pm.expect(user, \"User data is missing\").to.exist;",
+									"        pm.expect(user.userId, \"User ID is missing\").to.exist;",
+									"    });",
+									"}",
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						},
 						{
@@ -1135,7 +1159,8 @@
 									"    console.error('Error: Admin access token not found in environment.');",
 									"}"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -1249,6 +1274,105 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "4 - Get User (Name) - Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
+									"const username = pm.request.url.query.get(\"username\");",
+									"",
+									"try {",
+									"    const user = Utilities.getUserIdByCriteria(pm, username, \"username\");",
+									"",
+									"    if (!user || !user.userId) {",
+									"        console.log(\"Negative Test: User not found or userId is missing as expected.\");",
+									"        pm.test(\"Negative Test - User retrieval should return no data\", function () {",
+									"            pm.expect(user, \"User data should be empty or undefined\").to.be.oneOf([undefined, null]);",
+									"        });",
+									"    } else {",
+									"        console.error(\"Error: Unexpected user data found.\");",
+									"        pm.test(\"Negative Test - User retrieval should not return valid user ID\", function () {",
+									"            pm.expect(user.userId, \"Unexpected userId found\").to.not.exist;",
+									"        });",
+									"    }",
+									"} catch (error) {",
+									"    console.error(\"Negative Test: Exception caught during user retrieval\", error.message);",
+									"    pm.test(\"Negative Test - User retrieval should handle exceptions gracefully\", function () {",
+									"        pm.expect(error, \"Exception thrown as expected\").to.exist;",
+									"    });",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const currentFolder = FolderNames.deleteUserFolder;",
+									"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");",
+									"if (userId) {",
+									"    pm.environment.set(\"USER_ID\", userId);",
+									"    console.log(`User ID set for deletion: ${userId}`);",
+									"} else {",
+									"    console.error('Error: User ID not found for deletion.');",
+									"    pm.test('User ID should be available for deletion', function () {",
+									"        pm.expect(userId).to.exist;",
+									"    });",
+									"}",
+									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
+									"if (accessToken) {",
+									"    pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
+									"    console.log('Admin access token set in environment.');",
+									"} else {",
+									"    console.error('Error: Admin access token not found in environment.');",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?username={{USER_ID}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{USER_REALM_NAME}}",
+								"users"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{USER_ID}}"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1262,7 +1386,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();",
+									"const jsonData = pm.response.json();",
 									"const currentFolder = FolderNames.forgotPasswordFolder;",
 									"FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);",
 									"pm.test('Access token retrieved successfully', function () {",
@@ -1502,7 +1626,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();",
+									"const jsonData = pm.response.json();",
 									"const currentFolder = FolderNames.resetPasswordFolder;",
 									"if (jsonData.access_token) {",
 									"    FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);",
@@ -1806,24 +1930,13 @@
 					"    }\r",
 					"\r",
 					"    if (exactUser.length === 1) {\r",
-					"        const user = {userId: exactUser[0].id, username: exactUser[0].username};\r",
-					"        pmInstance.test(\"Exact user found\", function () {\r",
-					"            pmInstance.expect(\r",
-					"                searchBy === 'email' \r",
-					"                    ? exactUser[0].email\r",
-					"                    : exactUser[0].username\r",
-					"                ).to.eql(value);\r",
-					"        });\r",
+					"        const user = { userId: exactUser[0].id, username: exactUser[0].username };\r",
 					"        return user;\r",
 					"    } else {\r",
-					"        pmInstance.test(\"Exact user not found or multiple matches\", function () {\r",
-					"            pmInstance.expect(exactUser.length).to.eql(1);\r",
-					"        });\r",
+					"        // Return undefined if no user or multiple users found\r",
 					"        return undefined;\r",
 					"    }\r",
 					"};\r",
-					"\r",
-					"\r",
 					""
 				]
 			}

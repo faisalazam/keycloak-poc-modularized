@@ -122,15 +122,19 @@ jobs:
 #          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
 
       - name: Deploy README.md to GitHub Pages
-        #if: github.ref == 'refs/heads/main'
+#        if: github.ref == 'refs/heads/main'  # Ensure this step only runs for the main branch
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git checkout -b gh-pages
-          cp README.md ./index.html
-          git add index.html
+
+          # Ensure the README.md is copied as index.md (markdown rendering on GitHub Pages)
+          cp README.md ./index.md  # GitHub Pages will render this as a markdown file
+
+          git add index.md  # Add the new index.md file
           git commit -m "Deploy README.md to GitHub Pages"
           git push --force --set-upstream origin gh-pages
+
 
 
 #  badges:

@@ -96,6 +96,8 @@ jobs:
           ls -lart ../ldap
           ls -lart ../postgres
           #./start.sh
+          ls -lart /home/runner/work/keycloak-poc-modularized/keycloak-poc-modularized/1dap/docker-compose.yml
+          ls -lart /home/runner/work/keycloak-poc-modularized/keycloak-poc-modularized/1dap
           docker-compose up -d
 
       - name: Install Newman with specific version

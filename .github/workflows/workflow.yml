@@ -97,6 +97,9 @@ jobs:
           npm install -g newman@${{ env.NEWMAN_VERSION }} newman-reporter-html
           newman --version
 
+      - name: Wait for services to start
+        run: sleep 90  # Wait for 90 seconds (adjust as needed)
+
       - name: Run Postman tests with Newman
         run: |
           newman run ${{ env.POSTMAN_COLLECTION }} \

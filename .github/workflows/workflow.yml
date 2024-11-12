@@ -92,14 +92,12 @@ jobs:
           cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
           ls -lart .
           ./start.sh
+          ls -lart .
 
       - name: Install Newman with specific version
         run: |
           npm install -g newman@${{ env.NEWMAN_VERSION }} newman-reporter-html
           newman --version
-
-      #- name: Wait for services to start
-        #run: sleep 90  # Wait for 90 seconds (adjust as needed)
 
       - name: Wait for service to be available
         run: |
@@ -124,6 +122,7 @@ jobs:
 
       - name: Collect Docker container logs
         run: |
+          docker logs mailhog
           docker logs keycloak
           docker logs openldap
           docker logs keycloak-db
@@ -140,6 +139,7 @@ jobs:
 
       - name: Collect Docker container logs
         run: |
+          docker logs mailhog
           docker logs keycloak
           docker logs openldap
           docker logs keycloak-db

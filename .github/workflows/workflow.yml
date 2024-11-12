@@ -158,11 +158,12 @@ jobs:
           echo "[View Test Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> README.md
 
 
-#      - name: Clean up Docker containers and volumes
-#        run: |
-#          # Explicit check for docker-compose before using it
-#          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
-#          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
+      - name: Clean up Docker containers and volumes
+        run: |
+          # Explicit check for docker-compose before using it
+          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
+          cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
+          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
 
       - name: Deploy README.md to GitHub Pages
 #        if: github.ref == 'refs/heads/main'  # Ensure this step only runs for the main branch

@@ -77,8 +77,9 @@ jobs:
           ls -lart .
           ls -lart ${{ env.DOCKER_COMPOSE_DIR }}
           chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/startup_helper.sh
-          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/keycloak/start.sh
-          ${{ env.DOCKER_COMPOSE_DIR }}/keycloak/start.sh
+          cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
+          chmod +x start.sh
+          ./start.sh
 
       - name: Install Newman with specific version
         run: |

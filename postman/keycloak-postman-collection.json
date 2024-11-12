@@ -463,12 +463,23 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"pm.environment.set(\"refresh_token\", jsonData.refresh_token);\r",
-									""
+									"var jsonData = pm.response.json();",
+									"const currentFolder = FolderNames.refreshTokenFolder;",
+									"pm.test('Login - User: Status code should be 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"    console.log('Login - User: Status code is 200');",
+									"});",
+									"if (jsonData && jsonData.refresh_token) {",
+									"    FolderVariables.setVariable(pm, currentFolder, \"REFRESH_TOKEN\", jsonData.refresh_token);",
+									"    console.log('Refresh token set successfully.');",
+									"} else {",
+									"    console.error('Error: No refresh token found in response.');",
+									"    pm.test('Login - User: Refresh token should be present', function () {",
+									"        pm.expect(jsonData.refresh_token).to.exist;",
+									"    });",
+									"}"
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -514,8 +525,7 @@
 								"token"
 							]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "2 - Refresh Token - User",
@@ -524,12 +534,23 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"pm.environment.set(\"refresh_token\", jsonData.refresh_token);\r",
-									""
+									"var jsonData = pm.response.json();",
+									"const currentFolder = FolderNames.refreshTokenFolder;",
+									"pm.test('Refresh Token - User: Status code should be 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"    console.log('Refresh Token - User: Status code is 200');",
+									"});",
+									"if (jsonData && jsonData.refresh_token) {",
+									"    FolderVariables.setVariable(pm, currentFolder, \"REFRESH_TOKEN\", jsonData.refresh_token);",
+									"    console.log('New refresh token set successfully.');",
+									"} else {",
+									"    console.error('Error: No refresh token found in response.');",
+									"    pm.test('Refresh Token - User: Refresh token should be present', function () {",
+									"        pm.expect(jsonData.refresh_token).to.exist;",
+									"    });",
+									"}"
 								],
-								"type": "text/javascript",
-								"packages": {}
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -550,7 +571,7 @@
 								},
 								{
 									"key": "refresh_token",
-									"value": "{{refresh_token}}"
+									"value": "{{REFRESH_TOKEN}}"
 								},
 								{
 									"key": "grant_type",
@@ -571,8 +592,7 @@
 								"token"
 							]
 						}
-					},
-					"response": []
+					}
 				}
 			]
 		},
@@ -1526,6 +1546,7 @@
 					"FolderNames = {\r",
 					"    logoutFolder: \"logoutFolder\",\r",
 					"    deleteUserFolder: \"deleteUserFolder\",\r",
+					"    refreshTokenFolder: \"refreshTokenFolder\",\r",
 					"    resetPasswordFolder: \"resetPasswordFolder\",\r",
 					"    forgotPasswordFolder: \"forgotPasswordFolder\",\r",
 					"    updateClientPropsFolder: \"updateClientPropsFolder\",\r",

@@ -122,6 +122,12 @@ jobs:
             exit 1  # Fail the job if the service is not available after retries
           fi
 
+      - name: Collect Docker container logs
+        run: |
+          docker logs keycloak
+          docker logs ldap
+          docker logs postgres
+
       - name: Run Postman tests with Newman
         run: |
           newman run ${{ env.POSTMAN_COLLECTION }} \
@@ -129,6 +135,12 @@ jobs:
             --reporters cli,html,junit \
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export junit-report.xml
+
+      - name: Collect Docker container logs
+        run: |
+          docker logs keycloak
+          docker logs ldap
+          docker logs postgres
 
       - name: Upload Postman test report as artifact
         uses: actions/upload-artifact@v3

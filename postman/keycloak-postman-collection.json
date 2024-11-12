@@ -586,10 +586,17 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"const currentFolder = FolderNames.updateClientPropsFolder;\r",
-									"FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);\r",
-									""
+									"var jsonData = pm.response.json();",
+									"const currentFolder = FolderNames.updateClientPropsFolder;",
+									"if (jsonData && jsonData.access_token) {",
+									"    FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);",
+									"    console.log(`ADMIN_ACCESS_TOKEN set for ${currentFolder}`);",
+									"} else {",
+									"    console.error('Access token not found in response');",
+									"    pm.test('Access token validation', function () {",
+									"        pm.expect(false, 'Access token missing').to.be.true;",
+									"    });",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -648,15 +655,18 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"\r",
-									"const currentFolder = FolderNames.updateClientPropsFolder;\r",
-									"\r",
-									"FolderVariables.setVariable(pm, currentFolder, \"CLIENT_UUID\", jsonData[0].id);\r",
-									"\r",
-									"\r",
-									"const clientUUID = FolderVariables.getVariable(pm, currentFolder, \"CLIENT_UUID\");\r",
-									"console.log(`CLIENT_UUID for ${currentFolder} is:`, clientUUID);"
+									"var jsonData = pm.response.json();",
+									"const currentFolder = FolderNames.updateClientPropsFolder;",
+									"if (jsonData && jsonData.length > 0 && jsonData[0].id) {",
+									"    FolderVariables.setVariable(pm, currentFolder, \"CLIENT_UUID\", jsonData[0].id);",
+									"    const clientUUID = FolderVariables.getVariable(pm, currentFolder, \"CLIENT_UUID\");",
+									"    console.log(`CLIENT_UUID for ${currentFolder} is: ${clientUUID}`);",
+									"} else {",
+									"    console.error('Client UUID not found in response');",
+									"    pm.test('Client UUID validation', function () {",
+									"        pm.expect(false, 'Client UUID missing').to.be.true;",
+									"    });",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -666,9 +676,17 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"const currentFolder = FolderNames.updateClientPropsFolder;\r",
-									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");\r",
-									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
+									"const currentFolder = FolderNames.updateClientPropsFolder;",
+									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
+									"if (!accessToken) {",
+									"    console.error('No ADMIN_ACCESS_TOKEN found. Abort the request.');",
+									"    pm.test('Check Access Token', function () {",
+									"        pm.expect(false, 'Access token is missing').to.be.true;",
+									"    });",
+									"} else {",
+									"    pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
+									"    console.log('Using ADMIN_ACCESS_TOKEN:', accessToken);",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -712,12 +730,25 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"const currentFolder = FolderNames.updateClientPropsFolder;\r",
-									"const clientUUID = FolderVariables.getVariable(pm, currentFolder, \"CLIENT_UUID\");\r",
-									"pm.environment.set(\"CLIENT_UUID\", clientUUID);\r",
-									"\r",
-									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");\r",
-									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
+									"const currentFolder = FolderNames.updateClientPropsFolder;",
+									"const clientUUID = FolderVariables.getVariable(pm, currentFolder, \"CLIENT_UUID\");",
+									"if (clientUUID) {",
+									"    pm.environment.set(\"CLIENT_UUID\", clientUUID);",
+									"} else {",
+									"    console.error('CLIENT_UUID is missing. Abort the request.');",
+									"    pm.test('Check Client UUID', function () {",
+									"        pm.expect(false, 'Client UUID is missing').to.be.true;",
+									"    });",
+									"}",
+									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
+									"if (accessToken) {",
+									"    pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
+									"} else {",
+									"    console.error('ADMIN_ACCESS_TOKEN is missing. Abort the request.');",
+									"    pm.test('Check Access Token', function () {",
+									"        pm.expect(false, 'Access token is missing').to.be.true;",
+									"    });",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -727,8 +758,15 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.environment.unset(\"CLIENT_UUID\");\r",
-									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");"
+									"const status = pm.response.code;",
+									"if (status === 200) {",
+									"    console.log('Client updated successfully.');",
+									"} else {",
+									"    console.error('Failed to update client. Status:', status);",
+									"    pm.test('Client update failed', function () {",
+									"        pm.expect(status, 'Client update status').to.eql(200);",
+									"    });",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1490,6 +1528,7 @@
 					"    deleteUserFolder: \"deleteUserFolder\",\r",
 					"    resetPasswordFolder: \"resetPasswordFolder\",\r",
 					"    forgotPasswordFolder: \"forgotPasswordFolder\",\r",
+					"    updateClientPropsFolder: \"updateClientPropsFolder\",\r",
 					"    updateClientPropsFolder: \"updateClientPropsFolder\",\r",
 					"};\r",
 					"\r",

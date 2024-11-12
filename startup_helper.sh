@@ -29,6 +29,7 @@ cleanup_and_start() {
 
     echo "Running 'docker-compose up -d' to start the services..."
 
+    pwd
     ls -lart .
     ls -lart ../ldap
     ls -lart ../postgres

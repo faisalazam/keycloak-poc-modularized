@@ -1,11 +1,11 @@
 
-include:
-  - ./ldap/docker-compose.yml
-  - ./mailhog/docker-compose.yml
-  - ./postgres/docker-compose.yml
-  - ./keycloak/test.yml
+#include:
+#  - ./ldap/docker-compose.yml
+#  - ./mailhog/docker-compose.yml
+#  - ./postgres/docker-compose.yml
+#  - ./keycloak/test.yml
 
-#services:
+services:
   # Keycloak and dependencies
 #  keycloak:
 #    extends:
@@ -51,7 +51,7 @@ include:
 #      file: ./ldap/docker-compose.yml
 #      service: ldap
 #
-#  mailhog:
-#    extends:
-#      file: ./mailhog/docker-compose.yml
-#      service: mailhog
+  mailhog:
+    extends:
+      file: ./mailhog/docker-compose.yml
+      service: mailhog

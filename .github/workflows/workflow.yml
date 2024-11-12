@@ -9,7 +9,8 @@ on:
       - everything
 
 env:
-  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
+  POSTMAN_COLLECTION: postman/sample.json
+#  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
   POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
   NEWMAN_REPORT_FILE: postman-report.html
   DOCKER_COMPOSE_FILE: docker-compose.yml
@@ -78,22 +79,14 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
 
-      - name: Build and run services using start.sh script
-        run: |
-          ls -lart .
-          ls -lart ${{ env.DOCKER_COMPOSE_DIR }}
-          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/startup_helper.sh
-          cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
-          chmod +x start.sh
-          ./start.sh
-      - name: Build and run services using start.sh script
-        run: |
-          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/startup_helper.sh
-          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/keycloak/start.sh
-          # Check if docker-compose is available before running the start.sh script
-          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
-          cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
-          ./start.sh          
+#      - name: Build and run services using start.sh script
+#        run: |
+#          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/startup_helper.sh
+#          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/keycloak/start.sh
+#          # Check if docker-compose is available before running the start.sh script
+#          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
+#          cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
+#          ./start.sh
 
       - name: Install Newman with specific version
         run: |

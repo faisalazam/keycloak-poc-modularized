@@ -29,6 +29,11 @@ cleanup_and_start() {
 
     echo "Running 'docker-compose up -d' to start the services..."
 
+    ls -lart .
+    ls -lart ../ldap
+    ls -lart ../postgres
+
+
     # Run the docker-compose up command
     docker-compose up -d || handle_error "Failed to bring up services using docker-compose up"
     # docker-compose -f docker-compose.yml -f ./../ldap/docker-compose.yml -f ./../mailhog/docker-compose.yml -f ./../postgres/docker-compose.yml up || handle_error "Failed to bring up services using docker-compose up"

@@ -1,5 +1,5 @@
 include:
-  - /home/runner/work/keycloak-poc-modularized/keycloak-poc-modularized/1dap/docker-compose.yml
+  - /home/runner/work/keycloak-poc-modularized/keycloak-poc-modularized/ldap/docker-compose.yml
   - /home/runner/work/keycloak-poc-modularized/keycloak-poc-modularized/mailhog/docker-compose.yml
   - /home/runner/work/keycloak-poc-modularized/keycloak-poc-modularized/postgres/docker-compose.yml
 

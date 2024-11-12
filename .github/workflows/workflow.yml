@@ -127,6 +127,8 @@ jobs:
           docker logs keycloak
           docker logs openldap
           docker logs keycloak-db
+          docker logs realm-export-generator
+          docker logs keycloak_setup
 
       - name: Run Postman tests with Newman
         run: |
@@ -141,6 +143,8 @@ jobs:
           docker logs keycloak
           docker logs openldap
           docker logs keycloak-db
+          docker logs realm-export-generator
+          docker logs keycloak_setup
 
       - name: Upload Postman test report as artifact
         uses: actions/upload-artifact@v3

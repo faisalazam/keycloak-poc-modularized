@@ -107,11 +107,11 @@ jobs:
           name: postman-test-report
           path: ${{ env.NEWMAN_REPORT_FILE }}
 
-      - name: Clean up Docker containers and volumes
-        run: |
-          # Explicit check for docker-compose before using it
-          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
-          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
+#      - name: Clean up Docker containers and volumes
+#        run: |
+#          # Explicit check for docker-compose before using it
+#          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
+#          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
 
       - name: Deploy README.md to GitHub Pages
         if: github.ref == 'refs/heads/main'

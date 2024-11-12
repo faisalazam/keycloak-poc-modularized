@@ -1331,7 +1331,11 @@
 									"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");",
 									"pm.environment.set(\"USER_ID\", userId);",
 									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
-									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
+									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
+									"pm.test('User ID and Access Token set correctly', function () {",
+									"    pm.expect(userId).to.not.be.null;",
+									"    pm.expect(accessToken).to.not.be.null;",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1343,7 +1347,11 @@
 								"exec": [
 									"pm.environment.unset(\"USER_ID\");",
 									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
-									"console.log('Clearing User ID and Access Token after reset trigger.');"
+									"",
+									"pm.test('Response status is OK', function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}

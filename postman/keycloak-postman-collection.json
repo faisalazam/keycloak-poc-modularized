@@ -7,162 +7,162 @@
 	},
 	"item": [
 		{
-			"name": "Login",
-			"item": [
-				{
-					"name": "Login - Admin",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "client_id",
-									"value": "{{ADMIN_CLIENT_ID}}"
-								},
-								{
-									"key": "username",
-									"value": "admin"
-								},
-								{
-									"key": "password",
-									"value": "admin"
-								},
-								{
-									"key": "grant_type",
-									"value": "password"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}/protocol/openid-connect/token",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"realms",
-								"{{ADMIN_REALM_NAME}}",
-								"protocol",
-								"openid-connect",
-								"token"
-							]
-						}
-					},
-					"response": [],
-					"event": [
+		"name": "Login",
+		"item": [
+			{
+				"name": "Login - Admin",
+				"request": {
+					"method": "POST",
+					"header": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Status code is 200', function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test('Response body contains access token', function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.have.property('access_token');",
-									"});",
-									"",
-									"pm.test('Log token for debugging', function () {",
-									"    var jsonData = pm.response.json();",
-									"    console.log('Admin Access Token:', jsonData.access_token);",
-									"});",
-									"",
-									"pm.test('Handle error if status code is not 200', function () {",
-									"    if (pm.response.status !== 200) {",
-									"        console.error('Error: Expected 200 but got', pm.response.status);",
-									"        throw new Error('Unexpected status code: ' + pm.response.status);",
-									"    }",
-									"});"
-								]
-							}
+							"key": "Content-Type",
+							"value": "application/x-www-form-urlencoded"
 						}
-					]
+					],
+					"body": {
+						"mode": "urlencoded",
+						"urlencoded": [
+							{
+								"key": "client_id",
+								"value": "{{ADMIN_CLIENT_ID}}"
+							},
+							{
+								"key": "username",
+								"value": "admin"
+							},
+							{
+								"key": "password",
+								"value": "admin"
+							},
+							{
+								"key": "grant_type",
+								"value": "password"
+							}
+						]
+					},
+					"url": {
+						"raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}/protocol/openid-connect/token",
+						"host": [
+							"{{BASE_URL}}"
+						],
+						"path": [
+							"realms",
+							"{{ADMIN_REALM_NAME}}",
+							"protocol",
+							"openid-connect",
+							"token"
+						]
+					}
 				},
-				{
-					"name": "Login - User",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "client_id",
-									"value": "{{CLIENT_ID}}"
-								},
-								{
-									"key": "username",
-									"value": "kzuser1"
-								},
-								{
-									"key": "password",
-									"value": "password1"
-								},
-								{
-									"key": "grant_type",
-									"value": "password"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/protocol/openid-connect/token",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"realms",
-								"{{USER_REALM_NAME}}",
-								"protocol",
-								"openid-connect",
-								"token"
+				"response": [],
+				"event": [
+					{
+						"listen": "test",
+						"script": {
+							"exec": [
+								"pm.test('Status code is 200', function () {",
+								"    pm.response.to.have.status(200);",
+								"});",
+								"",
+								"pm.test('Response body contains access token', function () {",
+								"    var jsonData = pm.response.json();",
+								"    pm.expect(jsonData).to.have.property('access_token');",
+								"});",
+								"",
+								"pm.test('Log token for debugging', function () {",
+								"    var jsonData = pm.response.json();",
+								"    console.log('Admin Access Token:', jsonData.access_token);",
+								"});",
+								"",
+								"pm.test('Handle error if status code is not 200', function () {",
+								"    if (pm.response.status !== 200) {",
+								"        console.error('Error: Expected 200 but got', pm.response.status);",
+								"        throw new Error('Unexpected status code: ' + pm.response.status);",
+								"    }",
+								"});"
 							]
 						}
-					},
-					"response": [],
-					"event": [
+					}
+				]
+			},
+			{
+				"name": "Login - User",
+				"request": {
+					"method": "POST",
+					"header": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Status code is 200', function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test('Response body contains access token', function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.have.property('access_token');",
-									"});",
-									"",
-									"pm.test('Log token for debugging', function () {",
-									"    var jsonData = pm.response.json();",
-									"    console.log('User Access Token:', jsonData.access_token);",
-									"});",
-									"",
-									"pm.test('Handle error if status code is not 200', function () {",
-									"    if (pm.response.status !== 200) {",
-									"        console.error('Error: Expected 200 but got', pm.response.status);",
-									"        throw new Error('Unexpected status code: ' + pm.response.status);",
-									"    }",
-									"});"
-								]
-							}
+							"key": "Content-Type",
+							"value": "application/x-www-form-urlencoded"
 						}
-					]
-				}
-			]
-		},
+					],
+					"body": {
+						"mode": "urlencoded",
+						"urlencoded": [
+							{
+								"key": "client_id",
+								"value": "{{CLIENT_ID}}"
+							},
+							{
+								"key": "username",
+								"value": "kzuser1"
+							},
+							{
+								"key": "password",
+								"value": "password1"
+							},
+							{
+								"key": "grant_type",
+								"value": "password"
+							}
+						]
+					},
+					"url": {
+						"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/protocol/openid-connect/token",
+						"host": [
+							"{{BASE_URL}}"
+						],
+						"path": [
+							"realms",
+							"{{USER_REALM_NAME}}",
+							"protocol",
+							"openid-connect",
+							"token"
+						]
+					}
+				},
+				"response": [],
+				"event": [
+					{
+						"listen": "test",
+						"script": {
+							"exec": [
+								"pm.test('Status code is 200', function () {",
+								"    pm.response.to.have.status(200);",
+								"});",
+								"",
+								"pm.test('Response body contains access token', function () {",
+								"    var jsonData = pm.response.json();",
+								"    pm.expect(jsonData).to.have.property('access_token');",
+								"});",
+								"",
+								"pm.test('Log token for debugging', function () {",
+								"    var jsonData = pm.response.json();",
+								"    console.log('User Access Token:', jsonData.access_token);",
+								"});",
+								"",
+								"pm.test('Handle error if status code is not 200', function () {",
+								"    if (pm.response.status !== 200) {",
+								"        console.error('Error: Expected 200 but got', pm.response.status);",
+								"        throw new Error('Unexpected status code: ' + pm.response.status);",
+								"    }",
+								"});"
+							]
+						}
+					}
+				]
+			}
+		]
+	},
 		{
 			"name": "Logout",
 			"item": [
@@ -180,7 +180,6 @@
 									"",
 									"    console.log(`REFRESH_TOKEN for ${currentFolder} set to: ${jsonData.refresh_token}`);",
 									"",
-									"    // Test to ensure token is set",
 									"    pm.test(\"Login - User: Refresh token retrieved and stored\", function () {",
 									"        pm.expect(jsonData.refresh_token).to.exist;",
 									"        pm.expect(FolderVariables.getVariable(pm, currentFolder, \"REFRESH_TOKEN\")).to.eql(jsonData.refresh_token);",
@@ -226,8 +225,16 @@
 						},
 						"url": {
 							"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/protocol/openid-connect/token",
-							"host": ["{{BASE_URL}}"],
-							"path": ["realms", "{{USER_REALM_NAME}}", "protocol", "openid-connect", "token"]
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"realms",
+								"{{USER_REALM_NAME}}",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
 						}
 					},
 					"response": []
@@ -305,8 +312,16 @@
 						},
 						"url": {
 							"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/protocol/openid-connect/logout",
-							"host": ["{{BASE_URL}}"],
-							"path": ["realms", "{{USER_REALM_NAME}}", "protocol", "openid-connect", "logout"]
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"realms",
+								"{{USER_REALM_NAME}}",
+								"protocol",
+								"openid-connect",
+								"logout"
+							]
 						}
 					}
 				}
@@ -324,6 +339,10 @@
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"const currentFolder = FolderNames.userInfoFolder;",
+									"pm.test('Admin Login: Status code should be 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"    console.log('Admin login successful with status code 200.');",
+									"});",
 									"if (jsonData && jsonData.access_token) {",
 									"    FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);",
 									"    console.log('Admin access token set successfully.');",
@@ -392,13 +411,17 @@
 									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
 									"const username = pm.request.url.query.get(\"username\");",
 									"const user = Utilities.getUserIdByCriteria(pm, username, \"username\");",
+									"pm.test('Get User (Name) - Admin: User retrieval status should be 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"    console.log('User retrieval successful with status code 200.');",
+									"});",
 									"if (user && user.userId) {",
 									"    const currentFolder = FolderNames.userInfoFolder;",
 									"    FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);",
 									"    console.log(`USER_ID for ${currentFolder} is:`, user.userId);",
 									"} else {",
 									"    console.error('Error: User not found or userId is missing.');",
-									"    pm.test('User retrieval test', function () {",
+									"    pm.test('Get User (Name) - Admin: User should exist and have userId', function () {",
 									"        pm.expect(user).to.exist;",
 									"        pm.expect(user.userId).to.exist;",
 									"    });",
@@ -1118,10 +1141,13 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"const currentFolder = FolderNames.forgotPasswordFolder;\r",
-									"FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);\r",
-									""
+									"var jsonData = pm.response.json();",
+									"const currentFolder = FolderNames.forgotPasswordFolder;",
+									"FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);",
+									"pm.test('Access token retrieved successfully', function () {",
+									"    pm.expect(jsonData.access_token).to.not.be.null;",
+									"    pm.expect(jsonData.access_token).to.not.be.undefined;",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1164,9 +1190,7 @@
 						},
 						"url": {
 							"raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}/protocol/openid-connect/token",
-							"host": [
-								"{{BASE_URL}}"
-							],
+							"host": ["{{BASE_URL}}"],
 							"path": [
 								"realms",
 								"{{ADMIN_REALM_NAME}}",
@@ -1185,18 +1209,15 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");\r",
-									"\r",
-									"const email = pm.request.url.query.get(\"email\");\r",
-									"const user = Utilities.getUserIdByCriteria(pm, email, \"email\");\r",
-									"\r",
-									"const currentFolder = FolderNames.forgotPasswordFolder;\r",
-									"\r",
-									"FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);\r",
-									"\r",
-									"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");\r",
-									"console.log(`USER_ID for ${currentFolder} is:`, userId);\r",
-									""
+									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
+									"const email = pm.request.url.query.get(\"email\");",
+									"const user = Utilities.getUserIdByCriteria(pm, email, \"email\");",
+									"const currentFolder = FolderNames.forgotPasswordFolder;",
+									"FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);",
+									"pm.test('User ID retrieved successfully', function () {",
+									"    pm.expect(user.userId).to.not.be.null;",
+									"    pm.expect(user.userId).to.not.be.undefined;",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1206,8 +1227,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"const currentFolder = FolderNames.forgotPasswordFolder;\r",
-									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");\r",
+									"const currentFolder = FolderNames.forgotPasswordFolder;",
+									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
 									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
 								],
 								"type": "text/javascript",
@@ -1231,9 +1252,7 @@
 						],
 						"url": {
 							"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?email=kzuser1@example.com",
-							"host": [
-								"{{BASE_URL}}"
-							],
+							"host": ["{{BASE_URL}}"],
 							"path": [
 								"admin",
 								"realms",
@@ -1257,11 +1276,10 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"const currentFolder = FolderNames.forgotPasswordFolder;\r",
-									"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");\r",
-									"pm.environment.set(\"USER_ID\", userId);\r",
-									"\r",
-									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");\r",
+									"const currentFolder = FolderNames.forgotPasswordFolder;",
+									"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");",
+									"pm.environment.set(\"USER_ID\", userId);",
+									"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
 									"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
 								],
 								"type": "text/javascript",
@@ -1272,7 +1290,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.environment.unset(\"USER_ID\");\r",
+									"pm.environment.unset(\"USER_ID\");",
 									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");"
 								],
 								"type": "text/javascript",
@@ -1296,13 +1314,11 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\"UPDATE_PASSWORD\"]\r\n"
+							"raw": "[\"UPDATE_PASSWORD\"]"
 						},
 						"url": {
 							"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users/{{USER_ID}}/execute-actions-email",
-							"host": [
-								"{{BASE_URL}}"
-							],
+							"host": ["{{BASE_URL}}"],
 							"path": [
 								"admin",
 								"realms",
@@ -1400,9 +1416,7 @@
 						},
 						"url": {
 							"raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}/protocol/openid-connect/token",
-							"host": [
-								"{{BASE_URL}}"
-							],
+							"host": ["{{BASE_URL}}"],
 							"path": [
 								"realms",
 								"{{ADMIN_REALM_NAME}}",
@@ -1428,16 +1442,13 @@
 									"if (user && user.userId) {",
 									"    const currentFolder = FolderNames.resetPasswordFolder;",
 									"    FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);",
-									"    FolderVariables.setVariable(pm, currentFolder, \"USER_NAME\", user.username);",
-									"    const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");",
 									"    pm.test('User ID retrieved successfully', function () {",
-									"        pm.expect(userId).to.not.be.null;",
-									"        pm.expect(userId).to.not.be.undefined;",
+									"        pm.expect(user.userId).to.not.be.null;",
+									"        pm.expect(user.userId).to.not.be.undefined;",
 									"    });",
-									"    console.log(`USER_ID for ${currentFolder} is:`, userId);",
 									"} else {",
-									"    pm.test('Failed to retrieve User ID', function () {",
-									"        pm.expect(user).to.have.property('userId').that.is.not.null;",
+									"    pm.test('User not found', function () {",
+									"        pm.expect(user).to.be.null;",
 									"    });",
 									"    console.error('User not found for email:', email);",
 									"}"
@@ -1470,20 +1481,16 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
-								"type": "text"
+								"value": "application/x-www-form-urlencoded"
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
-								"type": "text"
+								"value": "Bearer {{ADMIN_ACCESS_TOKEN}}"
 							}
 						],
 						"url": {
 							"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?email=kzuser1@example.com",
-							"host": [
-								"{{BASE_URL}}"
-							],
+							"host": ["{{BASE_URL}}"],
 							"path": [
 								"admin",
 								"realms",

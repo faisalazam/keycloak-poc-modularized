@@ -97,8 +97,29 @@ jobs:
           npm install -g newman@${{ env.NEWMAN_VERSION }} newman-reporter-html
           newman --version
 
-      - name: Wait for services to start
-        run: sleep 90  # Wait for 90 seconds (adjust as needed)
+      #- name: Wait for services to start
+        #run: sleep 90  # Wait for 90 seconds (adjust as needed)
+
+      - name: Wait for service to be available
+        run: |
+          max_retries=10  # Set the max number of retries
+          count=0
+          until [ $count -ge $max_retries ]
+          do
+            response=$(curl -s http://localhost:9000)
+            if [[ "$response" == *'"status": "UP"'* ]]; then
+              echo "Service is up!"
+              break
+            fi
+            count=$((count+1))
+            echo "Waiting for service to start... Attempt $count/$max_retries"
+            sleep 10
+          done
+      
+          if [ $count -ge $max_retries ]; then
+            echo "Service did not start in time. Exiting."
+            exit 1  # Fail the job if the service is not available after retries
+          fi
 
       - name: Run Postman tests with Newman
         run: |

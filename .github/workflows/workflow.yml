@@ -11,16 +11,15 @@ permissions:
   contents: write  # allows pushing to the repository
 
 env:
-  #POSTMAN_COLLECTION: postman/sample.json
-  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
-  POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
-  NEWMAN_REPORT_FILE: postman-report.html
-  DOCKER_COMPOSE_FILE: docker-compose.yml
   DOCKER_COMPOSE_DIR: .
   NEWMAN_VERSION: 5.3.0
-  DOCKER_VERSION: "5:27.3.1-1~ubuntu.22.04~jammy"
+  DOCKER_VERSION: 5:27.3.1
   DOCKER_COMPOSE_VERSION: 2.29.2
+  NEWMAN_REPORT_FILE: postman-report.html
+  DOCKER_COMPOSE_FILE: docker-compose.yml
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
+  POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
 
 jobs:
   build:
@@ -72,9 +71,7 @@ jobs:
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo tee /etc/apt/keyrings/docker.asc
           echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
           sudo apt-get update
-          #apt-cache madison docker-ce
-          curl -fsSL https://get.docker.com | VERSION=5:27.3.1 sh
-          #sudo apt-get install -y docker-ce=${DOCKER_VERSION} docker-ce-cli=${DOCKER_VERSION} containerd.io docker-compose-plugin
+          curl -fsSL https://get.docker.com | VERSION=${DOCKER_VERSION}
           docker --version
 
       - name: Install Docker Compose with specific version

@@ -61,17 +61,13 @@ jobs:
 
       - name: Install Docker with specific version
         run: |
-          sudo apt-get update
+          # Download and run Docker's official installation script
+          curl -fsSL https://get.docker.com | sh
+          
+          # Install specific Docker Engine and CLI versions
           sudo apt-get install -y \
-            ca-certificates \
-            curl \
-            gnupg \
-            lsb-release
-          sudo mkdir -m 0755 -p /etc/apt/keyrings
-          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo tee /etc/apt/keyrings/docker.asc
-          echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-          sudo apt-get update
-          curl -fsSL https://get.docker.com | VERSION=${DOCKER_VERSION}
+            docker-ce=${DOCKER_VERSION}~3-0~ubuntu-$(lsb_release -cs) \
+            docker-ce-cli=${DOCKER_VERSION}~3-0~ubuntu-$(lsb_release -cs)
           docker --version
 
       - name: Install Docker Compose with specific version

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e2f274d1-b255-4a35-b91e-b3fbcdd26b0c",
+		"_postman_id": "d9918817-bf9c-43c1-b616-fb77c3daa371",
 		"name": "Keycloak",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "39468559"
@@ -573,23 +573,30 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = pm.response.json();",
+									"const jsonData = pm.response.json();",
 									"const currentFolder = FolderNames.refreshTokenFolder;",
-									"pm.test('Login - User: Status code should be 200', function () {",
+									"",
+									"pm.test(\"Login - User: Status code should be 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"    console.log('Login - User: Status code is 200');",
+									"    console.log(\"Login - User: Status code is 200\");",
 									"});",
+									"",
 									"if (jsonData && jsonData.refresh_token) {",
 									"    FolderVariables.setVariable(pm, currentFolder, \"REFRESH_TOKEN\", jsonData.refresh_token);",
-									"    console.log('Refresh token set successfully.');",
-									"} else {",
-									"    console.error('Error: No refresh token found in response.');",
-									"    pm.test('Login - User: Refresh token should be present', function () {",
+									"    console.log(\"Refresh token set successfully.\");",
+									"    pm.test(\"Login - User: Refresh token is present\", function () {",
 									"        pm.expect(jsonData.refresh_token).to.exist;",
 									"    });",
-									"}"
+									"} else {",
+									"    console.error(\"Error: No refresh token found in response.\");",
+									"    pm.test(\"Login - User: Refresh token should be present\", function () {",
+									"        pm.expect(jsonData.refresh_token, \"Refresh token missing\").to.exist;",
+									"    });",
+									"}",
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -661,7 +668,27 @@
 									"    });",
 									"}"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const currentFolder = FolderNames.refreshTokenFolder;\r",
+									"const refreshToken = FolderVariables.getVariable(pm, currentFolder, \"REFRESH_TOKEN\");\r",
+									"if (refreshToken) {\r",
+									"    pm.environment.set(\"REFRESH_TOKEN\", refreshToken);\r",
+									"} else {\r",
+									"    console.error('REFRESH_TOKEN is missing. Abort the request.');\r",
+									"    pm.test('Check REFRESH_TOKEN', function () {\r",
+									"        pm.expect(false, 'REFRESH_TOKEN is missing').to.be.true;\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -718,17 +745,34 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
 									"var jsonData = pm.response.json();",
 									"const currentFolder = FolderNames.updateClientPropsFolder;",
+									"",
+									"pm.test(\"Access token is present in response\", function () {",
+									"    pm.expect(jsonData).to.have.property(\"access_token\");",
+									"});",
+									"",
 									"if (jsonData && jsonData.access_token) {",
 									"    FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);",
 									"    console.log(`ADMIN_ACCESS_TOKEN set for ${currentFolder}`);",
+									"",
+									"    pm.test(\"Access token is valid\", function () {",
+									"        pm.expect(jsonData.access_token).to.not.be.null;",
+									"        pm.expect(jsonData.access_token).to.not.be.undefined;",
+									"    });",
+									"",
 									"} else {",
 									"    console.error('Access token not found in response');",
-									"    pm.test('Access token validation', function () {",
+									"",
+									"    pm.test('Access token validation failed', function () {",
 									"        pm.expect(false, 'Access token missing').to.be.true;",
 									"    });",
-									"}"
+									"}",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -787,18 +831,38 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
 									"var jsonData = pm.response.json();",
 									"const currentFolder = FolderNames.updateClientPropsFolder;",
+									"",
+									"pm.test(\"Response contains client array with at least one item\", function () {",
+									"    pm.expect(jsonData).to.be.an(\"array\").that.is.not.empty;",
+									"});",
+									"",
+									"pm.test(\"First client in array has a valid UUID\", function () {",
+									"    pm.expect(jsonData[0]).to.have.property(\"id\").that.is.a(\"string\").with.length.greaterThan(0);",
+									"});",
+									"",
 									"if (jsonData && jsonData.length > 0 && jsonData[0].id) {",
 									"    FolderVariables.setVariable(pm, currentFolder, \"CLIENT_UUID\", jsonData[0].id);",
 									"    const clientUUID = FolderVariables.getVariable(pm, currentFolder, \"CLIENT_UUID\");",
 									"    console.log(`CLIENT_UUID for ${currentFolder} is: ${clientUUID}`);",
+									"",
+									"    pm.test(\"CLIENT_UUID is set correctly\", function () {",
+									"        pm.expect(clientUUID).to.not.be.null;",
+									"        pm.expect(clientUUID).to.not.be.undefined;",
+									"    });",
+									"",
 									"} else {",
 									"    console.error('Client UUID not found in response');",
-									"    pm.test('Client UUID validation', function () {",
+									"    pm.test('Client UUID validation failed', function () {",
 									"        pm.expect(false, 'Client UUID missing').to.be.true;",
 									"    });",
-									"}"
+									"}",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -890,15 +954,26 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"pm.environment.unset(\"CLIENT_UUID\");",
+									"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
+									"",
+									"pm.test(\"Status code is 204 for successful update\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"",
 									"const status = pm.response.code;",
 									"if (status === 204) {",
-									"    console.log('Client updated successfully.');",
-									"} else {",
-									"    console.error('Failed to update client. Status:', status);",
-									"    pm.test('Client update failed', function () {",
-									"        pm.expect(status, 'Client update status').to.eql(204);",
+									"    console.log(\"Client updated successfully.\");",
+									"    pm.test(\"Client updated successfully\", function () {",
+									"        pm.expect(status).to.eql(204);",
 									"    });",
-									"}"
+									"} else {",
+									"    console.error(\"Failed to update client. Status:\", status);",
+									"    pm.test(\"Client update failed\", function () {",
+									"        pm.expect(status, \"Client update status\").to.eql(204);",
+									"    });",
+									"}",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}

@@ -74,6 +74,8 @@ jobs:
 
       - name: Build and run services using start.sh script
         run: |
+          ls -lart .
+          ls -lart ${{ env.DOCKER_COMPOSE_DIR }}
           chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/startup_helper.sh
           chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/keycloak/start.sh
           ${{ env.DOCKER_COMPOSE_DIR }}/keycloak/start.sh

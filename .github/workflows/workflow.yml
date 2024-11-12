@@ -79,15 +79,12 @@ jobs:
             https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | \
             sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-          # Step 4: Update package index again and install Docker with specific version
+          # Step 4: Update package index again and install Docker using the Docker installation script
           sudo apt-get update
-          sudo apt-get install -y \
-            docker-ce=${DOCKER_VERSION} \
-            docker-ce-cli=${DOCKER_VERSION} \
-            containerd.io
+          curl -fsSL https://get.docker.com | VERSION=${DOCKER_VERSION}
 
+          # Step 5: Verify Docker installation
           docker --version
-      
 
       - name: Install Docker Compose with specific version
         run: |

@@ -13,7 +13,7 @@ env:
   POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
   NEWMAN_REPORT_FILE: postman-report.html
   DOCKER_COMPOSE_FILE: docker-compose.yml
-  DOCKER_COMPOSE_DIR: ./
+  DOCKER_COMPOSE_DIR: .
   NEWMAN_VERSION: 5.3.0
   DOCKER_VERSION: 20.10.17
   DOCKER_COMPOSE_VERSION: 1.29.2

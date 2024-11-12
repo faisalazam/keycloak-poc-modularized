@@ -1,3 +1,7 @@
++include:
+  - ./ .•/1dap/docker-compose.yml
+  - •/../mailhog/docker-compose.yml
+  - ./ ../postgres/docker-compose.yml
 
 services:
   # Service to generate realm-export.json files

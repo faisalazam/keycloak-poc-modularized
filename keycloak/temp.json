@@ -1,0 +1,235 @@
+{
+  "name": "Reset/Forgot Password via Email",
+  "item": [
+    {
+      "name": "1 - Login - Admin",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "const currentFolder = FolderNames.forgotPasswordFolder;",
+              "FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);",
+              "pm.test('Access token retrieved successfully', function () {",
+              "    pm.expect(jsonData.access_token).to.not.be.null;",
+              "    pm.expect(jsonData.access_token).to.not.be.undefined;",
+              "});",
+              "console.log('Access token retrieved:', jsonData.access_token.substring(0, 60) + '...');"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "client_id",
+              "value": "{{ADMIN_CLIENT_ID}}",
+              "type": "text"
+            },
+            {
+              "key": "username",
+              "value": "admin",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "admin",
+              "type": "text"
+            },
+            {
+              "key": "grant_type",
+              "value": "password",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}/protocol/openid-connect/token",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "realms",
+            "{{ADMIN_REALM_NAME}}",
+            "protocol",
+            "openid-connect",
+            "token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2 - Get User (Email)- Admin",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
+              "const email = pm.request.url.query.get(\"email\");",
+              "const user = Utilities.getUserIdByCriteria(pm, email, \"email\");",
+              "const currentFolder = FolderNames.forgotPasswordFolder;",
+              "FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);",
+              "pm.test('User ID retrieved successfully', function () {",
+              "    pm.expect(user.userId).to.not.be.null;",
+              "    pm.expect(user.userId).to.not.be.undefined;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const currentFolder = FolderNames.forgotPasswordFolder;",
+              "const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
+              "pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?email=kzuser1@example.com",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "admin",
+            "realms",
+            "{{USER_REALM_NAME}}",
+            "users"
+          ],
+          "query": [
+            {
+              "key": "email",
+              "value": "kzuser1@example.com"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3 - Update Password - Trigger Email",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const currentFolder = FolderNames.forgotPasswordFolder;",
+              "const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");",
+              "pm.environment.set(\"USER_ID\", userId);",
+              "const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
+              "pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
+              "pm.test('User ID and Access Token set correctly', function () {",
+              "    pm.expect(userId).to.not.be.null;",
+              "    pm.expect(accessToken).to.not.be.null;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Clear environment variables after request",
+              "pm.environment.unset(\"USER_ID\");",
+              "pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
+              "",
+              "// Check if the response status is OK (200)",
+              "pm.test('Response status is OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Log the response body to inspect the result",
+              "console.log('Response Body: ', pm.response.body);",
+              "",
+              "// Check if the response body contains success message or appropriate action trigger",
+              "pm.test('Password update email action triggered successfully', function () {",
+              "    pm.expect(pm.response.json()).to.have.property('status').that.equals('SUCCESS');",
+              "    pm.expect(pm.response.json()).to.have.property('action').that.equals('UPDATE_PASSWORD');",
+              "});",
+              "",
+              "// Check if the email was sent (status 200) and contains expected content",
+              "pm.test('Email sent successfully', function () {",
+              "    const responseJson = pm.response.json();",
+              "    pm.expect(responseJson).to.have.property('emailSent').that.equals(true);",
+              "    pm.expect(responseJson).to.have.property('message').that.includes('password reset email');",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "[\"UPDATE_PASSWORD\"]"
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users/{{USER_ID}}/execute-actions-email",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "admin",
+            "realms",
+            "{{USER_REALM_NAME}}",
+            "users",
+            "{{USER_ID}}",
+            "execute-actions-email"
+          ]
+        }
+      },
+      "response": []
+    }
+  }
+  }

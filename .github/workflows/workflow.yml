@@ -1,0 +1,128 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - everything
+  pull_request:
+    branches:
+      - everything
+
+env:
+  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
+  POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
+  NEWMAN_REPORT_FILE: postman-report.html
+  DOCKER_COMPOSE_FILE: docker-compose.yml
+  DOCKER_COMPOSE_DIR: ./
+  NEWMAN_VERSION: 5.3.0
+  DOCKER_VERSION: 20.10.17
+  DOCKER_COMPOSE_VERSION: 1.29.2
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Cache Docker images
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-docker-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-docker-
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Check Docker version
+        run: |
+          docker --version || echo "Docker is not installed, installing..."
+          sudo apt-get install -y docker.io=${{ env.DOCKER_VERSION }}
+
+      - name: Check Node.js and npm version
+        run: |
+          node -v
+          npm -v || npm install -g npm@latest
+
+      - name: Validate Postman files
+        run: |
+          if [ ! -f ${{ env.POSTMAN_COLLECTION }} ]; then
+            echo "Postman collection not found!" && exit 1
+          fi
+          if [ ! -f ${{ env.POSTMAN_ENVIRONMENT }} ]; then
+            echo "Postman environment not found!" && exit 1
+          fi
+
+      - name: Install Docker with specific version
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io=${{ env.DOCKER_VERSION }}
+          sudo systemctl enable --now docker
+          docker --version
+
+      - name: Install Docker Compose with specific version
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/${{ env.DOCKER_COMPOSE_VERSION }}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
+      - name: Build and run services using start.sh script
+        run: |
+          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/keycloak/start.sh
+          ${{ env.DOCKER_COMPOSE_DIR }}/keycloak/start.sh
+
+      - name: Install Newman with specific version
+        run: |
+          npm install -g newman@${{ env.NEWMAN_VERSION }} newman-reporter-html
+          newman --version
+
+      - name: Run Postman tests with Newman
+        run: |
+          newman run ${{ env.POSTMAN_COLLECTION }} \
+            -e ${{ env.POSTMAN_ENVIRONMENT }} \
+            --reporters cli,html,junit \
+            --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
+            --reporter-junit-export junit-report.xml
+
+      - name: Upload Postman test report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: postman-test-report
+          path: ${{ env.NEWMAN_REPORT_FILE }}
+
+      - name: Clean up Docker containers and volumes
+        run: |
+          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
+
+      - name: Deploy README.md to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git checkout -b gh-pages
+          cp README.md ./index.html
+          git add index.html
+          git commit -m "Deploy README.md to GitHub Pages"
+          git push --force --set-upstream origin gh-pages
+
+  badges:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create build badge markdown
+        run: |
+          echo "## Build Status" > README.md
+          echo "![Build Status](https://github.com/${{ github.repository }}/actions/workflows/${{ github.workflow }}.yml/badge.svg)" >> README.md
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git commit --amend --no-edit
+          git push --force

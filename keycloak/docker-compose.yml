@@ -1,0 +1,140 @@
+
+include:
+  - ./../ldap/docker-compose.yml
+  - ./../mailhog/docker-compose.yml
+  - ./../postgres/docker-compose.yml
+
+services:
+  # Service to generate realm-export.json files
+  realm-setup:
+    image: alpine:3.16
+    container_name: realm-export-generator
+    env_file:
+      - ./.env
+    volumes:
+      - ./realms:/tmp/realms
+      - ./prepare_realm_exports.sh:/tmp/prepare_realm_exports.sh
+      - keycloak_data:/shared  # Shared volume to transfer JSON file
+    networks:
+      - keycloak_network
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        apk add --no-cache gettext jq && \
+        # Run script to generate merged and populated realm export files
+        /tmp/prepare_realm_exports.sh
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    env_file:
+      - ./.env
+    ports:
+      - "${KEYCLOAK_PORT}:8080"
+#      - 9000:9000 # Management Interface
+    depends_on:
+      realm-setup:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      mailhog:
+        condition: service_healthy
+      openldap:
+        condition: service_healthy
+    volumes:
+      - ./entrypoint.sh:/opt/keycloak/entrypoint.sh
+      - ./wait-for-it.sh:/opt/keycloak/wait-for-it.sh
+#      - ./configure-keycloak.sh:/opt/keycloak/configure-keycloak.sh
+      - keycloak_data:/opt/keycloak/data/import
+    networks:
+      - keycloak_network
+#    entrypoint: ["/opt/keycloak/entrypoint.sh"]
+    command: [ "start-dev", "--import-realm" ] # working
+#    entrypoint: > # working but need to fix the sh script - container doesn't have curl
+#      sh -c "
+#        /opt/keycloak/bin/kc.sh start-dev --import-realm &&
+#        sleep 20 &&
+#        /opt/keycloak/configure-keycloak.sh
+#      "
+    healthcheck:
+      test: >
+        sh -c "
+          exec 3<>/dev/tcp/127.0.0.1/9000 &&
+          echo -e 'GET /health/ready HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n' >&3 &&
+          grep -q '\"status\": \"UP\"' <&3
+        "
+      interval: ${KEYCLOAK_HEALTHCHECK_INTERVAL:-30s}
+      timeout: ${KEYCLOAK_HEALTHCHECK_TIMEOUT:-10s}
+      retries: ${KEYCLOAK_HEALTHCHECK_RETRIES:-5} #ignore the intellij error
+
+  # I can use this if I want to run the script after the services have started
+  keycloak_setup:
+    container_name: keycloak_setup
+    image: appropriate/curl:latest  # This image has curl installed; you can also use an image with jq if needed
+    env_file:
+      - ./.env
+      - ../mailhog/.env
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    entrypoint: [ "/bin/sh", "-c", "apk add --no-cache jq; /tmp/configure-keycloak.sh" ]
+    volumes:
+      - ./configure-keycloak.sh:/tmp/configure-keycloak.sh
+    restart: "no"
+    tty: false
+    networks:
+      - keycloak_network
+
+networks:
+  keycloak_network:
+    driver: bridge  # Creates a new bridge network for this service
+    name: keycloak_network  # This will match the name in the main compose file
+
+volumes:
+  keycloak_data:
+
+
+# Keycloak
+# Create User API
+# Main Focus - Reset/Forgot Password through Email
+# Configure email template
+
+
+#  Use IAB DEV Keycloak that is already hooked up to DEV User AD and try to trigger the password reset email API
+#  Smtp to using our no-reply@telcoinabox.com.au office365 account
+#  Customise the reset password email
+#  Customise the reset password portal - similar to look and feel
+
+
+# Postgres
+# Add support for secrets, which will require running services in swarm
+
+# Enable TLS on services
+
+# Postman
+# Add support for folder level vars in all folders
+# Add tests and error handling and proper log/print statements
+# Setup CI/CD in GitHub
+# Consider Chaining with pm.setNextRequest?
+#
+#Here is the json of Refresh Token folder:
+#
+#let's first make its scripts look like others with folder level var locking and error free.
+#
+#Also add enough tests to ensure that each request worked as expected.
+#
+#And add log statements where necessary.
+#
+#
+#In the following json, ensure the script sections are following consistent pattern and each request has relevant status check:
+#
+#
+#
+#Here is the json of Update Client Props folder:
+#
+#let's update the scripts to make it error free.
+#
+#Also add enough tests to ensure that each request worked as expected.
+#
+#And add log statements where necessary.

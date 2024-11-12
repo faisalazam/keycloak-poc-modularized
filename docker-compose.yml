@@ -1,0 +1,57 @@
+
+include:
+  - ./ldap/docker-compose.yml
+  - ./mailhog/docker-compose.yml
+  - ./postgres/docker-compose.yml
+  - ./keycloak/test.yml
+
+#services:
+  # Keycloak and dependencies
+#  keycloak:
+#    extends:
+##      file: ./keycloak/docker-compose.keycloak.yml
+#      file: ./keycloak/docker-compose.yml
+#      service: keycloak
+
+  # LDAP and dependencies
+#  openldap:
+#    extends:
+#      file: ldap/docker-compose.yml
+#      service: openldap
+
+
+#  phpadmin:
+#    extends:
+#      file: ./ldap/docker-compose.ldap.yml
+#      service: phpadmin
+#
+#  # MailHog
+#  mailhog:
+#    extends:
+#      file: ./mailhog/docker-compose.yml
+#      service: mailhog
+#    env_file:
+#      - ./mailhog/.env
+
+#networks:
+#  keycloak_network:
+#    driver: bridge  # Creates a new bridge network for this service
+#    name: keycloak_network  # This will match the name in the main compose file
+
+
+#
+#services:
+#  keycloak:
+#    extends:
+#      file: ./keycloak/docker-compose.yml
+#      service: keycloak
+#
+#  ldap:
+#    extends:
+#      file: ./ldap/docker-compose.yml
+#      service: ldap
+#
+#  mailhog:
+#    extends:
+#      file: ./mailhog/docker-compose.yml
+#      service: mailhog

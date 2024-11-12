@@ -1,0 +1,100 @@
+# This file is the startin file and can be deleted.
+services:
+  db:
+    image: postgres:latest
+    container_name: keycloak-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
+      interval: ${DB_HEALTHCHECK_INTERVAL:-30s}
+      timeout: ${DB_HEALTHCHECK_TIMEOUT:-10s}
+      retries: ${DB_HEALTHCHECK_RETRIES:-5} #ignore the intellij error
+    networks:
+      - keycloak-net
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=${KEYCLOAK_USER}
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=${KEYCLOAK_PASSWORD}
+      - KC_DB=postgres
+      - KC_HTTP_PORT=8080
+      - KC_HOSTNAME=localhost
+#      - KC_DB_SCHEMA=${POSTGRES_DB}
+      - KC_DB_USERNAME=${POSTGRES_USER}
+      - KC_DB_PASSWORD=${POSTGRES_PASSWORD}
+      - KC_ADMIN_USERNAME=${KEYCLOAK_USER}
+      - KC_ADMIN_PASSWORD=${KEYCLOAK_PASSWORD}
+      - KC_DB_URL=jdbc:postgresql://db:5432/${POSTGRES_DB}
+#      - KC_MIGRATION_ACTION: import
+#      - KC_MIGRATION_STRATEGY: ignore_existing
+#      - KC_MIGRATION_FILE: /path/to/your/realm-export.json
+
+      #      - DB_ADDR=db
+#      - DB_VENDOR=postgres
+#      - DB_USER=${POSTGRES_USER}
+#      - DB_DATABASE=${POSTGRES_DB}
+#      - DB_PASSWORD=${POSTGRES_PASSWORD}
+#      - KC_DB_URL=db
+#      - ENV KC_DB=postgres
+#      - KC_DB=${POSTGRES_DB}
+#      - KC_DB_USERNAME=<POSTGRES_USER>
+#      - KC_DB_PASSWORD=<POSTGRES_PASSWORD>
+#      - KC_DB_URL: jdbc:postgresql://postgres:5432/employee
+#      - KEYCLOAK_EXTRA_ARGS=--import-realm
+#        ENV KC_DB_URL=<DBURL>
+#        ENV KC_HOSTNAME=localhost
+
+#      - JAVA_OPTS=-Dkeycloak.migration.enabled=true \
+#        -Dkeycloak.migration.action=import \
+#        -Dkeycloak.migration.strategy=IGNORE_EXISTING \
+#        -Dkeycloak.migration.provider=singleFile \
+#        -Dkeycloak.migration.file=/tmp/realm-export.json
+      - JAVA_OPTS="-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/opt/keycloak/data/import"
+    volumes:
+      - ./realm-export.json:/tmp/realm-export.json
+#      - ./realm-export.json:/opt/keycloak/data/import/realm-export.json
+      - ./configure-keycloak.sh:/opt/keycloak/configure-keycloak.sh
+    depends_on:
+      db:
+        condition: service_healthy
+#      ldap:
+#        condition: service_healthy
+#      mailhog:
+#        condition: service_healthy
+    ports:
+      - "${KEYCLOAK_PORT}:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/auth/realms/master"]
+      interval: ${KEYCLOAK_HEALTHCHECK_INTERVAL:-30s}
+      timeout: ${KEYCLOAK_HEALTHCHECK_TIMEOUT:-10s}
+      retries: ${KEYCLOAK_HEALTHCHECK_RETRIES:-5} #ignore the intellij error
+    networks:
+      - keycloak-net
+    command:
+     - start-dev
+#     - -import-realm
+#    command: ["sh", "-c", "/opt/keycloak/bin/kc.sh start"]
+#    command: ["sh", "-c", "/opt/keycloak/configure-keycloak.sh && /opt/keycloak/bin/kc.sh start"]
+
+#  mailhog:
+#    extends:
+#      file: ./mailhog/docker-compose.yml
+#      service: mailhog
+#    networks:
+#      - keycloak-net
+
+networks:
+  keycloak-net:
+    driver: bridge  # Creates a new bridge network for this service
+    name: keycloak-net  # This will match the name in the main compose file
+
+volumes:
+  postgres_data:

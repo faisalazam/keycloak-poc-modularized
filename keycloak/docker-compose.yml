@@ -1,4 +1,4 @@
-+include:
+include:
   - ./ .•/1dap/docker-compose.yml
   - •/../mailhog/docker-compose.yml
   - ./ ../postgres/docker-compose.yml

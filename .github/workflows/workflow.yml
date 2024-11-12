@@ -95,7 +95,8 @@ jobs:
           ls -lart .
           ls -lart ../ldap
           ls -lart ../postgres
-          ./start.sh
+          #./start.sh
+          docker-compose up -d
 
       - name: Install Newman with specific version
         run: |

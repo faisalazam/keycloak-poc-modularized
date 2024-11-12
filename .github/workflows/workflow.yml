@@ -107,6 +107,12 @@ jobs:
           name: postman-test-report
           path: ${{ env.NEWMAN_REPORT_FILE }}
 
+      - name: Generate link to Postman test report
+        run: |
+          echo "## Postman Test Report" >> README.md
+          echo "[View Test Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> README.md
+
+
 #      - name: Clean up Docker containers and volumes
 #        run: |
 #          # Explicit check for docker-compose before using it
@@ -114,7 +120,7 @@ jobs:
 #          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
 
       - name: Deploy README.md to GitHub Pages
-        if: github.ref == 'refs/heads/main'
+        #if: github.ref == 'refs/heads/main'
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"

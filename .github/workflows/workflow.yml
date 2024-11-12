@@ -89,7 +89,8 @@ jobs:
           chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/keycloak/start.sh
           # Check if docker-compose is available before running the start.sh script
           which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
-          ${{ env.DOCKER_COMPOSE_DIR }}/keycloak/start.sh
+          cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
+          ./start.sh
 
       - name: Install Newman with specific version
         run: |

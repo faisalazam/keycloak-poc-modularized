@@ -125,7 +125,7 @@ jobs:
       - name: Collect Docker container logs
         run: |
           docker logs keycloak
-          docker logs ldap
+          docker logs openldap
           docker logs postgres
 
       - name: Run Postman tests with Newman
@@ -139,7 +139,7 @@ jobs:
       - name: Collect Docker container logs
         run: |
           docker logs keycloak
-          docker logs ldap
+          docker logs openldap
           docker logs postgres
 
       - name: Upload Postman test report as artifact

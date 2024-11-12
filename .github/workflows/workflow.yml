@@ -11,8 +11,8 @@ permissions:
   contents: write  # allows pushing to the repository
 
 env:
-  POSTMAN_COLLECTION: postman/sample.json
-#  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
+  #POSTMAN_COLLECTION: postman/sample.json
+  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
   POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
   NEWMAN_REPORT_FILE: postman-report.html
   DOCKER_COMPOSE_FILE: docker-compose.yml

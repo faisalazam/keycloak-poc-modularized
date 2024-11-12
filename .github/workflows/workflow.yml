@@ -7,6 +7,8 @@ on:
   pull_request:
     branches:
       - everything
+permissions:
+  contents: write  # allows pushing to the repository
 
 env:
   POSTMAN_COLLECTION: postman/sample.json

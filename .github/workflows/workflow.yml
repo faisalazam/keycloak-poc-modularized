@@ -46,10 +46,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-
 
-      - name: Check Node.js and npm version
+      - name: Check and install Node.js and npm version
         run: |
           node -v
-          npm -v || npm install -g npm@${NPM_VERSION}
+          npm -v || npm install -g npm@${NPM_VERSION} --force
+          node -v
+          npm -v
 
       - name: Validate Postman files
         run: |

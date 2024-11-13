@@ -185,9 +185,9 @@ jobs:
           fi
       
           # Construct the badge URL using the combined variable
-          BADGE_URL="https://img.shields.io/badge/build-${BADGE}?url=https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAME }}/postman-report.html"
+          BADGE_URL="https://img.shields.io/badge/build-${BADGE}"
           
-          echo "![Test Results]($BADGE_URL)" > temp.md
+          echo "[![Test Results]($BADGE_URL)](https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAME }}/postman-report.html)" > temp.md
           cat README.md >> temp.md  # Append existing README to temp.md
           mv temp.md README.md  # Replace README.md with updated content
 

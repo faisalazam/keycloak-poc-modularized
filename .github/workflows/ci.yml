@@ -13,15 +13,16 @@ env:
   DOCKER_COMPOSE_DIR: .
   NEWMAN_VERSION: 5.3.0
   DOCKER_VERSION: 5:27.3.1
-  DOCKER_COMPOSE_VERSION: 2.29.2
   PAGES_FOLDER: github-pages
+  DOCKER_COMPOSE_VERSION: 2.29.2
 
-  NEWMAN_REPORT_FILE: postman-report.html
   DOCKER_COMPOSE_FILE: docker-compose.yml
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  POSTMAN_COLLECTION: postman/sample.json
+  NEWMAN_XML_REPORT_FILE: postman-report.xml
+  NEWMAN_HTML_REPORT_FILE: postman-report.html
   REPO_NAME: ${{ github.event.repository.name }}
   SITE_ROOT_URL: https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAME }}
+  POSTMAN_COLLECTION: postman/sample.json
   #  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
   POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
 
@@ -154,8 +155,8 @@ jobs:
           newman run ${{ env.POSTMAN_COLLECTION }} \
             -e ${{ env.POSTMAN_ENVIRONMENT }} \
             --reporters cli,html,junit \
-            --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
-            --reporter-junit-export postman-report.xml
+            --reporter-html-export ${{ env.NEWMAN_HTML_REPORT_FILE }} \
+            --reporter-junit-export NEWMAN_XML_REPORT_FILE
           if [ $? -eq 0 ]; then
             echo "outcome=success" >> $GITHUB_OUTPUT
           else
@@ -166,8 +167,8 @@ jobs:
         run: |
           echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
           echo "#### Test run completed, view summary after deployment." >> $GITHUB_STEP_SUMMARY
-          echo "#### HTML Report: [View HTML Report](${{ SITE_ROOT_URL }}/${{ env.NEWMAN_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
-          echo "#### XML Report: [View XML Report](${{ SITE_ROOT_URL }}/postman-report.xml)" >> $GITHUB_STEP_SUMMARY
+          echo "#### HTML Report: [View HTML Report](${{ SITE_ROOT_URL }}/${{ env.NEWMAN_HTML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
+          echo "#### XML Report: [View XML Report](${{ SITE_ROOT_URL }}/NEWMAN_XML_REPORT_FILE)" >> $GITHUB_STEP_SUMMARY
       
 
       #      - name: Collect Docker container logs
@@ -183,12 +184,12 @@ jobs:
       #          done
 
       - name: Upload the content for GitHub Pages
-        uses: actions/upload-artifact@v4 #v3 - Error: Unable to find any artifacts for the associated workflow
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.PAGES_FOLDER }}
           path: |
-            postman-report.xml
-            ${{ env.NEWMAN_REPORT_FILE }}
+            NEWMAN_XML_REPORT_FILE
+            ${{ env.NEWMAN_HTML_REPORT_FILE }}
 
   deploy-gh-pages:
     name: gh-pages-deployment
@@ -226,7 +227,7 @@ jobs:
           fi
           
           # Construct the badge Markdown with full path to the report
-          BADGE_MARKDOWN=[![Build Status](https://img.shields.io/badge/build-${BADGE})](${{ SITE_ROOT_URL }}/${{ env.NEWMAN_REPORT_FILE }})
+          BADGE_MARKDOWN=[![Build Status](https://img.shields.io/badge/build-${BADGE})](${{ SITE_ROOT_URL }}/${{ env.NEWMAN_HTML_REPORT_FILE }})
           echo "Badge MARKDOWN: ${BADGE_MARKDOWN}"
           # Update the copied README.md file with the badge
           sed -i "s|<!-- BUILD_BADGE_PLACEHOLDER -->|${BADGE_MARKDOWN}|g" ${{ env.PAGES_FOLDER }}/README.md

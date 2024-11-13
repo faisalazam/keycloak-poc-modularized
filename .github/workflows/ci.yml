@@ -214,7 +214,7 @@ jobs:
       - name: Download GitHub Pages Artifact
         uses: actions/download-artifact@v3
         with:
-          name: ${{ env.ARTIFACT_NAME }}
+          name: ${{ env.PAGES_FOLDER }}
   
       - name: Clear Previous Pages Directory and Extract Artifact
         run: |

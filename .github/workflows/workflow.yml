@@ -190,29 +190,10 @@ jobs:
           cp ${{ env.NEWMAN_REPORT_FILE }} deploy-content/
 
       - name: Upload the content for GitHub Pages
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v2 #v3 - Error: Unable to find any artifacts for the associated workflow
         with:
           name: github-pages
           path: deploy-content/
-
-#      - name: Set up Git for GitHub Pages
-#        run: |
-#          git status
-#          git config --global user.name "GitHub Actions"
-#          git config --global user.email "actions@github.com"
-#          git fetch origin  # Fetch the latest branches
-#          git checkout -b gh-pages  # Switch to gh-pages branch
-#
-#      - name: Update README with dynamic badge status
-#        if: always()  # This ensures the step runs regardless of test pass/fail
-#        run: |
-#          if [ "${{ steps.test-results.outcome }}" == "success" ]; then
-#            echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
-#          else
-#            echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
-#          fi
-#          cat README.md >> temp.md  # Append existing README to temp.md
-#          mv temp.md README.md  # Replace README.md with updated content
 
   deploy-gh-pages:
     name: gh-pages-deployment

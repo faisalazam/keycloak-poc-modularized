@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Simple GET Test" tests="1" time="0.088">
-  <testsuite name="Test GET Request" id="d3aa2925-bbb3-492d-b263-6b6c24659883" timestamp="2024-11-13T15:51:02.277Z" tests="0" failures="0" errors="0" time="0.088"/>
+<testsuites name="Simple GET Test" tests="1" time="0.576">
+  <testsuite name="Test GET Request" id="91b91ccd-9991-431a-8a9a-e326827ac6ef" timestamp="2024-11-13T16:09:22.214Z" tests="0" failures="0" errors="0" time="0.576"/>
 </testsuites>

@@ -156,11 +156,11 @@ jobs:
               - name: Set Initial Test Results Summary 📜
               - name: Set Initial Test Results Summary 📜
       - name: Set Initial Test Results Summary 📜
-          run: |
-            echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
-            echo "#### Test run completed, view summary after deployment." >> $GITHUB_STEP_SUMMARY
-            echo "#### HTML Report: [View HTML Report](https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" >> $GITHUB_STEP_SUMMARY
-            echo "#### XML Report: [View XML Report](https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.xml)" >> $GITHUB_STEP_SUMMARY
+        run: |
+          echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "#### Test run completed, view summary after deployment." >> $GITHUB_STEP_SUMMARY
+          echo "#### HTML Report: [View HTML Report](https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" >> $GITHUB_STEP_SUMMARY
+          echo "#### XML Report: [View XML Report](https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.xml)" >> $GITHUB_STEP_SUMMARY
 
 
 

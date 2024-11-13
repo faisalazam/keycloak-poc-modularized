@@ -191,7 +191,7 @@ jobs:
 
       - name: Upload the content for GitHub Pages
 #        uses: actions/upload-artifact@v4.0.0
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
           path: deploy-content/
@@ -230,26 +230,26 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Download GitHub Pages Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: github-pages
-      - name: Extract artifact.tar
-        run: |
-          tar -xf artifact.tar
-      - name: List files in github-pages
-        run: |
-          ls -R .
-#      - name: List files in github-pages/artifact
+#      - name: Download GitHub Pages Artifact
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: github-pages
+#      - name: Extract artifact.tar
 #        run: |
-#          ls -R github-pages/artifact
-      - name: Create GitHub Pages directory
-        run: |
-          mkdir -p github-pages
-      - name: Prepare GitHub Pages content
-        run: |
-          mv README.md github-pages/
-          mv postman-report.html github-pages/
+#          tar -xf artifact.tar
+#      - name: List files in github-pages
+#        run: |
+#          ls -R .
+##      - name: List files in github-pages/artifact
+##        run: |
+##          ls -R github-pages/artifact
+#      - name: Create GitHub Pages directory
+#        run: |
+#          mkdir -p github-pages
+#      - name: Prepare GitHub Pages content
+#        run: |
+#          mv README.md github-pages/
+#          mv postman-report.html github-pages/
 
       - name: Deploy to GitHub Pages
         id: deployment

@@ -110,9 +110,10 @@ jobs:
       # implicit wait for the services to be fully ready before the tests interact with them.
       - name: Check and install Node.js and npm version
         run: |
-          node -v
-          sudo npm install -g npm@${NPM_VERSION} --force
-          npm -v
+          pwd
+          ls -R
+          chmod +x ./scripts/install_npm_dependencies.sh
+          ./scripts/install_npm_dependencies.sh
 
       - name: Install Newman with specific version
         run: |
@@ -121,7 +122,9 @@ jobs:
 
       - name: Wait for services to be available
         run: |
-          chmod +x ./scripts/check_health.sh && ./scripts/check_health.sh
+          pwd
+          chmod +x ./scripts/check_health.sh
+          ./scripts/check_health.sh
 
       - name: Collect Docker container logs
         run: |

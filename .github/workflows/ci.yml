@@ -154,9 +154,12 @@ jobs:
 
       - name: Set Initial Test Results Summary 📜
         run: |
-          echo "SUMMARY=Test run completed, view summary after deployment." >> $GITHUB_ENV
-          echo "HTML_REPORT_URL=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html" >> $GITHUB_ENV
-          echo "XML_REPORT_URL=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.xml" >> $GITHUB_ENV
+          echo "SUMMARY=Test run completed, view summary after deployment." >> $GITHUB_STEP_SUMMARY
+          echo "HTML_REPORT_URL=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html" >> $GITHUB_STEP_SUMMARY
+          echo "XML_REPORT_URL=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.xml" >> $GITHUB_STEP_SUMMARY
+
+
+
      #      - name: Collect Docker container logs
 #        run: |
 #          # Loop through each container and print logs with a container-specific prefix
@@ -252,12 +255,12 @@ jobs:
     steps:
       - name: Display Test Results Summary 📜
         run: |
-          echo "### Postman Test Results" > summary.md
-          echo "#### Summary:" >> summary.md
-          echo "${{ env.SUMMARY }}" >> summary.md
-          echo "#### HTML Report: [View HTML Report](${{ env.HTML_REPORT_URL }})" >> summary.md
-          echo "#### XML Report: [View XML Report](${{ env.XML_REPORT_URL }})" >> summary.md
+          echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "#### Summary:" >> $GITHUB_STEP_SUMMARY
+          echo "Test run completed successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "#### HTML Report: [View HTML Report](${{ env.HTML_REPORT_URL }})" >> $GITHUB_STEP_SUMMARY
+          echo "#### XML Report: [View XML Report](${{ env.XML_REPORT_URL }})" >> $GITHUB_STEP_SUMMARY
 
       - name: Display Summary 📝
         run: |
-          cat summary.md
+          cat $GITHUB_STEP_SUMMARY

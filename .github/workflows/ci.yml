@@ -155,7 +155,11 @@ jobs:
             --reporters cli,html,junit \
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export postman-report.xml
-          echo "outcome=success" >> $GITHUB_OUTPUT
+          if [ $? -eq 0 ]; then
+            echo "outcome=success" >> $GITHUB_OUTPUT
+          else
+            echo "outcome=failure" >> $GITHUB_OUTPUT
+          fi
 
       - name: Set Initial Test Results Summary 📜
         run: |

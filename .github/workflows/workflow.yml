@@ -181,8 +181,16 @@ jobs:
 
       - name: Generate and move Postman test report to GitHub Pages folder
         run: |
-          mkdir -p docs  # Create the docs folder if it doesn't exist
-          cp ${{ env.NEWMAN_REPORT_FILE }} docs/postman-report.html  # Move the report to docs folder
+          mkdir -p gh-pages  # Create a folder for gh-pages if it doesn't exist
+          cp ${{ env.NEWMAN_REPORT_FILE }} gh-pages/postman-report.html  # Move the report to the root of the gh-pages folder
+
+      - name: Commit and push Postman report to gh-pages branch
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add gh-pages/postman-report.html
+          git commit -m "Add Postman test report"
+          git push origin gh-pages
 
       - name: Generate link to Postman test report
         run: |

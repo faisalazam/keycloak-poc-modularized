@@ -188,7 +188,7 @@ jobs:
           cp ${{ env.NEWMAN_REPORT_FILE }} deploy-content/
 
       - name: Upload the content for GitHub Pages
-        uses: actions/upload-pages-artifact@v2 #v3 - Error: Unable to find any artifacts for the associated workflow
+        uses: actions/upload-pages-artifact@v4 #v3 - Error: Unable to find any artifacts for the associated workflow
         with:
           name: ${{ env.PAGES_FOLDER }}
           path: deploy-content/

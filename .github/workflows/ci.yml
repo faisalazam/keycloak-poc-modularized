@@ -158,7 +158,7 @@ jobs:
             -e ${{ env.POSTMAN_ENVIRONMENT }} \
             --reporters cli,html,junit \
             --reporter-html-export ${{ env.NEWMAN_HTML_REPORT_FILE }} \
-            --reporter-junit-export NEWMAN_XML_REPORT_FILE
+            --reporter-junit-export ${{ env.NEWMAN_XML_REPORT_FILE }}
           if [ $? -eq 0 ]; then
             echo "outcome=success" >> $GITHUB_OUTPUT
           else
@@ -170,7 +170,7 @@ jobs:
           echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
           echo "#### Test run completed, view summary after deployment." >> $GITHUB_STEP_SUMMARY
           echo "#### HTML Report: [View HTML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_HTML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
-          echo "#### XML Report: [View XML Report](${{ env.SITE_ROOT_URL }}/NEWMAN_XML_REPORT_FILE)" >> $GITHUB_STEP_SUMMARY
+          echo "#### XML Report: [View XML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_XML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
       
 
       #      - name: Collect Docker container logs
@@ -190,7 +190,7 @@ jobs:
         with:
           name: ${{ env.PAGES_FOLDER }}
           path: |
-            NEWMAN_XML_REPORT_FILE
+            ${{ env.NEWMAN_XML_REPORT_FILE }}
             ${{ env.NEWMAN_HTML_REPORT_FILE }}
 
   deploy-gh-pages:

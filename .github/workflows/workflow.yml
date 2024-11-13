@@ -243,11 +243,13 @@ jobs:
 #      - name: List files in github-pages/artifact
 #        run: |
 #          ls -R github-pages/artifact
+      - name: Create GitHub Pages directory
+        run: |
+          mkdir -p github-pages
       - name: Prepare GitHub Pages content
         run: |
-          # Move necessary files (README.md, postman-report.html) to the root of the GitHub Pages folder
-          mv github-pages/artifact/README.md github-pages/
-          mv github-pages/artifact/postman-report.html github-pages/
+          mv README.md github-pages/
+          mv postman-report.html github-pages/
 
       - name: Deploy to GitHub Pages
         id: deployment

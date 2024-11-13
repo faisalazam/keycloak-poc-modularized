@@ -152,6 +152,18 @@ jobs:
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export junit-report.xml
 
+      - name: Write Test Results Summary 📜
+        run: |
+          echo "### Postman Test Results" >> $GITHUB_ENV
+          echo "#### Summary:" >> $GITHUB_ENV
+          echo "Test run completed successfully!" >> $GITHUB_ENV
+          echo "#### HTML Report: [View HTML Report](${{ env.NEWMAN_REPORT_FILE }})" >> $GITHUB_ENV
+          echo "#### XML Report: [View XML Report](newman-report.xml)" >> $GITHUB_ENV
+
+      - name: Display Summary 📝
+        run: |
+          echo "Test Summary: ${{ env.SUMMARY }}"
+
       #      - name: Collect Docker container logs
 #        run: |
 #          # Loop through each container and print logs with a container-specific prefix

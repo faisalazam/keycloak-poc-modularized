@@ -234,6 +234,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: github-pages
+      - name: Extract artifact.tar
+        run: |
+          tar -xf artifact.tar
       - name: List files in github-pages
         run: |
           ls -R .

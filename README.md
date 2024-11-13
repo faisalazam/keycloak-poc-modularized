@@ -2,7 +2,7 @@
 
 ### CI/CD and Test Results
 [![CI](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml/badge.svg)](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml)
-[![Tests](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/tests.yml/badge.svg)](https://faisalazam.github.io/keycloak-poc-modularized/postman-report.html)
+<!-- BUILD_BADGE_PLACEHOLDER -->
 
 ### Service Availability
 ![Keycloak](https://img.shields.io/badge/Keycloak-active-blue?style=flat-square)

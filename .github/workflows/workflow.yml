@@ -190,10 +190,11 @@ jobs:
 #          cp ${{ env.NEWMAN_REPORT_FILE }} deploy-content/
 
       - name: Upload the content for GitHub Pages
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v3
+#        uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
-          path: ./README.md
+          path: README.md
 #          path: deploy-content/
 
 #      - name: Set up Git for GitHub Pages

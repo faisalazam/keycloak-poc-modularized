@@ -20,11 +20,10 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NEWMAN_XML_REPORT_FILE: postman-report.xml
   NEWMAN_HTML_REPORT_FILE: postman-report.html
-  REPO_NAME: ${{ github.event.repository.name }}
-  SITE_ROOT_URL: https://${{ github.actor }}.github.io/${{ env.REPO_NAME }}
   POSTMAN_COLLECTION: postman/sample.json
   #  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
   POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
+  SITE_ROOT_URL: https://${{ github.actor }}.github.io/${{ github.event.repository.name }}
 
 jobs:
   build:

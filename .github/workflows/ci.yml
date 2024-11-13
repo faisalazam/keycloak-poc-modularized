@@ -200,7 +200,7 @@ jobs:
 
     permissions:
       pages: write
-      id-token: write
+      #id-token: write
       contents: write
 
     environment:
@@ -221,20 +221,6 @@ jobs:
       - name: List files in github-pages
         run: |
           ls -R .
-##      - name: List files in github-pages/artifact
-##        run: |
-##          ls -R github-pages/artifact
-#      - name: Create GitHub Pages directory
-#        run: |
-#          mkdir -p github-pages
-#      - name: Prepare GitHub Pages content
-#        run: |
-#          mv README.md github-pages/
-#          mv postman-report.html github-pages/
-
-   #   - name: Deploy to GitHub Pages
-        #id: deployment
-        #uses: actions/deploy-pages@v4
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4

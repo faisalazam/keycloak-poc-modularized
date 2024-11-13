@@ -184,7 +184,6 @@ jobs:
           fi
           cat README.md >> temp.md
           mv temp.md README.md
-          rm temp.md
 
 
 #      - name: Collect Docker container logs

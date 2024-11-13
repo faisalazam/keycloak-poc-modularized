@@ -31,6 +31,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Set up Git for GitHub Pages
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git fetch origin  # Fetch the latest branches
+          git checkout gh-pages || git checkout -b gh-pages  # Switch to gh-pages branch or create it if it doesn't exist
+
       - name: Cache Docker images
         uses: actions/cache@v3
         with:
@@ -144,13 +151,13 @@ jobs:
 #            echo "---- End of logs for $container ----"
 #          done
 
-      - name: Run Postman tests with Newman
-        run: |
-          newman run ${{ env.POSTMAN_COLLECTION }} \
-            -e ${{ env.POSTMAN_ENVIRONMENT }} \
-            --reporters cli,html,junit \
-            --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
-            --reporter-junit-export junit-report.xml
+#      - name: Run Postman tests with Newman
+#        run: |
+#          newman run ${{ env.POSTMAN_COLLECTION }} \
+#            -e ${{ env.POSTMAN_ENVIRONMENT }} \
+#            --reporters cli,html,junit \
+#            --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
+#            --reporter-junit-export junit-report.xml
 
       - name: Run Postman tests
         run: |
@@ -159,6 +166,15 @@ jobs:
           --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
           --reporter-junit-export junit-report.xml
           echo "REPORT_FILE=${{ env.NEWMAN_REPORT_FILE }}" >> $GITHUB_ENV  # Save the report path to an environment variable
+
+      - name: Update README with dynamic badge status
+        if: always()  # This ensures the step runs regardless of test pass/fail
+        run: |
+          if [ "${{ steps.test-results.outcome }}" == "success" ]; then
+            echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" >> README.md
+          else
+            echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" >> README.md
+          fi
 
 
 #      - name: Collect Docker container logs
@@ -179,13 +195,6 @@ jobs:
           name: postman-test-report
           path: ${{ env.NEWMAN_REPORT_FILE }}
 
-      - name: Set up Git for GitHub Pages
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git fetch origin  # Fetch the latest branches
-          git checkout gh-pages || git checkout -b gh-pages  # Switch to gh-pages branch or create it if it doesn't exist
-
 #      - name: Generate and move Postman test report to GitHub Pages folder
 #        run: |
 #          mkdir -p gh-pages  # Create gh-pages folder if it doesn't exist
@@ -196,15 +205,6 @@ jobs:
 #          git add gh-pages/postman-report.html
 #          git commit -m "Add Postman test report"
 #          git push origin gh-pages  # Push changes to gh-pages branch
-
-      - name: Update README with dynamic badge status
-        if: always()  # This ensures the step runs regardless of test pass/fail
-        run: |
-          if [ "${{ steps.test-results.outcome }}" == "success" ]; then
-            echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" >> README.md
-          else
-            echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" >> README.md
-          fi
 
       - name: Generate and move Postman test report to GitHub Pages folder
         run: |

@@ -232,10 +232,11 @@ jobs:
           fi
           
           # Construct the badge Markdown with full path to the report
-          BADGE_MARKDOWN=[![Build Status](https://img.shields.io/badge/build-${BADGE})](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_HTML_REPORT_FILE }})
+          BADGE_MARKDOWN="[![Build Status](https://img.shields.io/badge/build-${BADGE})](${SITE_URL}/${REPORT_FILE})"
           echo "Badge MARKDOWN: ${BADGE_MARKDOWN}"
-          # Update the copied README.md file with the badge
-          sed -i "s|<!-- BUILD_BADGE_PLACEHOLDER -->|${BADGE_MARKDOWN}|g" ${{ env.PAGES_FOLDER }}/README.md
+          
+          # Update the README.md file with the badge
+          sed -i "s|<!-- BUILD_BADGE_PLACEHOLDER -->|${BADGE_MARKDOWN}|g" "${{ env.PAGES_FOLDER }}/README.md"
 
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4

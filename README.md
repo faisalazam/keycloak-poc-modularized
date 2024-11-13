@@ -1,4 +1,4 @@
-![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://faisalazam.github.io/faisalazam/keycloak-poc-modularized/postman-report.html)
+![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://faisalazam.github.io/keycloak-poc-modularized/postman-report.html)
 
 ### CI/CD and Test Results
 [![CI](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml/badge.svg)](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml)

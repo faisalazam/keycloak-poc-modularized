@@ -216,7 +216,7 @@ jobs:
       - name: Copy README to GitHub Pages Folder
         run: |
           cp README.md ${{ env.PAGES_FOLDER }}/README.md
-
+      
       - name: Update README with dynamic badge status
         run: |
           # Determine badge status based on test result outcome
@@ -225,12 +225,12 @@ jobs:
           else
             BADGE="failing-red"
           fi
-
-          # Construct the badge URL
-          BADGE_URL="https://img.shields.io/badge/build-${BADGE}"
-
+      
+          # Construct the badge URL with full path to the report
+          BADGE_URL="https://img.shields.io/badge/build-${BADGE}?url=https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAME }}/${{ env.NEWMAN_REPORT_FILE }}"
+          echo "Badge URL: ${BADGE_URL}"
           # Update the copied README.md file with the badge
-          sed -i "s|<!-- BUILD_BADGE_PLACEHOLDER -->|${BADGE_URL}|" ${{ env.PAGES_FOLDER }}/README.md      
+          sed -i "s|<!-- BUILD_BADGE_PLACEHOLDER -->|![Build Status](${BADGE_URL})|g" ${{ env.PAGES_FOLDER }}/README.md
 
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4

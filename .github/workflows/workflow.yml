@@ -206,11 +206,24 @@ jobs:
 #          git commit -m "Add Postman test report"
 #          git push origin gh-pages  # Push changes to gh-pages branch
 
-      - name: Generate and move Postman test report to GitHub Pages folder
+#      - name: Generate and move Postman test report to GitHub Pages root
+#        run: |
+#          mkdir -p gh-pages  # Ensure gh-pages directory exists
+#          cp ${{ env.NEWMAN_REPORT_FILE }} gh-pages/postman-report.html  # Move report to root of gh-pages branch
+#          git add gh-pages/postman-report.html
+#          git commit -m "Add Postman test report"
+#          git push origin gh-pages
+
+      - name: Generate and move Postman test report to GitHub Pages root
         run: |
-          mkdir -p gh-pages  # Create the gh-pages folder if it doesn't exist
-          cp ${{ env.REPORT_FILE }} gh-pages/postman-report.html  # Copy the report to the root folder of gh-pages
-          cp README.md gh-pages/index.md  # Copy README.md to index.md for GitHub Pages rendering
+          # Create the 'gh-pages' directory if it doesn't exist (this is only local)
+          mkdir -p gh-pages  
+
+          # Copy the report directly to the root of 'gh-pages'
+          cp ${{ env.REPORT_FILE }} gh-pages/postman-report.html
+
+          # Copy README.md as index.md for GitHub Pages rendering
+          cp README.md gh-pages/index.md
 
           # Stage the changes
           git add gh-pages/index.md gh-pages/postman-report.html

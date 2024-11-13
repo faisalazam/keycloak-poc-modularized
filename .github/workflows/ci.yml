@@ -213,26 +213,29 @@ jobs:
         run: |
           ls -R .
       
-      - name: Add the Test Result Badge
-       # if: github.ref == 'refs/heads/gh-pages' # Ensure it only runs in gh-pages
+      - name: Copy README to GitHub Pages Folder
         run: |
-          # Determine badge color based on test outcome
-          if [ "${{ needs.test.outputs.test_outcome }}" == "success" ]; then
+          cp README.md ${{ env.PAGES_FOLDER }}/README.md
+
+      - name: Update README with dynamic badge status
+        run: |
+          # Determine badge status based on test result outcome
+          if [ "${{ steps.test-results.outcome }}" == "success" ]; then
             BADGE="passing-brightgreen"
           else
             BADGE="failing-red"
           fi
 
-          # Construct the badge markdown
-          BADGE_MARKDOWN="[![Test Results](https://img.shields.io/badge/build-${BADGE})](https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAME }}/${{ env.NEWMAN_REPORT_FILE }})"
+          # Construct the badge URL
+          BADGE_URL="https://img.shields.io/badge/build-${BADGE}"
 
-          # Replace the placeholder in README.md with the badge markdown
-          sed -i "s|<!-- BUILD_BADGE_PLACEHOLDER -->|${BADGE_MARKDOWN}|" README.md
-      
+          # Update the copied README.md file with the badge
+          sed -i "s|<!-- BUILD_BADGE_PLACEHOLDER -->|${BADGE_MARKDOWN}|" ${{ env.PAGES_FOLDER }}/README.md      
+
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: ${{ env.PAGES_FOLDER }}
+          folder:  ${{ env.PAGES_FOLDER }}
       
       - name: Display GitHub Pages URL 🌐
         run: |

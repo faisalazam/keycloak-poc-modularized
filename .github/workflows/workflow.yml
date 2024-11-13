@@ -178,13 +178,15 @@ jobs:
         run: |
           echo "Test Outcome: ${{ steps.test-results.outcome }}"
           if [ "${{ steps.test-results.outcome }}" == "success" ]; then
-            echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
+            echo "[[[[[[[[[[[[[[[[[[[[[[["
+            echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > README.md
           else
-            echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
+            echo "[[[[[[[[[[[[[[[[[[[[[[[-----------------"
+            echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > README.md
           fi
-          cat README.md >> temp.md  # Append existing README to temp.md
-          mv temp.md README.md  # Replace README.md with updated content
-      
+#          cat README.md >> temp.md  # Append existing README to temp.md
+#          mv temp.md README.md  # Replace README.md with updated content
+
 
       #      - name: Collect Docker container logs
 #        run: |

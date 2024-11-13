@@ -193,8 +193,8 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
-          path: README.md
-#          path: deploy-content/
+          #path: README.md
+          path: deploy-content/
 
 #      - name: Set up Git for GitHub Pages
 #        run: |

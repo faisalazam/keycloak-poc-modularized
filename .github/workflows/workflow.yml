@@ -162,9 +162,9 @@ jobs:
           echo "REPORT_FILE=${{ env.NEWMAN_REPORT_FILE }}" >> $GITHUB_ENV  # Save the report path to an environment variable
 #          echo "::set-output name=outcome::success" # or failure depending on your test results
 
-      - name: Check test outcome
-        run: |
-          echo "Test Outcome: ${{ steps.test-results.outcome }}"
+#      - name: Check test outcome
+#        run: |
+#          echo "Test Outcome: ${{ steps.test-results.outcome }}"
 
       - name: Update README with dynamic badge status
         if: always()  # This ensures the step runs regardless of test pass/fail
@@ -172,13 +172,13 @@ jobs:
           echo "Test Outcome: ${{ steps.test-results.outcome }}"
           if [ "${{ steps.test-results.outcome }}" == "success" ]; then
             echo "[[[[[[[[[[[[[[[[[[[[[[["
-            echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > README.md
+            echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
           else
             echo "[[[[[[[[[[[[[[[[[[[[[[[-----------------"
-            echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > README.md
+            echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
           fi
-#          cat README.md >> temp.md  # Append existing README to temp.md
-#          mv temp.md README.md  # Replace README.md with updated content
+          cat README.md >> temp.md  # Append existing README to temp.md
+          mv temp.md README.md  # Replace README.md with updated content
 
 
       #      - name: Collect Docker container logs
@@ -220,6 +220,7 @@ jobs:
 
       - name: Set up Git for GitHub Pages
         run: |
+          git status
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git fetch origin  # Fetch the latest branches
@@ -228,19 +229,22 @@ jobs:
       - name: Generate and move Postman test report to GitHub Pages root
         run: |
           # Create the 'gh-pages' directory if it doesn't exist (this is local to the CI)
+          git status
           mkdir -p gh-pages  
-
           # Copy the Postman test report directly to the root of the gh-pages branch
-          cp ${{ env.NEWMAN_REPORT_FILE }} gh-pages/postman-report.html  # No subdirectory
 
+          cp ${{ env.NEWMAN_REPORT_FILE }} gh-pages/postman-report.html  # No subdirectory
           # Copy README.md as index.md for GitHub Pages rendering
+
           cp README.md gh-pages/index.md
+          cat gh-pages/index.md
 
           # Stage the changes
           git add gh-pages/index.md gh-pages/postman-report.html
 
           # Commit the changes
           git commit -m "Add Postman test report and update README for GitHub Pages"
+          git status
 
           # Push the changes to the gh-pages branch
           git push origin gh-pages

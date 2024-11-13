@@ -3,19 +3,23 @@ name: CI/CD Workflow
 on:
   push:
     branches:
-      - master
+      - everything
+  pull_request:
+    branches:
+      - everything
+permissions:
+  contents: write  # allows pushing to the repository
 
 env:
   NPM_VERSION: 10.9.0
+  DOCKER_COMPOSE_DIR: .
   NEWMAN_VERSION: 5.3.0
   DOCKER_VERSION: 5:27.3.1
-  PAGES_FOLDER: github-pages
   DOCKER_COMPOSE_VERSION: 2.29.2
+  NEWMAN_REPORT_FILE: postman-report.html
   DOCKER_COMPOSE_FILE: docker-compose.yml
-  NEWMAN_XML_REPORT_FILE: postman-report.xml
-  NEWMAN_HTML_REPORT_FILE: postman-report.html
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   POSTMAN_COLLECTION: postman/sample.json
-#  TODO: enable me once keycloak is ready
 #  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
   POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
 
@@ -23,17 +27,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    outputs:
-      test_outcome: ${{ steps.test-results.outputs.outcome }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set SITE_ROOT_URL Variable
-        run: echo "SITE_ROOT_URL=https://${GITHUB_ACTOR}.github.io/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+        uses: actions/checkout@v3
 
       - name: Cache Docker images
-        uses: actions/cache@v4
+        uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-docker-${{ github.sha }}
@@ -41,12 +40,18 @@ jobs:
             ${{ runner.os }}-docker-
 
       - name: Cache npm dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-npm-
+
+      - name: Check and install Node.js and npm version
+        run: |
+          node -v
+          sudo npm install -g npm@${NPM_VERSION} --force
+          npm -v
 
       - name: Validate Postman files
         run: |
@@ -57,40 +62,87 @@ jobs:
             echo "Postman environment not found!" && exit 1
           fi
 
-      - name: Install Docker with specific version
-        run: |
-          chmod +x ./install_docker.sh
-          ./install_docker.sh
-        working-directory: ./.github/workflows/scripts
-
-      - name: Install Docker Compose with specific version
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/v${{ env.DOCKER_COMPOSE_VERSION }}/docker-compose-$(uname -s)-$(uname -m)" \
-            -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose --version
-
-      - name: Build and run services using start.sh script
-        run: |
-          chmod +x ../startup_helper.sh
-          chmod +x ./start.sh
-          # Check if docker-compose is available before running the start.sh script
-          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
-          ./start.sh
-        working-directory: ./postgres # TODO: change it to keycloak once that's ready
-
-      # Installing other dependencies after starting up the services as they'll act as an
-      # implicit wait for the services to be fully ready before the tests interact with them.
-      - name: Check and install Node.js and npm version
-        run: |
-          chmod +x ./install_npm_dependencies.sh
-          ./install_npm_dependencies.sh
-        working-directory: ./.github/workflows/scripts
+#      - name: Install Docker with specific version
+#        run: |
+#          # Step 1: Update package index and install dependencies
+#          sudo apt-get update
+#          sudo apt-get install -y \
+#            ca-certificates \
+#            curl \
+#            gnupg \
+#            lsb-release
+#
+#          # Step 2: Add Docker's official GPG key
+#          sudo mkdir -m 0755 -p /etc/apt/keyrings
+#          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+#            sudo tee /etc/apt/keyrings/docker.asc > /dev/null
+#
+#          # Step 3: Add Docker's official repository
+#          echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] \
+#            https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | \
+#            sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+#
+#          # Step 4: Update package index again and install Docker using the Docker installation script
+#          sudo apt-get update
+#          curl -fsSL https://get.docker.com | VERSION=${DOCKER_VERSION}
+#
+#          # Step 5: Verify Docker installation
+#          docker --version
+#
+#      - name: Install Docker Compose with specific version
+#        run: |
+#          sudo curl -L "https://github.com/docker/compose/releases/download/v${{ env.DOCKER_COMPOSE_VERSION }}/docker-compose-$(uname -s)-$(uname -m)" \
+#            -o /usr/local/bin/docker-compose
+#          sudo chmod +x /usr/local/bin/docker-compose
+#          docker-compose --version
+#
+#
+#      - name: Build and run services using start.sh script
+#        run: |
+#          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/startup_helper.sh
+#          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/keycloak/start.sh
+#          # Check if docker-compose is available before running the start.sh script
+#          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
+#          cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
+#          ./start.sh
 
       - name: Install Newman with specific version
         run: |
           npm install -g newman@${{ env.NEWMAN_VERSION }} newman-reporter-html
           newman --version
+
+#      - name: Wait for service to be available
+#        run: |
+#          max_retries=10  # Set the max number of retries
+#          count=0
+#          until [ $count -ge $max_retries ]
+#          do
+#            response=$(curl -s http://localhost:9000/health/ready)
+#            if [[ "$response" == *'"status": "UP"'* ]]; then
+#              echo "Service is up!"
+#              break
+#            fi
+#            count=$((count+1))
+#            echo "Waiting for service to start... Attempt $count/$max_retries"
+#            sleep 10
+#          done
+#
+#          if [ $count -ge $max_retries ]; then
+#            echo "Service did not start in time. Exiting."
+#            exit 1  # Fail the job if the service is not available after retries
+#          fi
+#
+#      - name: Collect Docker container logs
+#        run: |
+#          # Loop through each container and print logs with a container-specific prefix
+#          for container in mailhog keycloak openldap keycloak-db realm-export-generator keycloak_setup; do
+#            echo "---- Logs for $container ----"
+#
+#            # Display the logs for the current container, prefixing each line with the container name for clarity
+#            docker logs "$container" | sed "s/^/[$container] /"
+#
+#            echo "---- End of logs for $container ----"
+#          done
 
       - name: Run Postman tests with Newman
         id: test-results # id is used later on to check whether tests passed or failed
@@ -98,87 +150,96 @@ jobs:
           newman run ${{ env.POSTMAN_COLLECTION }} \
             -e ${{ env.POSTMAN_ENVIRONMENT }} \
             --reporters cli,html,junit \
-            --reporter-html-export ${{ env.NEWMAN_HTML_REPORT_FILE }} \
-            --reporter-junit-export ${{ env.NEWMAN_XML_REPORT_FILE }}
-          if [ $? -eq 0 ]; then
-            echo "outcome=success" >> $GITHUB_OUTPUT
-          else
-            echo "outcome=failure" >> $GITHUB_OUTPUT
-          fi
+            --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
+            --reporter-junit-export junit-report.xml
 
-      - name: Set Initial Test Results Summary 📜
+      - name: Setup Pages
+#        if: github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v3
+
+
+
+
+      #      - name: Collect Docker container logs
+#        run: |
+#          # Loop through each container and print logs with a container-specific prefix
+#          for container in mailhog keycloak openldap keycloak-db realm-export-generator keycloak_setup; do
+#            echo "---- Logs for $container ----"
+#
+#            # Display the logs for the current container, prefixing each line with the container name for clarity
+#            docker logs "$container" | sed "s/^/[$container] /"
+#
+#            echo "---- End of logs for $container ----"
+#          done
+
+      - name: Update README with dynamic badge status
+        if: always()
         run: |
-          echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
-          echo "#### Test run completed, view summary after deployment." >> $GITHUB_STEP_SUMMARY
-          echo "#### HTML Report: [View HTML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_HTML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
-          echo "#### XML Report: [View XML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_XML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.test-results.outcome }}" == "success" ]; then
+            echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
+          else
+            echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
+          fi
+          cat README.md >> temp.md  # Append existing README to temp.md
+          mv temp.md README.md  # Replace README.md with updated content
+
+      - name: Create a directory to store README and Newman report
+        run: |
+          mkdir -p deploy-content
+          cp README.md deploy-content/
+          cp ${{ env.NEWMAN_REPORT_FILE }} deploy-content/
 
       - name: Upload the content for GitHub Pages
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v2 #v3 - Error: Unable to find any artifacts for the associated workflow
         with:
-          name: ${{ env.PAGES_FOLDER }}
-          path: |
-            ${{ env.NEWMAN_XML_REPORT_FILE }}
-            ${{ env.NEWMAN_HTML_REPORT_FILE }}
-
-      - name: Clean up Docker containers and volumes
-        run: |
-          # Explicit check for docker-compose before using it
-          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
-          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
-        working-directory: ./postgres # TODO: change it to keycloak once that's ready
+          name: github-pages
+          path: deploy-content/
 
   deploy-gh-pages:
     name: gh-pages-deployment
+#    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: build
 
     permissions:
+      pages: write
+      id-token: write
       contents: write
 
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - name: Checkout the Repository 🛎️
+      - name: Checkout 🛎️
         uses: actions/checkout@v4
-
-      - name: Download GitHub Pages Artifact 📦
-        uses: actions/download-artifact@v4
+      - name: Download GitHub Pages Artifact
+        uses: actions/download-artifact@v3
         with:
-          name: ${{ env.PAGES_FOLDER }}
-          path: ${{ env.PAGES_FOLDER }}
-
-      - name: Check Contents of the Directory 📂
+          name: github-pages
+      - name: Extract artifact.tar
+        run: |
+          mkdir -p github-pages
+          tar -xf artifact.tar -C github-pages
+      - name: List files in github-pages
         run: |
           ls -R .
+##      - name: List files in github-pages/artifact
+##        run: |
+##          ls -R github-pages/artifact
+#      - name: Create GitHub Pages directory
+#        run: |
+#          mkdir -p github-pages
+#      - name: Prepare GitHub Pages content
+#        run: |
+#          mv README.md github-pages/
+#          mv postman-report.html github-pages/
 
-      - name: Copy README to GitHub Pages Folder
-        run: |
-          cp README.md ${{ env.PAGES_FOLDER }}/README.md
+   #   - name: Deploy to GitHub Pages
+        #id: deployment
+        #uses: actions/deploy-pages@v4
 
-      - name: Set SITE_ROOT_URL Variable
-        run: echo "SITE_ROOT_URL=https://${GITHUB_ACTOR}.github.io/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-
-      - name: Update README with dynamic badge status
-        run: |
-          # Determine badge status based on test result outcome
-          if [ "${{ needs.build.outputs.test_outcome }}" == "success" ]; then
-            BADGE="passing-brightgreen"
-          else
-            BADGE="failing-red"
-          fi
-          
-          # Construct the badge Markdown with full path to the report
-          BADGE_MARKDOWN="[![Build Status](https://img.shields.io/badge/build-${BADGE})](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_HTML_REPORT_FILE }})"
-
-          echo "Badge MARKDOWN: ${BADGE_MARKDOWN}"
-          
-          # Update the README.md file with the badge
-          sed -i "s|<!-- BUILD_BADGE_PLACEHOLDER -->|${BADGE_MARKDOWN}|g" "${{ env.PAGES_FOLDER }}/README.md"
-
-      - name: Deploy to GitHub Pages 🚀
+      - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: ${{ env.PAGES_FOLDER }}
-
-      - name: Display GitHub Pages URL 🌐
-        run: |
-          echo "The GitHub Pages URL is: ${{ env.SITE_ROOT_URL }}"
+          folder: github-pages # The folder the action s

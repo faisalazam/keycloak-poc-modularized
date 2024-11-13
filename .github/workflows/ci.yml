@@ -177,35 +177,11 @@ jobs:
 #            echo "---- End of logs for $container ----"
 #          done
 
-      - name: Update README with dynamic badge status
-        if: always()  # This ensures the step runs regardless of test pass/fail
-        run: |
-          # Combine status and badge color into one variable
-          if [ "${{ steps.test-results.outcome }}" == "success" ]; then
-            BADGE="passing-brightgreen"
-          else
-            BADGE="failing-red"
-          fi
-      
-          # Construct the badge URL using the combined variable
-          BADGE_URL="https://img.shields.io/badge/build-${BADGE}"
-          
-          echo "[![Test Results]($BADGE_URL)](https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAME }}/postman-report.html)" > temp.md
-          cat README.md >> temp.md  # Append existing README to temp.md
-          mv temp.md README.md  # Replace README.md with updated content
-
-      - name: Create a directory to store README and Newman report
-        run: |
-          mkdir -p deploy-content
-          cp README.md deploy-content/
-          cp ${{ env.NEWMAN_REPORT_FILE }} deploy-content/
-
       - name: Upload the content for GitHub Pages
         uses: actions/upload-artifact@v4 #v3 - Error: Unable to find any artifacts for the associated workflow
         with:
           name: ${{ env.PAGES_FOLDER }}
           path: |
-            README.md
             postman-report.xml
             ${{ env.NEWMAN_REPORT_FILE }}
 
@@ -237,7 +213,7 @@ jobs:
         run: |
           ls -R .
       
-      - name: Deploy to GitHub Pages
+      - name: Add the Test Result Badge
        # if: github.ref == 'refs/heads/gh-pages' # Ensure it only runs in gh-pages
         run: |
           # Determine badge color based on test outcome
@@ -248,7 +224,7 @@ jobs:
           fi
 
           # Construct the badge markdown
-          BADGE_MARKDOWN="[![Test Results](https://img.shields.io/badge/build-${BADGE})](https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAME }}/postman-report.html)"
+          BADGE_MARKDOWN="[![Test Results](https://img.shields.io/badge/build-${BADGE})](https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAME }}/${{ env.NEWMAN_REPORT_FILE }})"
 
           # Replace the placeholder in README.md with the badge markdown
           sed -i "s|<!-- BUILD_BADGE_PLACEHOLDER -->|${BADGE_MARKDOWN}|" README.md

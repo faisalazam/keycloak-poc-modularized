@@ -237,8 +237,9 @@ jobs:
 #
 #          # Push the changes to the gh-pages branch
 #          git push origin gh-pages
-          git ls-tree gh-pages
-          git ls-tree gh-pages/gh-pages
+
+      - name: List contents of the gh-pages directory
+        run: ls -l gh-pages/
 
       - name: Check Git status
         run: git status

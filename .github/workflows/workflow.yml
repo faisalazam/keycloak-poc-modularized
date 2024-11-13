@@ -247,7 +247,7 @@ jobs:
       - name: Stage all changes
         run: |
           git add .
-          git commit -m "Add Postman report and update README"
+#          git commit -m "Add Postman report and update README"
 
       - name: Commit and Push changes to gh-pages
         run: |

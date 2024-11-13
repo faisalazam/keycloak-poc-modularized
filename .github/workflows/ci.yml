@@ -152,11 +152,11 @@ jobs:
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export junit-report.xml
 
-      - name: Write Initial Test Results Summary 📜
+      - name: Set Initial Test Results Summary 📜
         run: |
-          echo "### Postman Test Results" >> $GITHUB_ENV
-          echo "#### Test run completed, view summary after deployment." >> $GITHUB_ENV
-
+          echo "SUMMARY=Test run completed, view summary after deployment." >> $GITHUB_ENV
+          echo "HTML_REPORT_URL=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html" >> $GITHUB_ENV
+          echo "XML_REPORT_URL=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.xml" >> $GITHUB_ENV
      #      - name: Collect Docker container logs
 #        run: |
 #          # Loop through each container and print logs with a container-specific prefix
@@ -250,10 +250,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy-gh-pages
     steps:
-      - name: Update Test Results Summary 📜
+      - name: Display Test Results Summary 📜
         run: |
-          echo "### Postman Test Results" >> $GITHUB_ENV
-          echo "#### Summary:" >> $GITHUB_ENV
-          echo "Test run completed successfully!" >> $GITHUB_ENV
-          echo "#### HTML Report: [View HTML Report](https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" >> $GITHUB_ENV
-          echo "#### XML Report: [View XML Report](https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.xml)" >> $GITHUB_ENV
+          echo "### Postman Test Results" > summary.md
+          echo "#### Summary:" >> summary.md
+          echo "${{ env.SUMMARY }}" >> summary.md
+          echo "#### HTML Report: [View HTML Report](${{ env.HTML_REPORT_URL }})" >> summary.md
+          echo "#### XML Report: [View XML Report](${{ env.XML_REPORT_URL }})" >> summary.md
+
+      - name: Display Summary 📝
+        run: |
+          cat summary.md

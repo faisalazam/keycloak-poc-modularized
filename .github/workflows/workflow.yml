@@ -153,9 +153,15 @@ jobs:
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export junit-report.xml
 
-      - name: Setup Pages
-#        if: github.ref == 'refs/heads/main'
-        uses: actions/configure-pages@v3
+#      - name: Setup Pages
+##        if: github.ref == 'refs/heads/main'
+#        uses: actions/configure-pages@v3
+
+      - name: Upload Newman test report as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: newman-report
+          path: ${{ env.NEWMAN_REPORT_FILE }}
 
 
 
@@ -172,11 +178,22 @@ jobs:
 #            echo "---- End of logs for $container ----"
 #          done
 
-      - name: Upload Newman Report Artifact
-#        if: github.ref == 'refs/heads/main'
-        uses: actions/upload-pages-artifact@v1
+      - name: Update README with dynamic badge status
+        if: always()
+        run: |
+          if [ "${{ steps.test-results.outcome }}" == "success" ]; then
+            echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
+          else
+            echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
+          fi
+          cat README.md >> temp.md  # Append existing README to temp.md
+          mv temp.md README.md  # Replace README.md with updated content
+
+      - name: Upload updated README as artifact
+        uses: actions/upload-artifact@v2
         with:
-          path: ${{ env.NEWMAN_REPORT_FILE }}
+          name: updated-readme
+          path: README.md
 
 #      - name: Set up Git for GitHub Pages
 #        run: |
@@ -212,6 +229,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Deploy Postman Report to GitHub Pages
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+        with:
+          # Define source folder for GitHub Pages content
+          branch: gh-pages  # The branch to deploy to
+          folder: ./  # Specify the folder containing your updated content (use './' for root)

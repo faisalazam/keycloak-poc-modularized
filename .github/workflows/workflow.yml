@@ -183,15 +183,14 @@ jobs:
           cat README.md >> temp.md  # Append existing README to temp.md
           mv temp.md README.md  # Replace README.md with updated content
 
-#      - name: Create a directory to store README and Newman report
-#        run: |
-#          mkdir -p deploy-content
-#          cp README.md deploy-content/
-#          cp ${{ env.NEWMAN_REPORT_FILE }} deploy-content/
+      - name: Create a directory to store README and Newman report
+        run: |
+          mkdir -p deploy-content
+          cp README.md deploy-content/
+          cp ${{ env.NEWMAN_REPORT_FILE }} deploy-content/
 
       - name: Upload the content for GitHub Pages
-        uses: actions/upload-artifact@v3
-#        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
           path: README.md

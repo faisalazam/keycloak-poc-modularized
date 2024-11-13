@@ -191,6 +191,7 @@ jobs:
 
       - name: Upload the content for GitHub Pages
         uses: actions/upload-artifact@v4.0.0
+#        uses: actions/upload-pages-artifact@v1
         with:
           name: github-pages
           path: deploy-content/
@@ -232,3 +233,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+        with:
+          artifact_name: github-pages

@@ -182,11 +182,11 @@ jobs:
           else
             echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
           fi
-          cat README.md >> temp.md
-          mv temp.md README.md
+          cat README.md >> temp.md  # Append existing README to temp.md
+          mv temp.md README.md  # Replace README.md with updated content
+      
 
-
-#      - name: Collect Docker container logs
+      #      - name: Collect Docker container logs
 #        run: |
 #          # Loop through each container and print logs with a container-specific prefix
 #          for container in mailhog keycloak openldap keycloak-db realm-export-generator keycloak_setup; do

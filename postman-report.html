@@ -26,23 +26,23 @@
   <div class="container">
     <h3>Newman Report</h3>
     <div class="row">
-        <div class="col-md-3">Collection</div><div class="col-md-9">Simple GET Test</div>
+        <div class="col-md-3">Collection</div><div class="col-md-9">Keycloak</div>
         
-        <div class="col-md-3">Time</div><div class="col-md-9">Wed Nov 13 2024 23:07:12 GMT+0000 (Coordinated Universal Time)</div>
+        <div class="col-md-3">Time</div><div class="col-md-9">Wed Nov 13 2024 23:23:37 GMT+0000 (Coordinated Universal Time)</div>
         <div class="col-md-3">Exported with</div><div class="col-md-9">Newman v5.3.0</div>
         <div class="col-md-12">&nbsp;</div>
         <div class="col-md-4">&nbsp;</div><div class="col-md-4"><strong>Total</strong></div><div class="col-md-4"><strong>Failed</strong></div>
 
           <div class="col-md-4">Iterations</div><div class="col-md-4">1</div><div class="col-md-4">0</div>
-          <div class="col-md-4">Requests</div><div class="col-md-4">1</div><div class="col-md-4">0</div>
-          <div class="col-md-4">Prerequest Scripts</div><div class="col-md-4">0</div><div class="col-md-4">0</div>
-          <div class="col-md-4">Test Scripts</div><div class="col-md-4">0</div><div class="col-md-4">0</div>
-          <div class="col-md-4">Assertions</div><div class="col-md-4">0</div><div class="col-md-4">0</div>
+          <div class="col-md-4">Requests</div><div class="col-md-4">22</div><div class="col-md-4">0</div>
+          <div class="col-md-4">Prerequest Scripts</div><div class="col-md-4">38</div><div class="col-md-4">0</div>
+          <div class="col-md-4">Test Scripts</div><div class="col-md-4">47</div><div class="col-md-4">0</div>
+          <div class="col-md-4">Assertions</div><div class="col-md-4">41</div><div class="col-md-4">0</div>
 
         <div class="col-md-12">&nbsp;</div>
-        <div class="col-md-6">Total run duration</div><div class="col-md-6">109ms</div>
-        <div class="col-md-6">Total data received</div><div class="col-md-6">83B (approx)</div>
-        <div class="col-md-6">Average response time</div><div class="col-md-6">92ms</div>
+        <div class="col-md-6">Total run duration</div><div class="col-md-6">1878ms</div>
+        <div class="col-md-6">Total data received</div><div class="col-md-6">20.32KB (approx)</div>
+        <div class="col-md-6">Average response time</div><div class="col-md-6">59ms</div>
 
         <div class="col-md-12">&nbsp;</div>
         <div class="col-md-3"><strong>Total Failures</strong></div><div class="col-md-6"><strong>0</strong></div>
@@ -50,35 +50,906 @@
 
     <br/><h4>Requests</h4>
 
-                <div class="panel-group" id="collapse-request-165cc5ca-a8a3-4d0e-a5be-c51de84a4d05" role="tablist" aria-multiselectable="true">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="requestHead-165cc5ca-a8a3-4d0e-a5be-c51de84a4d05">
-                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-165cc5ca-a8a3-4d0e-a5be-c51de84a4d05" aria-controls="collapseOne">Test GET Request</a></h4>
-                        </div>
-        
-                        <div id="requestData-165cc5ca-a8a3-4d0e-a5be-c51de84a4d05" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-165cc5ca-a8a3-4d0e-a5be-c51de84a4d05">
-                            <div class="panel-body">
-        
-                                    <div class="col-md-4">Method</div><div class="col-md-8">GET</div>
-                                    <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://jsonplaceholder.typicode.com/todos/1" target="_blank">http://jsonplaceholder.typicode.com/todos/1</a></div>
-        
-                                <div class="col-md-12">&nbsp;</div>
-        
-                                <div class="col-md-12">&nbsp;</div>
-                                <div class="col-md-4">Mean time per request</div><div class="col-md-8">92ms</div><br/>
-                                <div class="col-md-4">Mean size per request</div><div class="col-md-8">83B</div><br/>
-        
-                                <div class="col-md-12">&nbsp;</div>
-                                <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">0</div>
-                                <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
-        
-                                <div class="col-md-12">&nbsp;</div>
-                                <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
-        
+        <div class="panel-group" id="collapse-folder-e89cec79-a39a-45e8-bc48-5aff021bf087" role="tablist" aria-multiselectable="true">
+            <div role="tab" id="folderHead-e89cec79-a39a-45e8-bc48-5aff021bf087">
+                <h4 style="font-size: 18px;" class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#folderData-e89cec79-a39a-45e8-bc48-5aff021bf087" aria-controls="collapseOne"><strong>User/Auth Management / Login</strong></a></h4>
+            </div>
+            <br/>
+            <div id="folderData-e89cec79-a39a-45e8-bc48-5aff021bf087" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="folderHead-e89cec79-a39a-45e8-bc48-5aff021bf087">
+                    <div class="panel-group" id="collapse-request-c46aef6a-8979-4f11-a27f-562ead87d23f" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-c46aef6a-8979-4f11-a27f-562ead87d23f">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-c46aef6a-8979-4f11-a27f-562ead87d23f" aria-controls="collapseOne">Login - Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-c46aef6a-8979-4f11-a27f-562ead87d23f" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-c46aef6a-8979-4f11-a27f-562ead87d23f">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">POST</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/realms/master/protocol/openid-connect/token" target="_blank">http://localhost:8080/realms/master/protocol/openid-connect/token</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">99ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">1.51KB</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">4</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Status code is 200</td><td>1</td><td>0</td></tr><tr><td>Response body contains access token</td><td>1</td><td>0</td></tr><tr><td>Log token for debugging</td><td>1</td><td>0</td></tr><tr><td>Handle error if status code is not 200</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="panel-group" id="collapse-request-c69ccfab-7faa-4b75-9d77-f1b93b2e74fb" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-c69ccfab-7faa-4b75-9d77-f1b93b2e74fb">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-c69ccfab-7faa-4b75-9d77-f1b93b2e74fb" aria-controls="collapseOne">Login - User</a></h4>
+                            </div>
+            
+                            <div id="requestData-c69ccfab-7faa-4b75-9d77-f1b93b2e74fb" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-c69ccfab-7faa-4b75-9d77-f1b93b2e74fb">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">POST</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/realms/ZenithRealm/protocol/openid-connect/token" target="_blank">http://localhost:8080/realms/ZenithRealm/protocol/openid-connect/token</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">77ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">1.93KB</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">4</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Status code is 200</td><td>1</td><td>0</td></tr><tr><td>Response body contains access token</td><td>1</td><td>0</td></tr><tr><td>Log token for debugging</td><td>1</td><td>0</td></tr><tr><td>Handle error if status code is not 200</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="panel-group" id="collapse-folder-f9a6ed9e-2a45-4d80-85f0-166b0f4877a3" role="tablist" aria-multiselectable="true">
+            <div role="tab" id="folderHead-f9a6ed9e-2a45-4d80-85f0-166b0f4877a3">
+                <h4 style="font-size: 18px;" class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#folderData-f9a6ed9e-2a45-4d80-85f0-166b0f4877a3" aria-controls="collapseOne"><strong>User/Auth Management / Logout</strong></a></h4>
+            </div>
+            <br/>
+            <div id="folderData-f9a6ed9e-2a45-4d80-85f0-166b0f4877a3" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="folderHead-f9a6ed9e-2a45-4d80-85f0-166b0f4877a3">
+                    <div class="panel-group" id="collapse-request-80db9879-d6e5-4f64-97f8-83047ee5a5d8" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-80db9879-d6e5-4f64-97f8-83047ee5a5d8">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-80db9879-d6e5-4f64-97f8-83047ee5a5d8" aria-controls="collapseOne">1 - Login - User</a></h4>
+                            </div>
+            
+                            <div id="requestData-80db9879-d6e5-4f64-97f8-83047ee5a5d8" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-80db9879-d6e5-4f64-97f8-83047ee5a5d8">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">POST</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/realms/ZenithRealm/protocol/openid-connect/token" target="_blank">http://localhost:8080/realms/ZenithRealm/protocol/openid-connect/token</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">46ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">1.93KB</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">1</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Login - User: Refresh token retrieved and stored</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-group" id="collapse-request-dd4c536c-1e38-47fd-82ce-1c8bf7be117e" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-dd4c536c-1e38-47fd-82ce-1c8bf7be117e">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-dd4c536c-1e38-47fd-82ce-1c8bf7be117e" aria-controls="collapseOne">2 - Logout - User</a></h4>
+                            </div>
+            
+                            <div id="requestData-dd4c536c-1e38-47fd-82ce-1c8bf7be117e" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-dd4c536c-1e38-47fd-82ce-1c8bf7be117e">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">POST</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/realms/ZenithRealm/protocol/openid-connect/logout" target="_blank">http://localhost:8080/realms/ZenithRealm/protocol/openid-connect/logout</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">37ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">0B</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">2</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">204</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Logout - User: Logout request successful</td><td>1</td><td>0</td></tr><tr><td>Handle error if status code is not 204</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="panel-group" id="collapse-folder-7b111911-592a-4195-9bb5-06a6b33f64e8" role="tablist" aria-multiselectable="true">
+            <div role="tab" id="folderHead-7b111911-592a-4195-9bb5-06a6b33f64e8">
+                <h4 style="font-size: 18px;" class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#folderData-7b111911-592a-4195-9bb5-06a6b33f64e8" aria-controls="collapseOne"><strong>User/Auth Management / Get User Info</strong></a></h4>
+            </div>
+            <br/>
+            <div id="folderData-7b111911-592a-4195-9bb5-06a6b33f64e8" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="folderHead-7b111911-592a-4195-9bb5-06a6b33f64e8">
+                    <div class="panel-group" id="collapse-request-63024fa4-e540-4271-85ff-e8d196150b01" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-63024fa4-e540-4271-85ff-e8d196150b01">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-63024fa4-e540-4271-85ff-e8d196150b01" aria-controls="collapseOne">1 - Login - Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-63024fa4-e540-4271-85ff-e8d196150b01" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-63024fa4-e540-4271-85ff-e8d196150b01">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">POST</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/realms/master/protocol/openid-connect/token" target="_blank">http://localhost:8080/realms/master/protocol/openid-connect/token</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">45ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">1.51KB</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">1</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Admin Login: Status code should be 200</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-group" id="collapse-request-172c44ce-1cb6-47bc-b4d2-0fe250fa455b" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-172c44ce-1cb6-47bc-b4d2-0fe250fa455b">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-172c44ce-1cb6-47bc-b4d2-0fe250fa455b" aria-controls="collapseOne">2 - Get User (Name) - Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-172c44ce-1cb6-47bc-b4d2-0fe250fa455b" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-172c44ce-1cb6-47bc-b4d2-0fe250fa455b">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">GET</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/admin/realms/ZenithRealm/users?username&#x3D;user3" target="_blank">http://localhost:8080/admin/realms/ZenithRealm/users?username&#x3D;user3</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">72ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">649B</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">1</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Get User (Name) - Admin: User retrieval status should be 200</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-group" id="collapse-request-e1749f24-e2f0-4e9d-99ee-fd3401d967ff" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-e1749f24-e2f0-4e9d-99ee-fd3401d967ff">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-e1749f24-e2f0-4e9d-99ee-fd3401d967ff" aria-controls="collapseOne">3 - Get User Info - Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-e1749f24-e2f0-4e9d-99ee-fd3401d967ff" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-e1749f24-e2f0-4e9d-99ee-fd3401d967ff">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">GET</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/admin/realms/ZenithRealm/users/ad19a256-eee6-46b4-af08-8b8b1ae7723b" target="_blank">http://localhost:8080/admin/realms/ZenithRealm/users/ad19a256-eee6-46b4-af08-8b8b1ae7723b</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">26ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">647B</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">2</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Get User Info - Admin: Response status should be 200</td><td>1</td><td>0</td></tr><tr><td>User info should have valid structure</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="panel-group" id="collapse-folder-11b6dbbf-c5c5-4a7d-95bb-12aa12b72017" role="tablist" aria-multiselectable="true">
+            <div role="tab" id="folderHead-11b6dbbf-c5c5-4a7d-95bb-12aa12b72017">
+                <h4 style="font-size: 18px;" class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#folderData-11b6dbbf-c5c5-4a7d-95bb-12aa12b72017" aria-controls="collapseOne"><strong>User/Auth Management / Refresh Token</strong></a></h4>
+            </div>
+            <br/>
+            <div id="folderData-11b6dbbf-c5c5-4a7d-95bb-12aa12b72017" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="folderHead-11b6dbbf-c5c5-4a7d-95bb-12aa12b72017">
+                    <div class="panel-group" id="collapse-request-05237b46-ed47-41c4-b763-8b76d1083777" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-05237b46-ed47-41c4-b763-8b76d1083777">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-05237b46-ed47-41c4-b763-8b76d1083777" aria-controls="collapseOne">1 - Login - User</a></h4>
+                            </div>
+            
+                            <div id="requestData-05237b46-ed47-41c4-b763-8b76d1083777" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-05237b46-ed47-41c4-b763-8b76d1083777">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">POST</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/realms/ZenithRealm/protocol/openid-connect/token" target="_blank">http://localhost:8080/realms/ZenithRealm/protocol/openid-connect/token</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">48ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">1.93KB</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">2</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Login - User: Status code should be 200</td><td>1</td><td>0</td></tr><tr><td>Login - User: Refresh token is present</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-group" id="collapse-request-0c04e905-6655-4771-a678-d3f88bbe99cf" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-0c04e905-6655-4771-a678-d3f88bbe99cf">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-0c04e905-6655-4771-a678-d3f88bbe99cf" aria-controls="collapseOne">2 - Refresh Token - User</a></h4>
+                            </div>
+            
+                            <div id="requestData-0c04e905-6655-4771-a678-d3f88bbe99cf" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-0c04e905-6655-4771-a678-d3f88bbe99cf">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">POST</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/realms/ZenithRealm/protocol/openid-connect/token" target="_blank">http://localhost:8080/realms/ZenithRealm/protocol/openid-connect/token</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">15ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">1.93KB</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">1</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Refresh Token - User: Status code should be 200</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="panel-group" id="collapse-folder-aecbee8f-0495-4d70-a3e0-910088ce9d14" role="tablist" aria-multiselectable="true">
+            <div role="tab" id="folderHead-aecbee8f-0495-4d70-a3e0-910088ce9d14">
+                <h4 style="font-size: 18px;" class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#folderData-aecbee8f-0495-4d70-a3e0-910088ce9d14" aria-controls="collapseOne"><strong>User/Auth Management / Delete User</strong></a></h4>
+            </div>
+            <br/>
+            <div id="folderData-aecbee8f-0495-4d70-a3e0-910088ce9d14" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="folderHead-aecbee8f-0495-4d70-a3e0-910088ce9d14">
+                    <div class="panel-group" id="collapse-request-dbbba9f5-4f94-4849-8834-11a4150c9e7c" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-dbbba9f5-4f94-4849-8834-11a4150c9e7c">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-dbbba9f5-4f94-4849-8834-11a4150c9e7c" aria-controls="collapseOne">1 - Login - Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-dbbba9f5-4f94-4849-8834-11a4150c9e7c" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-dbbba9f5-4f94-4849-8834-11a4150c9e7c">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">POST</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/realms/master/protocol/openid-connect/token" target="_blank">http://localhost:8080/realms/master/protocol/openid-connect/token</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">47ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">1.51KB</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">3</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Status code is 200</td><td>1</td><td>0</td></tr><tr><td>Access token is present in response</td><td>1</td><td>0</td></tr><tr><td>Access token is valid</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-group" id="collapse-request-86bb0634-6151-4dac-b8ff-4fcf7c32ff3f" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-86bb0634-6151-4dac-b8ff-4fcf7c32ff3f">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-86bb0634-6151-4dac-b8ff-4fcf7c32ff3f" aria-controls="collapseOne">2 - Get User (Name) - Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-86bb0634-6151-4dac-b8ff-4fcf7c32ff3f" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-86bb0634-6151-4dac-b8ff-4fcf7c32ff3f">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">GET</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/admin/realms/ZenithRealm/users?username&#x3D;user8" target="_blank">http://localhost:8080/admin/realms/ZenithRealm/users?username&#x3D;user8</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">24ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">656B</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">1</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>User retrieval test - User ID is set</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-group" id="collapse-request-aa9e7d03-7f58-4195-8064-0cb9ecb4e91c" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-aa9e7d03-7f58-4195-8064-0cb9ecb4e91c">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-aa9e7d03-7f58-4195-8064-0cb9ecb4e91c" aria-controls="collapseOne">3 - Delete User - Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-aa9e7d03-7f58-4195-8064-0cb9ecb4e91c" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-aa9e7d03-7f58-4195-8064-0cb9ecb4e91c">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">DELETE</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/admin/realms/ZenithRealm/users/ed76ab11-22cd-438d-ac0d-cb8cb0b9f562" target="_blank">http://localhost:8080/admin/realms/ZenithRealm/users/ed76ab11-22cd-438d-ac0d-cb8cb0b9f562</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">108ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">0B</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">2</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">204</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Delete User - Admin: User should be deleted successfully</td><td>1</td><td>0</td></tr><tr><td>Ensure no unexpected error during deletion</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-group" id="collapse-request-7c7e8aff-3fe4-4047-ba9b-c4c08827a2f5" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-7c7e8aff-3fe4-4047-ba9b-c4c08827a2f5">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-7c7e8aff-3fe4-4047-ba9b-c4c08827a2f5" aria-controls="collapseOne">4 - Get User (Name) - Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-7c7e8aff-3fe4-4047-ba9b-c4c08827a2f5" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-7c7e8aff-3fe4-4047-ba9b-c4c08827a2f5">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">GET</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/admin/realms/ZenithRealm/users?username&#x3D;ed76ab11-22cd-438d-ac0d-cb8cb0b9f562" target="_blank">http://localhost:8080/admin/realms/ZenithRealm/users?username&#x3D;ed76ab11-22cd-438d-ac0d-cb8cb0b9f562</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">15ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">2B</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">1</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Negative Test - User retrieval should return no data</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="panel-group" id="collapse-folder-19ccda8c-64c5-4cb8-afb1-679b1d85f73d" role="tablist" aria-multiselectable="true">
+            <div role="tab" id="folderHead-19ccda8c-64c5-4cb8-afb1-679b1d85f73d">
+                <h4 style="font-size: 18px;" class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#folderData-19ccda8c-64c5-4cb8-afb1-679b1d85f73d" aria-controls="collapseOne"><strong>User/Auth Management / Reset/Forgot Password via Email</strong></a></h4>
+            </div>
+            <br/>
+            <div id="folderData-19ccda8c-64c5-4cb8-afb1-679b1d85f73d" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="folderHead-19ccda8c-64c5-4cb8-afb1-679b1d85f73d">
+                    <div class="panel-group" id="collapse-request-605a0274-b1d6-4dab-a46c-c92bf54a560b" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-605a0274-b1d6-4dab-a46c-c92bf54a560b">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-605a0274-b1d6-4dab-a46c-c92bf54a560b" aria-controls="collapseOne">1 - Login - Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-605a0274-b1d6-4dab-a46c-c92bf54a560b" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-605a0274-b1d6-4dab-a46c-c92bf54a560b">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">POST</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/realms/master/protocol/openid-connect/token" target="_blank">http://localhost:8080/realms/master/protocol/openid-connect/token</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">50ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">1.51KB</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">1</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Access token retrieved successfully</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-group" id="collapse-request-bd77b60a-e8bd-488f-a6e1-af0754cb84a4" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-bd77b60a-e8bd-488f-a6e1-af0754cb84a4">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-bd77b60a-e8bd-488f-a6e1-af0754cb84a4" aria-controls="collapseOne">2 - Get User (Email)- Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-bd77b60a-e8bd-488f-a6e1-af0754cb84a4" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-bd77b60a-e8bd-488f-a6e1-af0754cb84a4">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">GET</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/admin/realms/ZenithRealm/users?email&#x3D;kzuser1@example.com" target="_blank">http://localhost:8080/admin/realms/ZenithRealm/users?email&#x3D;kzuser1@example.com</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">17ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">352B</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">1</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>User ID retrieved successfully</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-group" id="collapse-request-6916ed48-16de-4cef-98e3-8ce947be25b5" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-6916ed48-16de-4cef-98e3-8ce947be25b5">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-6916ed48-16de-4cef-98e3-8ce947be25b5" aria-controls="collapseOne">3 - Update Password - Trigger Email</a></h4>
+                            </div>
+            
+                            <div id="requestData-6916ed48-16de-4cef-98e3-8ce947be25b5" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-6916ed48-16de-4cef-98e3-8ce947be25b5">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">PUT</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/admin/realms/ZenithRealm/users/c6f3843b-cbfa-477a-b289-0de321190927/execute-actions-email" target="_blank">http://localhost:8080/admin/realms/ZenithRealm/users/c6f3843b-cbfa-477a-b289-0de321190927/execute-actions-email</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">390ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">0B</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">2</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">204</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>User ID and Access Token set correctly</td><td>1</td><td>0</td></tr><tr><td>Response status is OK</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="panel-group" id="collapse-folder-161aa972-67aa-4e97-aaf9-66a291141e4a" role="tablist" aria-multiselectable="true">
+            <div role="tab" id="folderHead-161aa972-67aa-4e97-aaf9-66a291141e4a">
+                <h4 style="font-size: 18px;" class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#folderData-161aa972-67aa-4e97-aaf9-66a291141e4a" aria-controls="collapseOne"><strong>User/Auth Management / Reset Password Directly</strong></a></h4>
+            </div>
+            <br/>
+            <div id="folderData-161aa972-67aa-4e97-aaf9-66a291141e4a" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="folderHead-161aa972-67aa-4e97-aaf9-66a291141e4a">
+                    <div class="panel-group" id="collapse-request-18689587-4ad9-4357-9604-f936a5cb5410" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-18689587-4ad9-4357-9604-f936a5cb5410">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-18689587-4ad9-4357-9604-f936a5cb5410" aria-controls="collapseOne">1 - Login - Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-18689587-4ad9-4357-9604-f936a5cb5410" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-18689587-4ad9-4357-9604-f936a5cb5410">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">POST</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/realms/master/protocol/openid-connect/token" target="_blank">http://localhost:8080/realms/master/protocol/openid-connect/token</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">49ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">1.51KB</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">1</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Access token retrieved successfully</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-group" id="collapse-request-6db2756c-0dd1-4165-a47e-72c3fa23a4ca" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-6db2756c-0dd1-4165-a47e-72c3fa23a4ca">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-6db2756c-0dd1-4165-a47e-72c3fa23a4ca" aria-controls="collapseOne">2 - Get User (Email)- Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-6db2756c-0dd1-4165-a47e-72c3fa23a4ca" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-6db2756c-0dd1-4165-a47e-72c3fa23a4ca">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">GET</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/admin/realms/ZenithRealm/users?email&#x3D;kzuser1@example.com" target="_blank">http://localhost:8080/admin/realms/ZenithRealm/users?email&#x3D;kzuser1@example.com</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">17ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">352B</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">1</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>User ID retrieved successfully</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-group" id="collapse-request-c04cd023-28ed-4a88-9675-fa49d8d4a609" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-c04cd023-28ed-4a88-9675-fa49d8d4a609">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-c04cd023-28ed-4a88-9675-fa49d8d4a609" aria-controls="collapseOne">3 - Reset Password</a></h4>
+                            </div>
+            
+                            <div id="requestData-c04cd023-28ed-4a88-9675-fa49d8d4a609" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-c04cd023-28ed-4a88-9675-fa49d8d4a609">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">PUT</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/admin/realms/ZenithRealm/users/c6f3843b-cbfa-477a-b289-0de321190927/reset-password" target="_blank">http://localhost:8080/admin/realms/ZenithRealm/users/c6f3843b-cbfa-477a-b289-0de321190927/reset-password</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">43ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">0B</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">1</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">204</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Password reset successfully</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="panel-group" id="collapse-folder-0ffb4750-3f82-4985-9c71-7127c8bd4b2b" role="tablist" aria-multiselectable="true">
+            <div role="tab" id="folderHead-0ffb4750-3f82-4985-9c71-7127c8bd4b2b">
+                <h4 style="font-size: 18px;" class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#folderData-0ffb4750-3f82-4985-9c71-7127c8bd4b2b" aria-controls="collapseOne"><strong>Config Management / Update Client Props</strong></a></h4>
+            </div>
+            <br/>
+            <div id="folderData-0ffb4750-3f82-4985-9c71-7127c8bd4b2b" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="folderHead-0ffb4750-3f82-4985-9c71-7127c8bd4b2b">
+                    <div class="panel-group" id="collapse-request-fae82f95-5846-456f-aa21-22d5161b50a5" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-fae82f95-5846-456f-aa21-22d5161b50a5">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-fae82f95-5846-456f-aa21-22d5161b50a5" aria-controls="collapseOne">1 - Login - Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-fae82f95-5846-456f-aa21-22d5161b50a5" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-fae82f95-5846-456f-aa21-22d5161b50a5">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">POST</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/realms/master/protocol/openid-connect/token" target="_blank">http://localhost:8080/realms/master/protocol/openid-connect/token</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">60ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">1.51KB</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">3</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Status code is 200</td><td>1</td><td>0</td></tr><tr><td>Access token is present in response</td><td>1</td><td>0</td></tr><tr><td>Access token is valid</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-group" id="collapse-request-ff5294b6-de78-493c-bba0-4fa5a5b999e6" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-ff5294b6-de78-493c-bba0-4fa5a5b999e6">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-ff5294b6-de78-493c-bba0-4fa5a5b999e6" aria-controls="collapseOne">2 - Client Info - Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-ff5294b6-de78-493c-bba0-4fa5a5b999e6" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-ff5294b6-de78-493c-bba0-4fa5a5b999e6">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">GET</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/admin/realms/ZenithRealm/clients?clientId&#x3D;zenith-api-client" target="_blank">http://localhost:8080/admin/realms/ZenithRealm/clients?clientId&#x3D;zenith-api-client</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">8ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">963B</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">4</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">200</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Status code is 200</td><td>1</td><td>0</td></tr><tr><td>Response contains client array with at least one item</td><td>1</td><td>0</td></tr><tr><td>First client in array has a valid UUID</td><td>1</td><td>0</td></tr><tr><td>CLIENT_UUID is set correctly</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-group" id="collapse-request-1331eb07-a1af-4be9-bdea-6d6fce3b7593" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="requestHead-1331eb07-a1af-4be9-bdea-6d6fce3b7593">
+                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-1331eb07-a1af-4be9-bdea-6d6fce3b7593" aria-controls="collapseOne">3 - Update Client - Admin</a></h4>
+                            </div>
+            
+                            <div id="requestData-1331eb07-a1af-4be9-bdea-6d6fce3b7593" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="requestHead-1331eb07-a1af-4be9-bdea-6d6fce3b7593">
+                                <div class="panel-body">
+            
+                                        <div class="col-md-4">Method</div><div class="col-md-8">PUT</div>
+                                        <div class="col-md-4">URL</div><div class="col-md-8"><a href="http://localhost:8080/admin/realms/ZenithRealm/clients/f2ec166d-dc38-41c3-8ead-5901d8627cad" target="_blank">http://localhost:8080/admin/realms/ZenithRealm/clients/f2ec166d-dc38-41c3-8ead-5901d8627cad</a></div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-4">Mean time per request</div><div class="col-md-8">18ms</div><br/>
+                                    <div class="col-md-4">Mean size per request</div><div class="col-md-8">0B</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8">2</div>
+                                    <div class="col-md-4">Total failed tests</div><div class="col-md-8">0</div><br/>
+            
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <br/><div class="col-md-4">Status code</div><div class="col-md-8">204</div><br/>
+            
+                                        <div class="col-md-12">&nbsp;</div>
+                                        <div class="col-md-4">Tests</div>
+            
+                                        <div class="col-md-8">
+                                            <table class="table table-responsive table-condensed">
+                                                <thead><tr><th>Name</th><th>Pass count</th><th>Fail count</th></tr></thead>
+                                                <tbody><tr><td>Status code is 204 for successful update</td><td>1</td><td>0</td></tr><tr><td>Client updated successfully</td><td>1</td><td>0</td></tr></tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
 
   </div>
 </body>

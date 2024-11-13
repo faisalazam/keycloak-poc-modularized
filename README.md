@@ -1,10 +1,8 @@
 [![Test Results](https://img.shields.io/badge/build-passing-brightgreen)](https://faisalazam.github.io/keycloak-poc-modularized/postman-report.html)
 
-### CI/CD and Test Results
+
 [![CI](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml/badge.svg)](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml)
 <!-- BUILD_BADGE_PLACEHOLDER -->
-
-### Service Availability
 ![Keycloak](https://img.shields.io/badge/Keycloak-active-blue?style=flat-square)
 ![PhpLdapAdmin](https://img.shields.io/badge/PhpLdapAdmin-active-blue?style=flat-square)
 ![LDAP](https://img.shields.io/badge/LDAP-active-blue?style=flat-square)
@@ -12,11 +10,6 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-active-blue?style=flat-square)
 ![Mailhog](https://img.shields.io/badge/Mailhog-active-blue?style=flat-square)
 ![Docker](https://img.shields.io/badge/Docker-active-blue?style=flat-square)
-
-### Additional Information
-![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
-![Docker Image Size](https://img.shields.io/docker/image-size/faisalazam/keycloak-poc-modularized?style=flat-square)
-![Stars](https://img.shields.io/github/stars/faisalazam/keycloak-poc-modularized?style=flat-square)
 
 # Docker Keycloak LDAP Setup
 

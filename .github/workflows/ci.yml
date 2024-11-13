@@ -199,8 +199,7 @@ jobs:
     needs: build
 
     permissions:
-      pages: write
-      #id-token: write
+      #pages: write
       contents: write
 
     environment:

@@ -236,10 +236,10 @@ jobs:
           name: github-pages
       - name: List files in github-pages
         run: |
-          ls -R github-pages
-      - name: List files in github-pages/artifact
-        run: |
-          ls -R github-pages/artifact
+          ls -R .
+#      - name: List files in github-pages/artifact
+#        run: |
+#          ls -R github-pages/artifact
       - name: Prepare GitHub Pages content
         run: |
           # Move necessary files (README.md, postman-report.html) to the root of the GitHub Pages folder

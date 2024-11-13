@@ -152,9 +152,6 @@ jobs:
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export junit-report.xml
 
-            - name: Set Initial Test Results Summary 📜
-              - name: Set Initial Test Results Summary 📜
-              - name: Set Initial Test Results Summary 📜
       - name: Set Initial Test Results Summary 📜
         run: |
           echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY

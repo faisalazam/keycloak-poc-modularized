@@ -242,7 +242,4 @@ jobs:
         with:
           enablement: 'true'
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: github-pages # The folder the action s
+      # # The folder the action s

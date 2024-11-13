@@ -230,6 +230,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
+      - name: Prepare GitHub Pages content
+        run: |
+          # Move necessary files (README.md, postman-report.html) to the root of the GitHub Pages folder
+          mv github-pages/artifact/README.md github-pages/
+          mv github-pages/artifact/postman-report.html github-pages/
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3

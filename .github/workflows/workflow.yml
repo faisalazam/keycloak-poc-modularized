@@ -144,37 +144,29 @@ jobs:
 #            echo "---- End of logs for $container ----"
 #          done
 
-#      - name: Run Postman tests with Newman
-#        run: |
-#          newman run ${{ env.POSTMAN_COLLECTION }} \
-#            -e ${{ env.POSTMAN_ENVIRONMENT }} \
-#            --reporters cli,html,junit \
-#            --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
-#            --reporter-junit-export junit-report.xml
-
-      - name: Run Postman tests
-        id: test-results
+      - name: Run Postman tests with Newman
         run: |
           newman run ${{ env.POSTMAN_COLLECTION }} \
-          --reporters cli,html,junit \
-          --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
-          --reporter-junit-export junit-report.xml
-          echo "REPORT_FILE=${{ env.NEWMAN_REPORT_FILE }}" >> $GITHUB_ENV  # Save the report path to an environment variable
-#          echo "::set-output name=outcome::success" # or failure depending on your test results
+            -e ${{ env.POSTMAN_ENVIRONMENT }} \
+            --reporters cli,html,junit \
+            --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
+            --reporter-junit-export junit-report.xml
 
-#      - name: Check test outcome
+#      - name: Run Postman tests
+#        id: test-results
 #        run: |
-#          echo "Test Outcome: ${{ steps.test-results.outcome }}"
+#          newman run ${{ env.POSTMAN_COLLECTION }} \
+#          --reporters cli,html,junit \
+#          --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
+#          --reporter-junit-export junit-report.xml
+#          echo "REPORT_FILE=${{ env.NEWMAN_REPORT_FILE }}" >> $GITHUB_ENV  # Save the report path to an environment variable
 
       - name: Update README with dynamic badge status
         if: always()  # This ensures the step runs regardless of test pass/fail
         run: |
-          echo "Test Outcome: ${{ steps.test-results.outcome }}"
           if [ "${{ steps.test-results.outcome }}" == "success" ]; then
-            echo "[[[[[[[[[[[[[[[[[[[[[[["
             echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
           else
-            echo "[[[[[[[[[[[[[[[[[[[[[[[-----------------"
             echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
           fi
           cat README.md >> temp.md  # Append existing README to temp.md
@@ -237,7 +229,6 @@ jobs:
           # Copy README.md as index.md for GitHub Pages rendering
 
           cp README.md gh-pages/index.md
-          cat gh-pages/index.md
 
           echo "Before add..."
           git status

@@ -7,8 +7,6 @@ on:
   pull_request:
     branches:
       - everything
-permissions:
-  contents: write  # allows pushing to the repository
 
 env:
   NPM_VERSION: 10.9.0
@@ -152,13 +150,6 @@ jobs:
             --reporters cli,html,junit \
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export junit-report.xml
-
-      - name: Setup Pages
-#        if: github.ref == 'refs/heads/main'
-        uses: actions/configure-pages@v3
-
-
-
 
       #      - name: Collect Docker container logs
 #        run: |

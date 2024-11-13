@@ -220,7 +220,7 @@ jobs:
       - name: Update README with dynamic badge status
         run: |
           # Determine badge status based on test result outcome
-          if [ "${{ steps.test-results.outcome }}" == "success" ]; then
+          if [ "${{ needs.build.outputs.test_outcome }}" == "success" ]; then
             BADGE="passing-brightgreen"
           else
             BADGE="failing-red"

@@ -152,18 +152,12 @@ jobs:
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export junit-report.xml
 
-      - name: Write Test Results Summary 📜
+      - name: Write Initial Test Results Summary 📜
         run: |
-          echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
-          echo "#### Summary:" >> $GITHUB_STEP_SUMMARY
-          echo "Test run completed successfully!" >> $GITHUB_STEP_SUMMARY
-          echo "#### HTML Report: [View HTML Report](${{ env.NEWMAN_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
-          echo "#### XML Report: [View XML Report](junit-report.xml)" >> $GITHUB_STEP_SUMMARY
+          echo "### Postman Test Results" >> $GITHUB_ENV
+          echo "#### Test run completed, view summary after deployment." >> $GITHUB_ENV
 
-      - name: Display Summary 📝
-        run: |
-          echo "Test Summary: Check the job summary for details."
-      #      - name: Collect Docker container logs
+     #      - name: Collect Docker container logs
 #        run: |
 #          # Loop through each container and print logs with a container-specific prefix
 #          for container in mailhog keycloak openldap keycloak-db realm-export-generator keycloak_setup; do
@@ -251,3 +245,15 @@ jobs:
       - name: Display GitHub Pages URL 🌐
         run: |
           echo "The GitHub Pages URL is: ${{ env.GITHUB_URL }}"
+
+  post-deploy-summary:
+    runs-on: ubuntu-latest
+    needs: deploy-gh-pages
+    steps:
+      - name: Update Test Results Summary 📜
+        run: |
+          echo "### Postman Test Results" >> $GITHUB_ENV
+          echo "#### Summary:" >> $GITHUB_ENV
+          echo "Test run completed successfully!" >> $GITHUB_ENV
+          echo "#### HTML Report: [View HTML Report](https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" >> $GITHUB_ENV
+          echo "#### XML Report: [View XML Report](https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.xml)" >> $GITHUB_ENV

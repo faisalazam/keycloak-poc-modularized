@@ -230,16 +230,19 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-#      - name: Download GitHub Pages Artifact
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: github-pages
-#      - name: Extract artifact.tar
-#        run: |
-#          tar -xf artifact.tar
-#      - name: List files in github-pages
-#        run: |
-#          ls -R .
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4hould deploy.
+      - name: Download GitHub Pages Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: github-pages
+      - name: Extract artifact.tar
+        run: |
+          mkdir -p github-pages
+          tar -xf artifact.tar -C github-pages
+      - name: List files in github-pages
+        run: |
+          ls -R .
 ##      - name: List files in github-pages/artifact
 ##        run: |
 ##          ls -R github-pages/artifact
@@ -251,6 +254,11 @@ jobs:
 #          mv README.md github-pages/
 #          mv postman-report.html github-pages/
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+   #   - name: Deploy to GitHub Pages
+        #id: deployment
+        #uses: actions/deploy-pages@v4
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: gh-pages # The folder the action s

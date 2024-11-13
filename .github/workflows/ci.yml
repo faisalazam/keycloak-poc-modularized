@@ -28,6 +28,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    outputs:
+      test_outcome: ${{ steps.test-results.outputs.outcome }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -153,6 +155,7 @@ jobs:
             --reporters cli,html,junit \
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export postman-report.xml
+          echo "outcome=success" >> $GITHUB_OUTPUT
 
       - name: Set Initial Test Results Summary 📜
         run: |
@@ -234,13 +237,21 @@ jobs:
         run: |
           ls -R .
       
-      - name: Check README.md Existence 📄
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/gh-pages' # Ensure it only runs in gh-pages
         run: |
-          if [ -f "${{ env.PAGES_FOLDER }}/README.md" ]; then
-            echo "README.md found"
+          # Determine badge color based on test outcome
+          if [ "${{ needs.test.outputs.test_outcome }}" == "success" ]; then
+            BADGE="passing-brightgreen"
           else
-            echo "README.md is missing!" && exit 1
+            BADGE="failing-red"
           fi
+
+          # Construct the badge markdown
+          BADGE_MARKDOWN="[![Test Results](https://img.shields.io/badge/build-${BADGE})](https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAME }}/postman-report.html)"
+
+          # Replace the placeholder in README.md with the badge markdown
+          sed -i "s|<!-- BUILD_BADGE_PLACEHOLDER -->|${BADGE_MARKDOWN}|" README.md
       
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4

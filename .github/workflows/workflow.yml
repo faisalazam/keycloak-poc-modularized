@@ -216,11 +216,11 @@ jobs:
 
       - name: Generate and move Postman test report to GitHub Pages root
         run: |
-          # Create the 'gh-pages' directory if it doesn't exist (this is only local)
+          # Create the 'gh-pages' directory if it doesn't exist (this is local to the CI)
           mkdir -p gh-pages  
 
-          # Copy the report directly to the root of 'gh-pages'
-          cp ${{ env.REPORT_FILE }} gh-pages/postman-report.html
+          # Copy the Postman test report directly to the root of the gh-pages branch
+          cp ${{ env.REPORT_FILE }} gh-pages/postman-report.html  # No subdirectory
 
           # Copy README.md as index.md for GitHub Pages rendering
           cp README.md gh-pages/index.md
@@ -233,6 +233,7 @@ jobs:
 
           # Push the changes to the gh-pages branch
           git push origin gh-pages
+      
 
       #      - name: Clean up Docker containers and volumes
 #        run: |

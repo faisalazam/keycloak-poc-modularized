@@ -231,7 +231,7 @@ jobs:
 
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v4hould deploy.
+        uses: actions/checkout@v4
       - name: Download GitHub Pages Artifact
         uses: actions/download-artifact@v3
         with:

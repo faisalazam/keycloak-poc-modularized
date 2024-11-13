@@ -159,7 +159,7 @@ jobs:
           echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
           echo "#### Test run completed, view summary after deployment." >> $GITHUB_STEP_SUMMARY
           echo "#### HTML Report: [View HTML Report](https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAME }}/postman-report.html)" >> $GITHUB_STEP_SUMMARY
-          echo "#### XML Report: [View XML Report](https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAMEy }}/postman-report.xml)" >> $GITHUB_STEP_SUMMARY
+          echo "#### XML Report: [View XML Report](https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAME }}/postman-report.xml)" >> $GITHUB_STEP_SUMMARY
 
 
      #      - name: Collect Docker container logs

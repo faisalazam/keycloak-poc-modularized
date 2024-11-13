@@ -239,7 +239,8 @@ jobs:
           fi
           
           # Construct the badge Markdown with full path to the report
-          BADGE_MARKDOWN="[![Build Status](https://img.shields.io/badge/build-${BADGE})](${SITE_URL}/${REPORT_FILE})"
+          BADGE_MARKDOWN="[![Build Status](https://img.shields.io/badge/build-${BADGE})](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_HTML_REPORT_FILE }})"
+
           echo "Badge MARKDOWN: ${BADGE_MARKDOWN}"
           
           # Update the README.md file with the badge

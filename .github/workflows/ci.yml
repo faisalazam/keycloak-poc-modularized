@@ -238,7 +238,7 @@ jobs:
           ls -R .
       
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/gh-pages' # Ensure it only runs in gh-pages
+       # if: github.ref == 'refs/heads/gh-pages' # Ensure it only runs in gh-pages
         run: |
           # Determine badge color based on test outcome
           if [ "${{ needs.test.outputs.test_outcome }}" == "success" ]; then

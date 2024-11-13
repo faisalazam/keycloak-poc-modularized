@@ -197,15 +197,6 @@ jobs:
 #          git commit -m "Add Postman test report"
 #          git push origin gh-pages  # Push changes to gh-pages branch
 
-      - name: Generate and move Postman test report to GitHub Pages folder
-        run: |
-          mkdir -p gh-pages  # Create the gh-pages folder if it doesn't exist
-          cp ${{ env.REPORT_FILE }} gh-pages/postman-report.html  # Copy the report to the root folder of gh-pages
-          git add gh-pages/postman-report.html
-          git commit -m "Add Postman test report"
-          git push origin gh-pages  # Ensure you're pushing to gh-pages
-    
-
       - name: Update README with dynamic badge status
         if: always()  # This ensures the step runs regardless of test pass/fail
         run: |
@@ -215,6 +206,21 @@ jobs:
             echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" >> README.md
           fi
 
+      - name: Generate and move Postman test report to GitHub Pages folder
+        run: |
+          mkdir -p gh-pages  # Create the gh-pages folder if it doesn't exist
+          cp ${{ env.REPORT_FILE }} gh-pages/postman-report.html  # Copy the report to the root folder of gh-pages
+          cp README.md gh-pages/index.md  # Copy README.md to index.md for GitHub Pages rendering
+
+          # Stage the changes
+          git add gh-pages/index.md gh-pages/postman-report.html
+
+          # Commit the changes
+          git commit -m "Add Postman test report and update README for GitHub Pages"
+
+          # Push the changes to the gh-pages branch
+          git push origin gh-pages
+
       #      - name: Clean up Docker containers and volumes
 #        run: |
 #          # Explicit check for docker-compose before using it
@@ -222,15 +228,15 @@ jobs:
 #          cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
 #          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
 
-      - name: Deploy README.md to GitHub Pages
-        #        if: github.ref == 'refs/heads/main'  # Ensure this step only runs for the main branch
-        run: |
-          # Copy README.md as index.md for GitHub Pages rendering
-          cp README.md ./index.md
-          
-          # Add and commit the new index.md file
-          git add index.md
-          git commit -m "Deploy README.md to GitHub Pages"
-          
-          # Push to GitHub Pages branch
-          git push --force --set-upstream origin gh-pages
+#      - name: Deploy README.md to GitHub Pages
+#        #        if: github.ref == 'refs/heads/main'  # Ensure this step only runs for the main branch
+#        run: |
+#          # Copy README.md as index.md for GitHub Pages rendering
+#          cp README.md ./index.md
+#
+#          # Add and commit the new index.md file
+#          git add index.md
+#          git commit -m "Deploy README.md to GitHub Pages"
+#
+#          # Push to GitHub Pages branch
+#          git push --force --set-upstream origin gh-pages

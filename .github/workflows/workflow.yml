@@ -167,7 +167,11 @@ jobs:
           --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
           --reporter-junit-export junit-report.xml
           echo "REPORT_FILE=${{ env.NEWMAN_REPORT_FILE }}" >> $GITHUB_ENV  # Save the report path to an environment variable
-          echo "::set-output name=outcome::success" # or failure depending on your test results
+#          echo "::set-output name=outcome::success" # or failure depending on your test results
+
+      - name: Check test outcome
+        run: |
+          echo "Test Outcome: ${{ steps.test-results.outcome }}"
 
       - name: Update README with dynamic badge status
         if: always()  # This ensures the step runs regardless of test pass/fail
@@ -216,17 +220,13 @@ jobs:
 #          git commit -m "Add Postman test report"
 #          git push origin gh-pages
 
-      - name: Check if report file exists
-        run: |
-          ls -l ${{ env.REPORT_FILE }}
-
       - name: Generate and move Postman test report to GitHub Pages root
         run: |
           # Create the 'gh-pages' directory if it doesn't exist (this is local to the CI)
           mkdir -p gh-pages  
 
           # Copy the Postman test report directly to the root of the gh-pages branch
-          cp ${{ env.REPORT_FILE }} gh-pages/postman-report.html  # No subdirectory
+          cp ${{ env.NEWMAN_REPORT_FILE }} gh-pages/postman-report.html  # No subdirectory
 
           # Copy README.md as index.md for GitHub Pages rendering
           cp README.md gh-pages/index.md

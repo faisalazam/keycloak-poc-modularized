@@ -145,18 +145,20 @@ jobs:
 #          done
 
       - name: Run Postman tests with Newman
+        id: test-results # id is used later on to check whether tests passed or failed
         run: |
           newman run ${{ env.POSTMAN_COLLECTION }} \
             -e ${{ env.POSTMAN_ENVIRONMENT }} \
             --reporters cli,html,junit \
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export junit-report.xml
-          # Capture the outcome
-          if [ $? -eq 0 ]; then
-            echo "::set-output name=outcome::success"
-          else
-            echo "::set-output name=outcome::failure"
-          fi
+#          # Capture the outcome
+#          if [ $? -eq 0 ]; then
+#            echo "::set-output name=outcome::success"
+##            echo "test-results-outcome=success" >> $GITHUB_ENV
+#          else
+#            echo "::set-output name=outcome::failure"
+#          fi
 
 #      - name: Run Postman tests
 #        id: test-results
@@ -251,6 +253,7 @@ jobs:
           echo "Before push..."
           git status
 
+          git pull origin gh-pages
           # Push the changes to the gh-pages branch
           git push origin gh-pages
           

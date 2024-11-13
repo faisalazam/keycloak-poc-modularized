@@ -173,13 +173,19 @@ jobs:
 #          done
 
       - name: Update README with dynamic badge status
-        if: always()
+        if: always()  # This ensures the step runs regardless of test pass/fail
         run: |
+          # Combine status and badge color into one variable
           if [ "${{ steps.test-results.outcome }}" == "success" ]; then
-            echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
+            BADGE="passing-brightgreen"
           else
-            echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
+            BADGE="failing-red"
           fi
+      
+          # Construct the badge URL using the combined variable
+          BADGE_URL="https://img.shields.io/badge/build-${BADGE}?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html"
+          
+          echo "![Test Results]($BADGE_URL)" > temp.md
           cat README.md >> temp.md  # Append existing README to temp.md
           mv temp.md README.md  # Replace README.md with updated content
 

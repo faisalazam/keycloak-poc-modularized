@@ -160,12 +160,14 @@ jobs:
 #            --reporter-junit-export junit-report.xml
 
       - name: Run Postman tests
+        id: test-results
         run: |
           newman run ${{ env.POSTMAN_COLLECTION }} \
           --reporters cli,html,junit \
           --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
           --reporter-junit-export junit-report.xml
           echo "REPORT_FILE=${{ env.NEWMAN_REPORT_FILE }}" >> $GITHUB_ENV  # Save the report path to an environment variable
+          echo "::set-output name=outcome::success" # or failure depending on your test results
 
       - name: Update README with dynamic badge status
         if: always()  # This ensures the step runs regardless of test pass/fail
@@ -229,34 +231,14 @@ jobs:
           # Copy README.md as index.md for GitHub Pages rendering
           cp README.md gh-pages/index.md
 
-#          # Stage the changes
-#          git add gh-pages/index.md gh-pages/postman-report.html
+          # Stage the changes
+          git add gh-pages/index.md gh-pages/postman-report.html
 
-#          # Commit the changes
-#          git commit -m "Add Postman test report and update README for GitHub Pages"
-#
-#          # Push the changes to the gh-pages branch
-#          git push origin gh-pages
+          # Commit the changes
+          git commit -m "Add Postman test report and update README for GitHub Pages"
 
-      - name: List contents of the gh-pages directory
-        run: ls -l gh-pages/
-
-      - name: Check Git status
-        run: git status
-
-      - name: Stage all changes
-        run: |
-          git add .
-#          git commit -m "Add Postman report and update README"
-
-      - name: Commit and Push changes to gh-pages
-        run: |
-          git commit -a -m "Add Postman test report"
+          # Push the changes to the gh-pages branch
           git push origin gh-pages
-
-      - name: Check Git status
-        run: git status
-
 
   #      - name: Clean up Docker containers and volumes
 #        run: |

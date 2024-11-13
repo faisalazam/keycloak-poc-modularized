@@ -20,8 +20,8 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NEWMAN_XML_REPORT_FILE: postman-report.xml
   NEWMAN_HTML_REPORT_FILE: postman-report.html
-  POSTMAN_COLLECTION: postman/sample.json
-  #  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
+  #  POSTMAN_COLLECTION: postman/sample.json
+  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
   POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
 
 jobs:
@@ -54,12 +54,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-
 
-      - name: Check and install Node.js and npm version
-        run: |
-          node -v
-          sudo npm install -g npm@${NPM_VERSION} --force
-          npm -v
-
       - name: Validate Postman files
         run: |
           if [ ! -f ${{ env.POSTMAN_COLLECTION }} ]; then
@@ -69,87 +63,94 @@ jobs:
             echo "Postman environment not found!" && exit 1
           fi
 
-      #      - name: Install Docker with specific version
-      #        run: |
-      #          # Step 1: Update package index and install dependencies
-      #          sudo apt-get update
-      #          sudo apt-get install -y \
-      #            ca-certificates \
-      #            curl \
-      #            gnupg \
-      #            lsb-release
-      #
-      #          # Step 2: Add Docker's official GPG key
-      #          sudo mkdir -m 0755 -p /etc/apt/keyrings
-      #          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-      #            sudo tee /etc/apt/keyrings/docker.asc > /dev/null
-      #
-      #          # Step 3: Add Docker's official repository
-      #          echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] \
-      #            https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | \
-      #            sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-      #
-      #          # Step 4: Update package index again and install Docker using the Docker installation script
-      #          sudo apt-get update
-      #          curl -fsSL https://get.docker.com | VERSION=${DOCKER_VERSION}
-      #
-      #          # Step 5: Verify Docker installation
-      #          docker --version
-      #
-      #      - name: Install Docker Compose with specific version
-      #        run: |
-      #          sudo curl -L "https://github.com/docker/compose/releases/download/v${{ env.DOCKER_COMPOSE_VERSION }}/docker-compose-$(uname -s)-$(uname -m)" \
-      #            -o /usr/local/bin/docker-compose
-      #          sudo chmod +x /usr/local/bin/docker-compose
-      #          docker-compose --version
-      #
-      #
-      #      - name: Build and run services using start.sh script
-      #        run: |
-      #          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/startup_helper.sh
-      #          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/keycloak/start.sh
-      #          # Check if docker-compose is available before running the start.sh script
-      #          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
-      #          cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
-      #          ./start.sh
+      - name: Install Docker with specific version
+        run: |
+          # Step 1: Update package index and install dependencies
+          sudo apt-get update
+          sudo apt-get install -y \
+            ca-certificates \
+            curl \
+            gnupg \
+            lsb-release
+
+          # Step 2: Add Docker's official GPG key
+          sudo mkdir -m 0755 -p /etc/apt/keyrings
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+            sudo tee /etc/apt/keyrings/docker.asc > /dev/null
+
+          # Step 3: Add Docker's official repository
+          echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] \
+            https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | \
+            sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+          # Step 4: Update package index again and install Docker using the Docker installation script
+          sudo apt-get update
+          curl -fsSL https://get.docker.com | VERSION=${DOCKER_VERSION}
+
+          # Step 5: Verify Docker installation
+          docker --version
+
+      - name: Install Docker Compose with specific version
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/v${{ env.DOCKER_COMPOSE_VERSION }}/docker-compose-$(uname -s)-$(uname -m)" \
+            -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
+      - name: Build and run services using start.sh script
+        run: |
+          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/startup_helper.sh
+          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/keycloak/start.sh
+          # Check if docker-compose is available before running the start.sh script
+          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
+          cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
+          ./start.sh
+
+      # Installing other dependencies after starting up the services as they'll act as an
+      # implicit wait for the services to be fully ready before the tests interact with them.
+      - name: Check and install Node.js and npm version
+        run: |
+          node -v
+          sudo npm install -g npm@${NPM_VERSION} --force
+          npm -v
 
       - name: Install Newman with specific version
         run: |
           npm install -g newman@${{ env.NEWMAN_VERSION }} newman-reporter-html
           newman --version
 
-      #      - name: Wait for service to be available
-      #        run: |
-      #          max_retries=10  # Set the max number of retries
-      #          count=0
-      #          until [ $count -ge $max_retries ]
-      #          do
-      #            response=$(curl -s http://localhost:9000/health/ready)
-      #            if [[ "$response" == *'"status": "UP"'* ]]; then
-      #              echo "Service is up!"
-      #              break
-      #            fi
-      #            count=$((count+1))
-      #            echo "Waiting for service to start... Attempt $count/$max_retries"
-      #            sleep 10
-      #          done
-      #
-      #          if [ $count -ge $max_retries ]; then
-      #            echo "Service did not start in time. Exiting."
-      #            exit 1  # Fail the job if the service is not available after retries
-      #          fi
-      #
-      #      - name: Collect Docker container logs
-      #        run: |
-      #          # Loop through each container and print logs with a container-specific prefix
-      #          for container in mailhog keycloak openldap keycloak-db realm-export-generator keycloak_setup; do
-      #            echo "---- Logs for $container ----"
-      #
-      #            # Display the logs for the current container, prefixing each line with the container name for clarity
-      #            docker logs "$container" | sed "s/^/[$container] /"
-      #
-      #            echo "---- End of logs for $container ----"
-      #          done
+      - name: Wait for services to be available
+        run: |
+          max_retries=10  # Set the max number of retries
+          count=0
+          until [ $count -ge $max_retries ]
+          do
+            response=$(curl -s http://localhost:9000/health/ready)
+            if [[ "$response" == *'"status": "UP"'* ]]; then
+              echo "Service is up!"
+              break
+            fi
+            count=$((count+1))
+            echo "Waiting for service to start... Attempt $count/$max_retries"
+            sleep 10
+          done
+
+          if [ $count -ge $max_retries ]; then
+            echo "Service did not start in time. Exiting."
+            exit 1  # Fail the job if the service is not available after retries
+          fi
+
+      - name: Collect Docker container logs
+        run: |
+          # Loop through each container and print logs with a container-specific prefix
+          for container in mailhog keycloak openldap keycloak-db realm-export-generator keycloak_setup; do
+            echo "---- Logs for $container ----"
+
+            # Display the logs for the current container, prefixing each line with the container name for clarity
+            docker logs "$container" | sed "s/^/[$container] /"
+
+            echo "---- End of logs for $container ----"
+          done
 
       - name: Run Postman tests with Newman
         id: test-results # id is used later on to check whether tests passed or failed
@@ -171,19 +172,18 @@ jobs:
           echo "#### Test run completed, view summary after deployment." >> $GITHUB_STEP_SUMMARY
           echo "#### HTML Report: [View HTML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_HTML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
           echo "#### XML Report: [View XML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_XML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
-      
 
-      #      - name: Collect Docker container logs
-      #        run: |
-      #          # Loop through each container and print logs with a container-specific prefix
-      #          for container in mailhog keycloak openldap keycloak-db realm-export-generator keycloak_setup; do
-      #            echo "---- Logs for $container ----"
-      #
-      #            # Display the logs for the current container, prefixing each line with the container name for clarity
-      #            docker logs "$container" | sed "s/^/[$container] /"
-      #
-      #            echo "---- End of logs for $container ----"
-      #          done
+      - name: Collect Docker container logs after the tests have run
+        run: |
+          # Loop through each container and print logs with a container-specific prefix
+          for container in mailhog keycloak openldap keycloak-db realm-export-generator keycloak_setup; do
+            echo "---- Logs for $container ----"
+
+            # Display the logs for the current container, prefixing each line with the container name for clarity
+            docker logs "$container" | sed "s/^/[$container] /"
+
+            echo "---- End of logs for $container ----"
+          done
 
       - name: Upload the content for GitHub Pages
         uses: actions/upload-artifact@v4
@@ -192,6 +192,13 @@ jobs:
           path: |
             ${{ env.NEWMAN_XML_REPORT_FILE }}
             ${{ env.NEWMAN_HTML_REPORT_FILE }}
+
+      - name: Clean up Docker containers and volumes
+        run: |
+          # Explicit check for docker-compose before using it
+          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
+          cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
+          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
 
   deploy-gh-pages:
     name: gh-pages-deployment

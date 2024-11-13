@@ -152,13 +152,13 @@ jobs:
             -e ${{ env.POSTMAN_ENVIRONMENT }} \
             --reporters cli,html,junit \
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
-            --reporter-junit-export junit-report.xml
+            --reporter-junit-export postman-report.xml
 
       - name: Set Initial Test Results Summary 📜
         run: |
           echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
           echo "#### Test run completed, view summary after deployment." >> $GITHUB_STEP_SUMMARY
-          echo "#### HTML Report: [View HTML Report](https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAME }}/postman-report.html)" >> $GITHUB_STEP_SUMMARY
+          echo "#### HTML Report: [View HTML Report](https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAME }}/${{ env.NEWMAN_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
           echo "#### XML Report: [View XML Report](https://$GITHUB_ACTOR.github.io/${{ env.REPO_NAME }}/postman-report.xml)" >> $GITHUB_STEP_SUMMARY
 
 
@@ -203,7 +203,7 @@ jobs:
           name: ${{ env.PAGES_FOLDER }}
           path: |
             README.md
-            junit-report.xml
+            postman-report.xml
             ${{ env.NEWMAN_REPORT_FILE }}
 
   deploy-gh-pages:

@@ -202,7 +202,10 @@ jobs:
         uses: actions/upload-artifact@v4 #v3 - Error: Unable to find any artifacts for the associated workflow
         with:
           name: ${{ env.PAGES_FOLDER }}
-          path: deploy-content/
+          path: |
+            README.md
+            junit-report.xml
+            ${{ env.NEWMAN_REPORT_FILE }}
 
   deploy-gh-pages:
     name: gh-pages-deployment

@@ -239,6 +239,8 @@ jobs:
       - name: Setup Pages
 #        if: github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v3
+        with:
+          enablement: 'true'
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4

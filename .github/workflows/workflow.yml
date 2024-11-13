@@ -153,14 +153,12 @@ jobs:
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export junit-report.xml
 
-#      - name: Run Postman tests
-#        id: test-results
-#        run: |
-#          newman run ${{ env.POSTMAN_COLLECTION }} \
-#          --reporters cli,html,junit \
-#          --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
-#          --reporter-junit-export junit-report.xml
-#          echo "REPORT_FILE=${{ env.NEWMAN_REPORT_FILE }}" >> $GITHUB_ENV  # Save the report path to an environment variable
+      - name: Setup Pages
+#        if: github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v3
+
+
+
 
       #      - name: Collect Docker container logs
 #        run: |
@@ -174,99 +172,46 @@ jobs:
 #            echo "---- End of logs for $container ----"
 #          done
 
-      - name: Upload Postman test report as artifact
-        uses: actions/upload-artifact@v3
+      - name: Upload Newman Report Artifact
+#        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v1
         with:
-          name: postman-test-report
           path: ${{ env.NEWMAN_REPORT_FILE }}
 
-      - name: Set up Git for GitHub Pages
-        run: |
-          git status
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git fetch origin  # Fetch the latest branches
-          git checkout -b gh-pages  # Switch to gh-pages branch
-
-      - name: Update README with dynamic badge status
-        if: always()  # This ensures the step runs regardless of test pass/fail
-        run: |
-          if [ "${{ steps.test-results.outcome }}" == "success" ]; then
-            echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
-          else
-            echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
-          fi
-          cat README.md >> temp.md  # Append existing README to temp.md
-          mv temp.md README.md  # Replace README.md with updated content
-
-#      - name: Generate and move Postman test report to GitHub Pages folder
+#      - name: Set up Git for GitHub Pages
 #        run: |
-#          mkdir -p gh-pages  # Create gh-pages folder if it doesn't exist
-#          cp ${{ env.REPORT_FILE }} gh-pages/postman-report.html  # Copy the report to the gh-pages folder
+#          git status
+#          git config --global user.name "GitHub Actions"
+#          git config --global user.email "actions@github.com"
+#          git fetch origin  # Fetch the latest branches
+#          git checkout -b gh-pages  # Switch to gh-pages branch
 #
-#      - name: Commit and push Postman report to gh-pages branch
+#      - name: Update README with dynamic badge status
+#        if: always()  # This ensures the step runs regardless of test pass/fail
 #        run: |
-#          git add gh-pages/postman-report.html
-#          git commit -m "Add Postman test report"
-#          git push origin gh-pages  # Push changes to gh-pages branch
+#          if [ "${{ steps.test-results.outcome }}" == "success" ]; then
+#            echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
+#          else
+#            echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
+#          fi
+#          cat README.md >> temp.md  # Append existing README to temp.md
+#          mv temp.md README.md  # Replace README.md with updated content
 
-#      - name: Generate and move Postman test report to GitHub Pages root
-#        run: |
-#          mkdir -p gh-pages  # Ensure gh-pages directory exists
-#          cp ${{ env.NEWMAN_REPORT_FILE }} gh-pages/postman-report.html  # Move report to root of gh-pages branch
-#          git add gh-pages/postman-report.html
-#          git commit -m "Add Postman test report"
-#          git push origin gh-pages
+  deploy-coverage:
+    name: Deploy Postman Report to GitHub Pages
+#    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: build
 
-      - name: Generate and move Postman test report to GitHub Pages root
-        run: |
-          # Create the 'gh-pages' directory if it doesn't exist (this is local to the CI)
-          git status
-          mkdir -p gh-pages  
-          # Copy the Postman test report directly to the root of the gh-pages branch
+    permissions:
+      pages: write
+      id-token: write
 
-          cp ${{ env.NEWMAN_REPORT_FILE }} gh-pages/postman-report.html  # No subdirectory
-          # Copy README.md as index.md for GitHub Pages rendering
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
-          cp README.md gh-pages/index.md
-
-          echo "Before add..."
-          git status
-
-          # Stage the changes
-          git add gh-pages/index.md
-          git add gh-pages/postman-report.html
-
-          # Commit the changes
-          git commit -m "Add Postman test report and update README for GitHub Pages"
-          
-          echo "Before push..."
-          git status
-
-          git config pull.rebase false
-          git pull origin gh-pages
-          # Push the changes to the gh-pages branch
-          git push origin gh-pages
-          
-          echo "Pushed..."
-          git status
-
-  #      - name: Clean up Docker containers and volumes
-#        run: |
-#          # Explicit check for docker-compose before using it
-#          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
-#          cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
-#          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
-
-#      - name: Deploy README.md to GitHub Pages
-#        #        if: github.ref == 'refs/heads/main'  # Ensure this step only runs for the main branch
-#        run: |
-#          # Copy README.md as index.md for GitHub Pages rendering
-#          cp README.md ./index.md
-#
-#          # Add and commit the new index.md file
-#          git add index.md
-#          git commit -m "Deploy README.md to GitHub Pages"
-#
-#          # Push to GitHub Pages branch
-#          git push --force --set-upstream origin gh-pages
+    steps:
+      - name: Deploy Postman Report to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

@@ -216,6 +216,10 @@ jobs:
         with:
           name: ${{ env.PAGES_FOLDER }}
   
+      - name: Check Contents of the Pages Directory 📂
+        run: |
+          echo "Listing contents of current directory"
+          ls -R .
       - name: Clear Previous Pages Directory and Extract Artifact
         run: |
           rm -rf ${{ env.PAGES_FOLDER }}  # Clear the previous content

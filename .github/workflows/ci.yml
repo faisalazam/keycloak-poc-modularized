@@ -28,7 +28,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Cache Docker images
         uses: actions/cache@v3
@@ -215,16 +215,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ env.PAGES_FOLDER }}
+          path: ${{ env.PAGES_FOLDER }}
   
       - name: Check Contents of the Pages Directory 📂
         run: |
           echo "Listing contents of current directory"
           ls -R .
-      - name: Clear Previous Pages Directory and Extract Artifact
-        run: |
-          rm -rf ${{ env.PAGES_FOLDER }}  # Clear the previous content
-          mkdir -p ${{ env.PAGES_FOLDER }}  # Recreate the directory
-          tar -xf ${{ env.ARTIFACT_NAME }} -C ${{ env.PAGES_FOLDER }}  # Extract artifact
   
       - name: Check README.md Existence
         run: |

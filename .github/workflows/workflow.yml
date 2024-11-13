@@ -153,15 +153,15 @@ jobs:
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export junit-report.xml
 
-      - name: Update README with dynamic badge status
-        if: always()  # This ensures the step runs regardless of test pass/fail
-        run: |
-          if [ "${{ steps.test-results.outcome }}" == "success" ]; then
-#            echo "![Build Status](https://img.shields.io/badge/build-passing-brightgreen)" >> README.md
-            echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" >> README.md
-          else
-            echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html))" >> README.md
-          fi
+#      - name: Update README with dynamic badge status
+#        if: always()  # This ensures the step runs regardless of test pass/fail
+#        run: |
+#          if [ "${{ steps.test-results.outcome }}" == "success" ]; then
+##            echo "![Build Status](https://img.shields.io/badge/build-passing-brightgreen)" >> README.md
+#            echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" >> README.md
+#          else
+#            echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html))" >> README.md
+#          fi
 
 #      - name: Collect Docker container logs
 #        run: |

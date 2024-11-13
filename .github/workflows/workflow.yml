@@ -216,10 +216,6 @@ jobs:
       - name: Deploy README.md to GitHub Pages
         #        if: github.ref == 'refs/heads/main'  # Ensure this step only runs for the main branch
         run: |
-#          git config --global user.name "GitHub Actions"
-#          git config --global user.email "actions@github.com"
-#          git checkout -b gh-pages
-          
           # Copy README.md as index.md for GitHub Pages rendering
           cp README.md ./index.md
           

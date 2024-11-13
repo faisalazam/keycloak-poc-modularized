@@ -214,8 +214,8 @@ jobs:
 #          cat README.md >> temp.md  # Append existing README to temp.md
 #          mv temp.md README.md  # Replace README.md with updated content
 
-  deploy-coverage:
-    name: Deploy Postman Report to GitHub Pages
+  deploy-gh-pages:
+    name: gh-pages-deployment
 #    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: build

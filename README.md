@@ -13,10 +13,6 @@
 ![Mailhog](https://img.shields.io/badge/Mailhog-active-blue?style=flat-square)
 ![Docker](https://img.shields.io/badge/Docker-active-blue?style=flat-square)
 
-### CI/CD and Test Results
-![CI](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml/badge.svg)
-![Tests](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/tests.yml/badge.svg)
-
 ### Additional Information
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 ![Docker Image Size](https://img.shields.io/docker/image-size/faisalazam/keycloak-poc-modularized?style=flat-square)

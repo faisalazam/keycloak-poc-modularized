@@ -192,35 +192,49 @@ jobs:
           name: github-pages
           path: deploy-content/
 
-  deploy-gh-pages:
-    name: gh-pages-deployment
-#    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    needs: build
+deploy-gh-pages:
+  name: gh-pages-deployment
+  runs-on: ubuntu-latest
+  needs: build
 
-    permissions:
-      contents: write
+  permissions:
+    contents: write
 
-    #environment:
-      #name: github-pages
-      #url: ${{ steps.base_url.outputs.page_url }}
+  env:
+    ARTIFACT_NAME: artifact.tar
+    PAGES_FOLDER: github-pages
+    REPO_NAME: ${{ github.repository }}
+    GITHUB_ACTOR: ${{ github.actor }}
+    GITHUB_URL: https://${{ github.actor }}.github.io/${{ github.repository }}
 
-    steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v4
-      - name: Download GitHub Pages Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: github-pages
-      - name: Extract artifact.tar
-        run: |
-          mkdir -p github-pages
-          tar -xf artifact.tar -C github-pages
-      - name: List files in github-pages
-        run: |
-          ls -R .
+  steps:
+    - name: Checkout 🛎️
+      uses: actions/checkout@v4
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: github-pages
+    - name: Download GitHub Pages Artifact 📦
+      uses: actions/download-artifact@v3
+      with:
+        name: ${{ env.ARTIFACT_NAME }}
+
+    - name: Clear Previous Pages Directory and Extract Artifact 🔓
+      run: |
+        rm -rf ${{ env.PAGES_FOLDER }}  # Clear the previous content
+        mkdir -p ${{ env.PAGES_FOLDER }}  # Recreate the directory
+        tar -xf ${{ env.ARTIFACT_NAME }} -C ${{ env.PAGES_FOLDER }}  # Extract artifact
+
+    - name: Check README.md Existence 📜
+      run: |
+        if [ -f "${{ env.PAGES_FOLDER }}/README.md" ]; then
+          echo "README.md found"
+        else
+          echo "README.md is missing!" && exit 1
+        fi
+
+    - name: Deploy to GitHub Pages 🚀
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: ${{ env.PAGES_FOLDER }}
+
+    - name: Display GitHub Pages URL 📎
+      run: |
+        echo "The GitHub Pages URL is: ${{ env.GITHUB_URL }}"

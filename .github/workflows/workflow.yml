@@ -169,10 +169,16 @@ jobs:
           name: postman-test-report
           path: ${{ env.NEWMAN_REPORT_FILE }}
 
+      - name: Generate and move Postman test report to GitHub Pages folder
+        run: |
+          mkdir -p docs  # Create the docs folder if it doesn't exist
+          cp ${{ env.NEWMAN_REPORT_FILE }} docs/postman-report.html  # Move the report to docs folder
+
       - name: Generate link to Postman test report
         run: |
           echo "## Postman Test Report" >> README.md
-          echo "[View Test Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> README.md
+          echo "[View Test Report](https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" >> README.md
+#          echo "[View Test Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> README.md
 
 
       - name: Clean up Docker containers and volumes

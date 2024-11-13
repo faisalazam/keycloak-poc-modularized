@@ -153,15 +153,9 @@ jobs:
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export junit-report.xml
 
-#      - name: Setup Pages
-##        if: github.ref == 'refs/heads/main'
-#        uses: actions/configure-pages@v3
-
-      - name: Upload Newman test report as artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: newman-report
-          path: ${{ env.NEWMAN_REPORT_FILE }}
+      - name: Setup Pages
+#        if: github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v3
 
 
 
@@ -189,11 +183,17 @@ jobs:
           cat README.md >> temp.md  # Append existing README to temp.md
           mv temp.md README.md  # Replace README.md with updated content
 
-      - name: Upload updated README as artifact
-        uses: actions/upload-artifact@v2
+      - name: Create a directory to store README and Newman report
+        run: |
+          mkdir -p deploy-content
+          cp README.md deploy-content/
+          cp ${{ env.NEWMAN_REPORT_FILE }} deploy-content/
+
+      - name: Upload the content for GitHub Pages
+        uses: actions/upload-artifact@v3
         with:
-          name: updated-readme
-          path: README.md
+          name: github-pages
+          path: deploy-content/
 
 #      - name: Set up Git for GitHub Pages
 #        run: |
@@ -231,8 +231,6 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v3
         with:
-          # Define source folder for GitHub Pages content
-          branch: gh-pages  # The branch to deploy to
-          folder: ./  # Specify the folder containing your updated content (use './' for root)
+          artifact_name: github-pages

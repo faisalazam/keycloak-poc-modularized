@@ -31,13 +31,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Git for GitHub Pages
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git fetch origin  # Fetch the latest branches
-          git checkout gh-pages || git checkout -b gh-pages  # Switch to gh-pages branch or create it if it doesn't exist
-
       - name: Cache Docker images
         uses: actions/cache@v3
         with:
@@ -224,6 +217,13 @@ jobs:
 #          git add gh-pages/postman-report.html
 #          git commit -m "Add Postman test report"
 #          git push origin gh-pages
+
+      - name: Set up Git for GitHub Pages
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git fetch origin  # Fetch the latest branches
+          git checkout gh-pages || git checkout -b gh-pages  # Switch to gh-pages branch or create it if it doesn't exist
 
       - name: Generate and move Postman test report to GitHub Pages root
         run: |

@@ -261,4 +261,4 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: gh-pages # The folder the action s
+          folder: github-pages # The folder the action s

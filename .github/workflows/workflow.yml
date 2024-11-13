@@ -153,7 +153,6 @@ jobs:
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export junit-report.xml
 
-      # Dynamic Badge Update Step
       - name: Update README with dynamic badge status
         if: always()  # This ensures the step runs regardless of test pass/fail
         run: |

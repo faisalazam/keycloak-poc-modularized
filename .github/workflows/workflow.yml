@@ -152,13 +152,6 @@ jobs:
             --reporters cli,html,junit \
             --reporter-html-export ${{ env.NEWMAN_REPORT_FILE }} \
             --reporter-junit-export junit-report.xml
-#          # Capture the outcome
-#          if [ $? -eq 0 ]; then
-#            echo "::set-output name=outcome::success"
-##            echo "test-results-outcome=success" >> $GITHUB_ENV
-#          else
-#            echo "::set-output name=outcome::failure"
-#          fi
 
 #      - name: Run Postman tests
 #        id: test-results
@@ -198,12 +191,9 @@ jobs:
       - name: Update README with dynamic badge status
         if: always()  # This ensures the step runs regardless of test pass/fail
         run: |
-          echo "Test Outcome: ${{ steps.test-results.outcome }}"
           if [ "${{ steps.test-results.outcome }}" == "success" ]; then
-            echo "[[[[[[[[[[[[[[[[[[[[[[["
             echo "![Test Results](https://img.shields.io/badge/build-passing-brightgreen?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
           else
-            echo "[[[[[[[[[[[[[[[[[[[[[[[-----------------"
             echo "![Build Status](https://img.shields.io/badge/build-failing-red?url=https://$GITHUB_ACTOR.github.io/${{ github.repository }}/postman-report.html)" > temp.md
           fi
           cat README.md >> temp.md  # Append existing README to temp.md
@@ -253,6 +243,7 @@ jobs:
           echo "Before push..."
           git status
 
+          git config pull.rebase false
           git pull origin gh-pages
           # Push the changes to the gh-pages branch
           git push origin gh-pages

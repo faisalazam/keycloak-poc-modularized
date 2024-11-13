@@ -1,7 +1,7 @@
 
 
 [![CI](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml/badge.svg)](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml)
-
+https://img.shields.io/badge/build-failing-red
 ![Keycloak](https://img.shields.io/badge/Keycloak-active-blue?style=flat-square)
 ![PhpLdapAdmin](https://img.shields.io/badge/PhpLdapAdmin-active-blue?style=flat-square)
 ![LDAP](https://img.shields.io/badge/LDAP-active-blue?style=flat-square)

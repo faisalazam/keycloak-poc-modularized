@@ -199,12 +199,11 @@ jobs:
     needs: build
 
     permissions:
-      #pages: write
       contents: write
 
-    environment:
-      name: github-pages
-      url: ${{ steps.base_url.outputs.page_url }}
+    #environment:
+      #name: github-pages
+      #url: ${{ steps.base_url.outputs.page_url }}
 
     steps:
       - name: Checkout 🛎️

@@ -49,7 +49,7 @@ jobs:
       - name: Check and install Node.js and npm version
         run: |
           node -v
-          npm install -g npm@${NPM_VERSION} --force
+          sudo npm install -g npm@${NPM_VERSION} --force
           npm -v
 
       - name: Validate Postman files

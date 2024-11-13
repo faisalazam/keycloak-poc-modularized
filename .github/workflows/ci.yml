@@ -23,7 +23,6 @@ env:
   POSTMAN_COLLECTION: postman/sample.json
   #  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
   POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
-  SITE_ROOT_URL: https://${{ github.actor }}.github.io/${{ github.event.repository.name }}
 
 jobs:
   build:
@@ -34,6 +33,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set SITE_ROOT_URL Variable
+        run: echo "SITE_ROOT_URL=https://${GITHUB_ACTOR}.github.io/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
 
       - name: Cache Docker images
         uses: actions/cache@v4
@@ -215,6 +218,9 @@ jobs:
       - name: Copy README to GitHub Pages Folder
         run: |
           cp README.md ${{ env.PAGES_FOLDER }}/README.md
+
+      - name: Set SITE_ROOT_URL Variable
+        run: echo "SITE_ROOT_URL=https://${GITHUB_ACTOR}.github.io/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
       - name: Update README with dynamic badge status
         run: |

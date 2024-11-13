@@ -230,6 +230,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
+      - name: Download GitHub Pages Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: github-pages
       - name: List files in github-pages
         run: |
           ls -R github-pages

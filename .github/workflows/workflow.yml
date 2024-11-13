@@ -214,6 +214,10 @@ jobs:
 #          git commit -m "Add Postman test report"
 #          git push origin gh-pages
 
+      - name: Check if report file exists
+        run: |
+          ls -l ${{ env.REPORT_FILE }}
+
       - name: Generate and move Postman test report to GitHub Pages root
         run: |
           # Create the 'gh-pages' directory if it doesn't exist (this is local to the CI)
@@ -225,18 +229,35 @@ jobs:
           # Copy README.md as index.md for GitHub Pages rendering
           cp README.md gh-pages/index.md
 
-          # Stage the changes
-          git add gh-pages/index.md gh-pages/postman-report.html
+#          # Stage the changes
+#          git add gh-pages/index.md gh-pages/postman-report.html
 
-          # Commit the changes
-          git commit -m "Add Postman test report and update README for GitHub Pages"
-
-          # Push the changes to the gh-pages branch
-          git push origin gh-pages
+#          # Commit the changes
+#          git commit -m "Add Postman test report and update README for GitHub Pages"
+#
+#          # Push the changes to the gh-pages branch
+#          git push origin gh-pages
           git ls-tree gh-pages
-      
+          git ls-tree gh-pages/gh-pages
 
-      #      - name: Clean up Docker containers and volumes
+      - name: Check Git status
+        run: git status
+
+      - name: Stage all changes
+        run: |
+          git add .
+          git commit -m "Add Postman report and update README"
+
+      - name: Commit and Push changes to gh-pages
+        run: |
+          git commit -a -m "Add Postman test report"
+          git push origin gh-pages
+
+      - name: Check Git status
+        run: git status
+
+
+  #      - name: Clean up Docker containers and volumes
 #        run: |
 #          # Explicit check for docker-compose before using it
 #          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }

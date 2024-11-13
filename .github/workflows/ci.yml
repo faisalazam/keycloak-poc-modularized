@@ -230,7 +230,7 @@ jobs:
           BADGE_URL="https://img.shields.io/badge/build-${BADGE}"
 
           # Update the copied README.md file with the badge
-          sed -i "s|<!-- BUILD_BADGE_PLACEHOLDER -->|${BADGE_MARKDOWN}|" ${{ env.PAGES_FOLDER }}/README.md      
+          sed -i "s|<!-- BUILD_BADGE_PLACEHOLDER -->|${BADGE_URL}|" ${{ env.PAGES_FOLDER }}/README.md      
 
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4

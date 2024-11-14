@@ -8,6 +8,8 @@ on:
 env:
   NPM_VERSION: 10.9.0
   NEWMAN_VERSION: 5.3.0
+  NEWMAN_XML_REPORT_FILE: postman-report.xml
+  NEWMAN_HTML_REPORT_FILE: postman-report.html
   POSTMAN_COLLECTION: postman/sample.json
   POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
 
@@ -48,3 +50,11 @@ jobs:
         run: |
           npm install -g newman@${{ env.NEWMAN_VERSION }} newman-reporter-html
           newman --version
+
+      - name: Run Postman tests with Newman
+        run: |
+          newman run ${{ env.POSTMAN_COLLECTION }} \
+            -e ${{ env.POSTMAN_ENVIRONMENT }} \
+            --reporters cli,html,junit \
+            --reporter-html-export ${{ env.NEWMAN_HTML_REPORT_FILE }} \
+            --reporter-junit-export ${{ env.NEWMAN_XML_REPORT_FILE }}

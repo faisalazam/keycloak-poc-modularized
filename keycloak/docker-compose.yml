@@ -43,8 +43,8 @@ services:
       openldap:
         condition: service_healthy
     volumes:
-      - ./entrypoint.sh:/opt/keycloak/entrypoint.sh
-      - ./wait-for-it.sh:/opt/keycloak/wait-for-it.sh
+#      - ./entrypoint.sh:/opt/keycloak/entrypoint.sh
+#      - ./wait-for-it.sh:/opt/keycloak/wait-for-it.sh
 #      - ./configure-keycloak.sh:/opt/keycloak/configure-keycloak.sh
       - keycloak_data:/opt/keycloak/data/import
     networks:

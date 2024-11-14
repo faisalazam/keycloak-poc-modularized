@@ -119,6 +119,13 @@ jobs:
             ${{ env.NEWMAN_XML_REPORT_FILE }}
             ${{ env.NEWMAN_HTML_REPORT_FILE }}
 
+      - name: Clean up Docker containers and volumes
+        run: |
+          # Explicit check for docker-compose before using it
+          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
+          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
+        working-directory: ./postgres # TODO: change it to keycloak once that's ready
+
   deploy-gh-pages:
     name: gh-pages-deployment
     runs-on: ubuntu-latest

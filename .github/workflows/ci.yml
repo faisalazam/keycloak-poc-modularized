@@ -109,7 +109,7 @@ jobs:
       - name: Set Initial Test Results Summary 📜
         run: |
           echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
-          echo "#### Test run completed, view summary after deployment." >> $GITHUB_STEP_SUMMARY
+          echo "#### Test run completed, view summary after deployment as otherwise you may see the old reports." >> $GITHUB_STEP_SUMMARY
           echo "#### HTML Report: [View HTML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_HTML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
           echo "#### XML Report: [View XML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_XML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
 

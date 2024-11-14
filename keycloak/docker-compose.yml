@@ -107,6 +107,19 @@ volumes:
 #  Smtp to using our no-reply@telcoinabox.com.au office365 account
 #  Customise the reset password email
 #  Customise the reset password portal - similar to look and feel
+#  <property key="mail.smtp.from">no-reply@telcoinabox.com.au</property>
+#  <property key="mail.smtp.user">no-reply@telcoinabox.com.au</property>
+#  <property key="mail.smtp.password">Uc!xVIuLuD</property>
+#  <property key="mail.smtp.host">smtp.office365.com</property>
+#  <property key="mail.smtp.port">587</property>
+
+# http://192.168.182.50:17290/auth/admin
+# http://192.168.182.50:17290/auth/realms/telflow/account
+# sudo => sudo su
+# docker logs idp_kc_1 -n 100 -f => -f will follow the logs instead of quiting after showing n logs.
+# keycloak logs => cd /opt/telflow/docker-compose -
+# docker exec -it idp_kc_1 sh
+#
 
 
 # Postgres
@@ -115,9 +128,6 @@ volumes:
 # Enable TLS on services
 
 # Postman
-# Add support for folder level vars in all folders
-# Add tests and error handling and proper log/print statements
-# Setup CI/CD in GitHub
 # Consider Chaining with pm.setNextRequest?
 #
 #Here is the json of Refresh Token folder:
@@ -140,3 +150,5 @@ volumes:
 #Also add enough tests to ensure that each request worked as expected.
 #
 #And add log statements where necessary.
+
+# Key Points

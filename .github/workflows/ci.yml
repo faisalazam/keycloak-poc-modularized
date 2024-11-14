@@ -67,3 +67,41 @@ jobs:
           path: |
             ${{ env.NEWMAN_XML_REPORT_FILE }}
             ${{ env.NEWMAN_HTML_REPORT_FILE }}
+
+  deploy-gh-pages:
+    name: gh-pages-deployment
+    runs-on: ubuntu-latest
+    needs: build
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout the Repository 🛎️
+        uses: actions/checkout@v4
+
+      - name: Download GitHub Pages Artifact 📦
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PAGES_FOLDER }}
+          path: ${{ env.PAGES_FOLDER }}
+
+      - name: Check Contents of the Directory 📂
+        run: |
+          ls -R .
+
+      - name: Copy README to GitHub Pages Folder
+        run: |
+          cp README.md ${{ env.PAGES_FOLDER }}/README.md
+
+      - name: Set SITE_ROOT_URL Variable
+        run: echo "SITE_ROOT_URL=https://${GITHUB_ACTOR}.github.io/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+      - name: Deploy to GitHub Pages 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ${{ env.PAGES_FOLDER }}
+
+      - name: Display GitHub Pages URL 🌐
+        run: |
+          echo "The GitHub Pages URL is: ${{ env.SITE_ROOT_URL }}"

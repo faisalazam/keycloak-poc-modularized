@@ -8,6 +8,8 @@ on:
 env:
   NPM_VERSION: 10.9.0
   NEWMAN_VERSION: 5.3.0
+  POSTMAN_COLLECTION: postman/sample.json
+  POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
 
 jobs:
   build:

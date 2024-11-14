@@ -7,7 +7,6 @@ on:
 
 env:
   NPM_VERSION: 10.9.0
-#  DOCKER_COMPOSE_DIR: .
   NEWMAN_VERSION: 5.3.0
   DOCKER_VERSION: 5:27.3.1
   PAGES_FOLDER: github-pages
@@ -16,6 +15,8 @@ env:
   NEWMAN_XML_REPORT_FILE: postman-report.xml
   NEWMAN_HTML_REPORT_FILE: postman-report.html
   POSTMAN_COLLECTION: postman/sample.json
+#  TODO: enable me once keycloak is ready
+#  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
   POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
 
 jobs:

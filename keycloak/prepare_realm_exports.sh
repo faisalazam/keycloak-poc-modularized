@@ -3,11 +3,22 @@
 # Directory containing realm folders
 REALMS_DIR="/tmp/realms"
 
+# File paths for JSON files to be merged
+SMTP_FILE="smtp.json"
+LDAP_FILE="ldap.json"
+USERS_FILE="users.json"
+REALM_EXPORT_FILE="realm-export.json"
+
+# Temporary and output file names
+SHARED_DIR="/shared"
+OUTPUT_FILE="merged-realm-export.json"
+MERGED_TEMPLATE_FILE="merged-realm-export-template.json"
+
 # Function to merge JSON files
 merge_json() {
-    local target_file="$1"
-    local source_file="$2"
-    local jq_command="$3"
+    target_file="$1"
+    source_file="$2"
+    jq_command="$3"
 
     if [ -f "$source_file" ]; then
         echo "Merging $source_file..."
@@ -21,26 +32,23 @@ merge_json() {
 # Loop through each realm directory
 for realm_dir in "$REALMS_DIR"/*; do
     if [ -d "$realm_dir" ]; then
-        # Output file for each realm
-        merged_template_file="$realm_dir/merged-realm-export-template.json"
-        echo '{}' > "$merged_template_file"  # Initialize an empty JSON object
+        # Initialize an empty JSON object in the template file
+        echo '{}' > "$realm_dir/$MERGED_TEMPLATE_FILE"
 
         # Merge files with the appropriate jq command
-        merge_json "$merged_template_file" "$realm_dir/realm-export.json" ". += \$source"
-        merge_json "$merged_template_file" "$realm_dir/users.json" ".users += \$source.users"
-        merge_json "$merged_template_file" "$realm_dir/smtp.json" ".smtpServer = \$source.smtpServer"
-        merge_json "$merged_template_file" "$realm_dir/ldap.json" ".components += \$source.components"
+        merge_json "$realm_dir/$MERGED_TEMPLATE_FILE" "$realm_dir/$REALM_EXPORT_FILE" ". += \$source"
+        merge_json "$realm_dir/$MERGED_TEMPLATE_FILE" "$realm_dir/$USERS_FILE" ".users += \$source.users"
+        merge_json "$realm_dir/$MERGED_TEMPLATE_FILE" "$realm_dir/$SMTP_FILE" ".smtpServer = \$source.smtpServer"
+        merge_json "$realm_dir/$MERGED_TEMPLATE_FILE" "$realm_dir/$LDAP_FILE" ".components += \$source.components"
 
         # Substitute environment variables and output final merged file
-        output_file="$realm_dir/merged-realm-export.json"
-        envsubst < "$merged_template_file" > "$output_file"
-
-        echo "Generated $output_file with environment variables."
+        envsubst < "$realm_dir/$MERGED_TEMPLATE_FILE" > "$realm_dir/$OUTPUT_FILE"
+        echo "Generated $realm_dir/$OUTPUT_FILE with environment variables."
 
         # Copy the merged output to the shared directory
-        cp "$output_file" "/shared/$(basename "$realm_dir")-realm-export.json"
+        cp "$realm_dir/$OUTPUT_FILE" "$SHARED_DIR/$(basename "$realm_dir")-$OUTPUT_FILE"
 
         # Clean up temporary files
-        rm "$output_file" "$merged_template_file"
+        rm "$realm_dir/$OUTPUT_FILE" "$realm_dir/$MERGED_TEMPLATE_FILE"
     fi
 done

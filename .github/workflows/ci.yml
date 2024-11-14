@@ -14,9 +14,8 @@ env:
   DOCKER_COMPOSE_FILE: docker-compose.yml
   NEWMAN_XML_REPORT_FILE: postman-report.xml
   NEWMAN_HTML_REPORT_FILE: postman-report.html
-  POSTMAN_COLLECTION: postman/sample.json
-#  TODO: enable me once keycloak is ready
-#  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
+#  POSTMAN_COLLECTION: postman/sample.json
+  POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
   POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
 
 jobs:

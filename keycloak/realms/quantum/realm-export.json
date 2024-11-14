@@ -8,7 +8,7 @@
       "protocol": "openid-connect",
       "clientId": "quantum-api-client",
       "redirectUris": [
-        "http://localhost:8080/*"
+        "${QUANTUM_REALM_REDIRECT_URI}"
       ]
     }
   ],

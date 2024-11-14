@@ -14,6 +14,11 @@ SHARED_DIR="/shared"
 OUTPUT_FILE="merged-realm-export.json"
 MERGED_TEMPLATE_FILE="merged-realm-export-template.json"
 
+# Check for required commands
+for cmd in jq envsubst; do
+    command -v "$cmd" >/dev/null 2>&1 || { echo >&2 "Error: $cmd command is required but not found."; exit 1; }
+done
+
 # Function to merge JSON files
 merge_json() {
     target_file="$1"
@@ -21,8 +26,10 @@ merge_json() {
     jq_command="$3"
 
     if [ -f "$source_file" ]; then
-        echo "Merging $source_file..."
-        output=$(jq --argfile source "$source_file" "$jq_command" "$target_file")
+        echo "Merging $source_file into $target_file..."
+        output=$(jq --argfile source "$source_file" "$jq_command" "$target_file") || {
+            echo "Error: Failed to merge $source_file"; exit 1;
+        }
         echo "$output" > "$target_file"
     else
         echo "Warning: $source_file does not exist."
@@ -32,23 +39,36 @@ merge_json() {
 # Loop through each realm directory
 for realm_dir in "$REALMS_DIR"/*; do
     if [ -d "$realm_dir" ]; then
-        # Initialize an empty JSON object in the template file
-        echo '{}' > "$realm_dir/$MERGED_TEMPLATE_FILE"
+        realm_name=$(basename "$realm_dir")
+        merged_template_path="$realm_dir/$MERGED_TEMPLATE_FILE"
+        output_path="$realm_dir/$OUTPUT_FILE"
+        shared_output_path="$SHARED_DIR/${realm_name}-$OUTPUT_FILE"
 
-        # Merge files with the appropriate jq command
-        merge_json "$realm_dir/$MERGED_TEMPLATE_FILE" "$realm_dir/$REALM_EXPORT_FILE" ". += \$source"
-        merge_json "$realm_dir/$MERGED_TEMPLATE_FILE" "$realm_dir/$USERS_FILE" ".users += \$source.users"
-        merge_json "$realm_dir/$MERGED_TEMPLATE_FILE" "$realm_dir/$SMTP_FILE" ".smtpServer = \$source.smtpServer"
-        merge_json "$realm_dir/$MERGED_TEMPLATE_FILE" "$realm_dir/$LDAP_FILE" ".components += \$source.components"
+        # Initialize an empty JSON object in the template file
+        echo '{}' > "$merged_template_path" || { echo "Error: Failed to initialize $merged_template_path"; exit 1; }
+
+        # Merge JSON files with appropriate commands
+        merge_json "$merged_template_path" "$realm_dir/$REALM_EXPORT_FILE" ". += \$source"
+        merge_json "$merged_template_path" "$realm_dir/$USERS_FILE" ".users += \$source.users"
+        # TODO: configure SMTP based on some boolean environment variable
+        merge_json "$merged_template_path" "$realm_dir/$SMTP_FILE" ".smtpServer = \$source.smtpServer"
+        # TODO: configure LDAP based on some boolean environment variable
+        merge_json "$merged_template_path" "$realm_dir/$LDAP_FILE" ".components += \$source.components"
 
         # Substitute environment variables and output final merged file
-        envsubst < "$realm_dir/$MERGED_TEMPLATE_FILE" > "$realm_dir/$OUTPUT_FILE"
-        echo "Generated $realm_dir/$OUTPUT_FILE with environment variables."
+        envsubst < "$merged_template_path" > "$output_path" || {
+            echo "Error: Failed to substitute environment variables in $merged_template_path"; exit 1;
+        }
+        echo "Generated $output_path with environment variables."
 
         # Copy the merged output to the shared directory
-        cp "$realm_dir/$OUTPUT_FILE" "$SHARED_DIR/$(basename "$realm_dir")-$OUTPUT_FILE"
+        cp "$output_path" "$shared_output_path" || {
+            echo "Error: Failed to copy $output_path to $shared_output_path"; exit 1;
+        }
 
         # Clean up temporary files
-        rm "$realm_dir/$OUTPUT_FILE" "$realm_dir/$MERGED_TEMPLATE_FILE"
+        rm "$output_path" "$merged_template_path" || {
+            echo "Error: Failed to clean up temporary files"; exit 1;
+        }
     fi
 done

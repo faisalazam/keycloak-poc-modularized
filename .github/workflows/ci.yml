@@ -77,7 +77,7 @@ jobs:
           # Check if docker-compose is available before running the start.sh script
           which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
           ./start.sh
-        working-directory: ./postgres # TODO: change it to keycloak once that's ready
+        working-directory: ./keycloak
 
       # Installing other dependencies after starting up the services as they'll act as an
       # implicit wait for the services to be fully ready before the tests interact with them.
@@ -126,7 +126,7 @@ jobs:
           # Explicit check for docker-compose before using it
           which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
           docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
-        working-directory: ./postgres # TODO: change it to keycloak once that's ready
+        working-directory: ./keycloak
 
   deploy-gh-pages:
     name: gh-pages-deployment

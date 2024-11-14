@@ -1,4 +1,6 @@
 include:
+  - ../ldap/docker-compose.yml
+  - ../mailhog/docker-compose.yml
   - ../postgres/docker-compose.yml
 
 services:
@@ -36,11 +38,15 @@ services:
         condition: service_started
       postgres:
         condition: service_healthy
+      mailhog:
+        condition: service_healthy
+      openldap:
+        condition: service_healthy
     volumes:
       - keycloak_data:/opt/keycloak/data/import
     networks:
       - keycloak_network
-    command: [ "start-dev", "--import-realm" ] # working
+    command: [ "start-dev", "--import-realm" ]
     healthcheck:
       test: >
         sh -c "

@@ -65,30 +65,9 @@ jobs:
 
       - name: Install Docker with specific version
         run: |
-          # Step 1: Update package index and install dependencies
-          sudo apt-get update
-          sudo apt-get install -y \
-            ca-certificates \
-            curl \
-            gnupg \
-            lsb-release
-
-          # Step 2: Add Docker's official GPG key
-          sudo mkdir -m 0755 -p /etc/apt/keyrings
-          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-            sudo tee /etc/apt/keyrings/docker.asc > /dev/null
-
-          # Step 3: Add Docker's official repository
-          echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] \
-            https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | \
-            sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-          # Step 4: Update package index again and install Docker using the Docker installation script
-          sudo apt-get update
-          curl -fsSL https://get.docker.com | VERSION=${DOCKER_VERSION}
-
-          # Step 5: Verify Docker installation
-          docker --version
+          chmod +x ./install_docker.sh
+          ./install_docker.sh
+        working-directory: ./.github/workflows/scripts
 
       - name: Install Docker Compose with specific version
         run: |
@@ -99,21 +78,20 @@ jobs:
 
       - name: Build and run services using start.sh script
         run: |
-          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/startup_helper.sh
-          chmod +x ${{ env.DOCKER_COMPOSE_DIR }}/keycloak/start.sh
+          chmod +x ../startup_helper.sh
+          chmod +x ./start.sh
           # Check if docker-compose is available before running the start.sh script
           which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
-          cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
           ./start.sh
+        working-directory: ./keycloak
 
       # Installing other dependencies after starting up the services as they'll act as an
       # implicit wait for the services to be fully ready before the tests interact with them.
       - name: Check and install Node.js and npm version
         run: |
-          pwd
-          ls -R
-          chmod +x ./scripts/install_npm_dependencies.sh
-          ./scripts/install_npm_dependencies.sh
+          chmod +x ./install_npm_dependencies.sh
+          ./install_npm_dependencies.sh
+        working-directory: ./.github/workflows/scripts
 
       - name: Install Newman with specific version
         run: |
@@ -122,9 +100,9 @@ jobs:
 
       - name: Wait for services to be available
         run: |
-          pwd
-          chmod +x ./scripts/check_health.sh
-          ./scripts/check_health.sh
+          chmod +x ./check_health.sh
+          ./check_health.sh
+        working-directory: ./.github/workflows/scripts
 
       - name: Collect Docker container logs
         run: |
@@ -183,8 +161,8 @@ jobs:
         run: |
           # Explicit check for docker-compose before using it
           which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
-          cd ${{ env.DOCKER_COMPOSE_DIR }}/keycloak
           docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
+        working-directory: ./keycloak
 
   deploy-gh-pages:
     name: gh-pages-deployment

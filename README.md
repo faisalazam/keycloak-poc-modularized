@@ -1,6 +1,6 @@
 
 [![CI](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml/badge.svg)](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml)
-<!-- BUILD_BADGE_PLACEHOLDER -->
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://faisalazam.github.io/keycloak-poc-modularized/postman-report.html)
 ![Keycloak](https://img.shields.io/badge/Keycloak-active-blue?style=flat-square)
 ![PhpLdapAdmin](https://img.shields.io/badge/PhpLdapAdmin-active-blue?style=flat-square)
 ![LDAP](https://img.shields.io/badge/LDAP-active-blue?style=flat-square)

@@ -1,4 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Simple GET Test" tests="1" time="0.147">
-  <testsuite name="Test GET Request" id="f60d225e-8ec1-4c06-914f-e37852a13aa4" timestamp="2024-11-14T06:00:07.136Z" tests="0" failures="0" errors="0" time="0.147"/>
+<testsuites name="Keycloak" tests="22" time="1.171">
+  <testsuite name="User/Auth Management / Login / Login - Admin" id="3c094fa4-0f1e-410f-9f8e-09d602cc0469" timestamp="2024-11-14T06:20:00.314Z" tests="4" failures="0" errors="0" time="0.092">
+    <testcase name="Status code is 200" time="0.092" classname="Keycloak"/>
+    <testcase name="Response body contains access token" time="0.092" classname="Keycloak"/>
+    <testcase name="Log token for debugging" time="0.092" classname="Keycloak"/>
+    <testcase name="Handle error if status code is not 200" time="0.092" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Login / Login - User" id="320c32dd-6284-4c3a-94a8-0447f3a9d6e0" timestamp="2024-11-14T06:20:00.314Z" tests="4" failures="0" errors="0" time="0.064">
+    <testcase name="Status code is 200" time="0.064" classname="Keycloak"/>
+    <testcase name="Response body contains access token" time="0.064" classname="Keycloak"/>
+    <testcase name="Log token for debugging" time="0.064" classname="Keycloak"/>
+    <testcase name="Handle error if status code is not 200" time="0.064" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Logout / 1 - Login - User" id="c6c09919-2dc5-4102-a415-0496d6d412db" timestamp="2024-11-14T06:20:00.314Z" tests="1" failures="0" errors="0" time="0.043">
+    <testcase name="Login - User: Refresh token retrieved and stored" time="0.043" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Logout / 2 - Logout - User" id="3508339c-e94c-4ed6-8842-ff5fd1793fce" timestamp="2024-11-14T06:20:00.314Z" tests="2" failures="0" errors="0" time="0.034">
+    <testcase name="Logout - User: Logout request successful" time="0.034" classname="Keycloak"/>
+    <testcase name="Handle error if status code is not 204" time="0.034" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Get User Info / 1 - Login - Admin" id="52fae7f6-d01f-4003-a129-bc073f892e17" timestamp="2024-11-14T06:20:00.314Z" tests="1" failures="0" errors="0" time="0.043">
+    <testcase name="Admin Login: Status code should be 200" time="0.043" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Get User Info / 2 - Get User (Name) - Admin" id="60197f12-c2c3-40b2-b042-17d5c4d0ab73" timestamp="2024-11-14T06:20:00.314Z" tests="1" failures="0" errors="0" time="0.069">
+    <testcase name="Get User (Name) - Admin: User retrieval status should be 200" time="0.069" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Get User Info / 3 - Get User Info - Admin" id="15b493e2-51ed-4c2d-8480-d9fcab9a9de7" timestamp="2024-11-14T06:20:00.314Z" tests="2" failures="0" errors="0" time="0.026">
+    <testcase name="Get User Info - Admin: Response status should be 200" time="0.026" classname="Keycloak"/>
+    <testcase name="User info should have valid structure" time="0.026" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Refresh Token / 1 - Login - User" id="6b5a2e5d-1e4a-42e6-b100-c5717a4e53ed" timestamp="2024-11-14T06:20:00.314Z" tests="2" failures="0" errors="0" time="0.048">
+    <testcase name="Login - User: Status code should be 200" time="0.048" classname="Keycloak"/>
+    <testcase name="Login - User: Refresh token is present" time="0.048" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Refresh Token / 2 - Refresh Token - User" id="39ff7293-d805-4ad2-ac20-6482a1282937" timestamp="2024-11-14T06:20:00.314Z" tests="1" failures="0" errors="0" time="0.013">
+    <testcase name="Refresh Token - User: Status code should be 200" time="0.013" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Delete User / 1 - Login - Admin" id="807f22af-ea57-466a-b543-7e93b4e02874" timestamp="2024-11-14T06:20:00.314Z" tests="3" failures="0" errors="0" time="0.044">
+    <testcase name="Status code is 200" time="0.044" classname="Keycloak"/>
+    <testcase name="Access token is present in response" time="0.044" classname="Keycloak"/>
+    <testcase name="Access token is valid" time="0.044" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Delete User / 2 - Get User (Name) - Admin" id="165f83c7-9eca-48cf-b3b5-6f23586aca06" timestamp="2024-11-14T06:20:00.314Z" tests="1" failures="0" errors="0" time="0.021">
+    <testcase name="User retrieval test - User ID is set" time="0.021" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Delete User / 3 - Delete User - Admin" id="dd2db2bb-c66e-4954-bc77-36d1dc056f7d" timestamp="2024-11-14T06:20:00.314Z" tests="2" failures="0" errors="0" time="0.107">
+    <testcase name="Delete User - Admin: User should be deleted successfully" time="0.107" classname="Keycloak"/>
+    <testcase name="Ensure no unexpected error during deletion" time="0.107" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Delete User / 4 - Get User (Name) - Admin" id="4c2f8b92-d7c7-45dd-b6b1-e5ce58c8e030" timestamp="2024-11-14T06:20:00.314Z" tests="1" failures="0" errors="0" time="0.011">
+    <testcase name="Negative Test - User retrieval should return no data" time="0.011" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 1 - Login - Admin" id="83104e82-5d9f-43a1-911d-8371f3078c91" timestamp="2024-11-14T06:20:00.314Z" tests="1" failures="0" errors="0" time="0.047">
+    <testcase name="Access token retrieved successfully" time="0.047" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 2 - Get User (Email)- Admin" id="b0b2ac38-0882-464a-8743-7af0703966a8" timestamp="2024-11-14T06:20:00.314Z" tests="1" failures="0" errors="0" time="0.015">
+    <testcase name="User ID retrieved successfully" time="0.015" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 3 - Update Password - Trigger Email" id="ef7ddb5b-76d4-4523-9859-96e0f6ef337a" timestamp="2024-11-14T06:20:00.314Z" tests="2" failures="0" errors="0" time="0.326">
+    <testcase name="User ID and Access Token set correctly" time="0.326" classname="Keycloak"/>
+    <testcase name="Response status is OK" time="0.326" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Reset Password Directly / 1 - Login - Admin" id="47695a86-33e8-4e40-9a04-8dd9b35c5bb5" timestamp="2024-11-14T06:20:00.314Z" tests="1" failures="0" errors="0" time="0.044">
+    <testcase name="Access token retrieved successfully" time="0.044" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Reset Password Directly / 2 - Get User (Email)- Admin" id="2119b51b-0eec-4565-bb2a-98a0f2a7f715" timestamp="2024-11-14T06:20:00.314Z" tests="1" failures="0" errors="0" time="0.012">
+    <testcase name="User ID retrieved successfully" time="0.012" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Reset Password Directly / 3 - Reset Password" id="3d346b9e-f178-4b0d-89bb-c497e84d26f4" timestamp="2024-11-14T06:20:00.314Z" tests="1" failures="0" errors="0" time="0.043">
+    <testcase name="Password reset successfully" time="0.043" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="Config Management / Update Client Props / 1 - Login - Admin" id="15497142-2d1d-4eef-bdce-0ffa948c5b2a" timestamp="2024-11-14T06:20:00.314Z" tests="3" failures="0" errors="0" time="0.044">
+    <testcase name="Status code is 200" time="0.044" classname="Keycloak"/>
+    <testcase name="Access token is present in response" time="0.044" classname="Keycloak"/>
+    <testcase name="Access token is valid" time="0.044" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="Config Management / Update Client Props / 2 - Client Info - Admin" id="c97c3c79-f6d0-4739-b396-fba0afc64a57" timestamp="2024-11-14T06:20:00.314Z" tests="4" failures="0" errors="0" time="0.007">
+    <testcase name="Status code is 200" time="0.007" classname="Keycloak"/>
+    <testcase name="Response contains client array with at least one item" time="0.007" classname="Keycloak"/>
+    <testcase name="First client in array has a valid UUID" time="0.007" classname="Keycloak"/>
+    <testcase name="CLIENT_UUID is set correctly" time="0.007" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="Config Management / Update Client Props / 3 - Update Client - Admin" id="3536206e-a8e4-4dc8-9f4e-3e7dfd3ba476" timestamp="2024-11-14T06:20:00.314Z" tests="2" failures="0" errors="0" time="0.018">
+    <testcase name="Status code is 204 for successful update" time="0.018" classname="Keycloak"/>
+    <testcase name="Client updated successfully" time="0.018" classname="Keycloak"/>
+  </testsuite>
 </testsuites>

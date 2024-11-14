@@ -1,0 +1,48 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  NPM_VERSION: 10.9.0
+  NEWMAN_VERSION: 5.3.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    outputs:
+      test_outcome: ${{ steps.test-results.outputs.outcome }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Validate Postman files
+        run: |
+          if [ ! -f ${{ env.POSTMAN_COLLECTION }} ]; then
+            echo "Postman collection not found!" && exit 1
+          fi
+          if [ ! -f ${{ env.POSTMAN_ENVIRONMENT }} ]; then
+            echo "Postman environment not found!" && exit 1
+          fi
+
+      - name: Check and install Node.js and npm version
+        run: |
+          chmod +x ./install_npm_dependencies.sh
+          ./install_npm_dependencies.sh
+        working-directory: ./.github/workflows/scripts
+
+      - name: Install Newman with specific version
+        run: |
+          npm install -g newman@${{ env.NEWMAN_VERSION }} newman-reporter-html
+          newman --version

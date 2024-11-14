@@ -9,24 +9,6 @@
 ![Mailhog](https://img.shields.io/badge/Mailhog-active-blue?style=flat-square)
 ![Docker](https://img.shields.io/badge/Docker-active-blue?style=flat-square)
 
-
-### CI/CD and Test Results
-![CI](https://img.shields.io/badge/CI-passing-brightgreen?style=flat-square)
-![Tests](https://img.shields.io/badge/Tests-passing-brightgreen?style=flat-square)
-
-### Service Availability
-![Keycloak](https://img.shields.io/badge/Keycloak-active-blue?style=flat-square)
-![PgAdmin](https://img.shields.io/badge/PgAdmin-active-blue?style=flat-square)
-![LDAP](https://img.shields.io/badge/LDAP-active-blue?style=flat-square)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-active-blue?style=flat-square)
-![Mailhog](https://img.shields.io/badge/Mailhog-active-blue?style=flat-square)
-![Docker](https://img.shields.io/badge/Docker-active-blue?style=flat-square)
-
-### Additional Information
-![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
-![Docker Image Size](https://img.shields.io/docker/image-size/faisalazam/keycloak-poc-modularized?style=flat-square)
-![Stars](https://img.shields.io/github/stars/faisalazam/keycloak-poc-modularized?style=flat-square)
-
 # Docker Keycloak LDAP Setup
 
 This project sets up a modularized Docker environment for Keycloak with LDAP integration, along with additional services

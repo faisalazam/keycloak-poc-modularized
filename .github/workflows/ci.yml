@@ -8,6 +8,7 @@ on:
 env:
   NPM_VERSION: 10.9.0
   NEWMAN_VERSION: 5.3.0
+  PAGES_FOLDER: github-pages
   NEWMAN_XML_REPORT_FILE: postman-report.xml
   NEWMAN_HTML_REPORT_FILE: postman-report.html
   POSTMAN_COLLECTION: postman/sample.json
@@ -58,3 +59,11 @@ jobs:
             --reporters cli,html,junit \
             --reporter-html-export ${{ env.NEWMAN_HTML_REPORT_FILE }} \
             --reporter-junit-export ${{ env.NEWMAN_XML_REPORT_FILE }}
+
+      - name: Upload the content for GitHub Pages
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.PAGES_FOLDER }}
+          path: |
+            ${{ env.NEWMAN_XML_REPORT_FILE }}
+            ${{ env.NEWMAN_HTML_REPORT_FILE }}

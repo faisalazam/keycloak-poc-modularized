@@ -1,0 +1,22 @@
+{
+  "info": {
+    "_postman_id": "f45e4a5a-12e8-4e6a-b78d-f012c12460b6",
+    "name": "Simple GET Test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Test GET Request",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/todos/1",
+          "host": ["jsonplaceholder", "typicode", "com"],
+          "path": ["todos", "1"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

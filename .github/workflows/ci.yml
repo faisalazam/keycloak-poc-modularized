@@ -68,6 +68,17 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
 
+      - name: Build and run services using start.sh script
+        run: |
+          chmod +x ../startup_helper.sh
+          chmod +x ./start.sh
+          # Check if docker-compose is available before running the start.sh script
+          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
+          ./start.sh
+        working-directory: ./postgres # TODO: change it to keycloak once that's ready
+
+      # Installing other dependencies after starting up the services as they'll act as an
+      # implicit wait for the services to be fully ready before the tests interact with them.
       - name: Check and install Node.js and npm version
         run: |
           chmod +x ./install_npm_dependencies.sh

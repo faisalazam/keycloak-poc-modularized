@@ -19,6 +19,20 @@ for cmd in jq envsubst; do
     command -v "$cmd" >/dev/null 2>&1 || { echo >&2 "Error: $cmd command is required but not found."; exit 1; }
 done
 
+# Function to merge JSON files based on environment variable
+merge_if_enabled() {
+    setup_var_value="$1"
+    json_file="$2"
+    json_path="$3"
+
+    # Check for the exact string "true", accounting for potential leading/trailing spaces
+    if [ "$setup_var_value" = "true" ] || [ "$setup_var_value" = "TRUE" ]; then
+        merge_json "$merged_template_path" "$realm_dir/$json_file" "$json_path"
+    else
+        echo "Skipping $json_file setup: environment variable is not true."
+    fi
+}
+
 # Function to merge JSON files
 merge_json() {
     target_file="$1"
@@ -49,11 +63,9 @@ for realm_dir in "$REALMS_DIR"/*; do
 
         # Merge JSON files with appropriate commands
         merge_json "$merged_template_path" "$realm_dir/$REALM_EXPORT_FILE" ". += \$source"
-        merge_json "$merged_template_path" "$realm_dir/$USERS_FILE" ".users += \$source.users"
-        # TODO: configure SMTP based on some boolean environment variable
-        merge_json "$merged_template_path" "$realm_dir/$SMTP_FILE" ".smtpServer = \$source.smtpServer"
-        # TODO: configure LDAP based on some boolean environment variable
-        merge_json "$merged_template_path" "$realm_dir/$LDAP_FILE" ".components += \$source.components"
+        merge_if_enabled "$SETUP_USERS" "$USERS_FILE" ".users = \$source.users"
+        merge_if_enabled "$SETUP_SMTP" "$SMTP_FILE" ".smtpServer = \$source.smtpServer"
+        merge_if_enabled "$SETUP_LDAP" "$LDAP_FILE" ".components += \$source.components"
 
         # Substitute environment variables and output final merged file
         envsubst < "$merged_template_path" > "$output_path" || {

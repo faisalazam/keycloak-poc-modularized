@@ -32,7 +32,7 @@ services:
       - ./.env
     ports:
       - "${KEYCLOAK_PORT}:8080"
-#      - "9000:9000" # Management Interface
+      - "${KEYCLOAK_MANAGEMENT_PORT}:9000" # Management Interface
     depends_on:
       realm-setup:
         condition: service_started

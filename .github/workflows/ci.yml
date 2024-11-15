@@ -91,6 +91,12 @@ jobs:
           npm install -g newman@${{ env.NEWMAN_VERSION }} newman-reporter-html
           newman --version
 
+      - name: Wait for services to be available
+        run: |
+          chmod +x ./check_health.sh
+          ./check_health.sh
+        working-directory: ./.github/workflows/scripts
+
       - name: Run Postman tests with Newman
         id: test-results # id is used later on to check whether tests passed or failed
         run: |

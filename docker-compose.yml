@@ -1,0 +1,6 @@
+
+include:
+  - ./ldap/docker-compose.yml
+  - ./mailhog/docker-compose.yml
+  - ./postgres/docker-compose.yml
+  - ./keycloak/docker-compose.yml

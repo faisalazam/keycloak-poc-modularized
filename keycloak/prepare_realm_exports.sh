@@ -14,7 +14,7 @@ SHARED_DIR="/shared"
 OUTPUT_FILE="merged-realm-export.json"
 MERGED_TEMPLATE_FILE="merged-realm-export-template.json"
 
-# Check for required commands
+# Check if required commands available
 for cmd in jq envsubst; do
     command -v "$cmd" >/dev/null 2>&1 || { echo >&2 "Error: $cmd command is required but not found."; exit 1; }
 done

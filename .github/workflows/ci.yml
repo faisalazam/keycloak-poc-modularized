@@ -163,11 +163,18 @@ jobs:
             printf "<!-- Build Number: %s\n" "${{ github.run_number }}"
             printf "Commit: %s\n" "${{ github.sha }}"
             printf "Workflow: %s -->\n" "${{ github.workflow }}"
-          )          
-          # Prepend build details to the XML report file
+          )
+
+          # Prepend build details after XML declaration in the XML report file
           {
+            # Save the first line (XML declaration)
+            head -n 1 "${{ env.NEWMAN_XML_REPORT_FILE }}"
+
+            # Insert build info as comments
             echo "$XML_BUILD_INFO"
-            cat "${{ env.NEWMAN_XML_REPORT_FILE }}"
+
+            # Append the rest of the original XML content
+            tail -n +2 "${{ env.NEWMAN_XML_REPORT_FILE }}"
           } > tmp && mv tmp "${{ env.NEWMAN_XML_REPORT_FILE }}"
 
       - name: Upload the content for GitHub Pages

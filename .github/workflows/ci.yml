@@ -145,9 +145,9 @@ jobs:
         run: |
           # Define the CI build details using printf for better newline handling
           BUILD_INFO=$(
-            printf "Build Number: %s\n" "${{ github.run_number }}"
-            printf "Workflow: %s\n\n" "${{ github.workflow }}"
-            printf "Commit: %s\n" "${{ github.sha }}"
+            printf "Build Number: %s<br>" "${{ github.run_number }}"
+            printf "Workflow: %s<br><br>" "${{ github.workflow }}"
+            printf "Commit: %s<br>" "${{ github.sha }}"
           )          
           # Prepend build details to the XML report file
           {

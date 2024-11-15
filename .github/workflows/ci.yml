@@ -14,7 +14,7 @@ env:
   DOCKER_COMPOSE_FILE: docker-compose.yml
   NEWMAN_XML_REPORT_FILE: postman-report.xml
   NEWMAN_HTML_REPORT_FILE: postman-report.html
-#  POSTMAN_COLLECTION: postman/sample.json
+  #  POSTMAN_COLLECTION: postman/sample.json
   POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
   POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
 
@@ -141,6 +141,23 @@ jobs:
 
             echo "---- End of logs for $container ----"
           done
+
+      - name: Prepend CI build details to report files
+        run: |
+          # Define the CI build details to prepend to each report
+          BUILD_INFO="Build Number: ${{ github.run_number }}\nCommit: ${{ github.sha }}\nWorkflow: ${{ github.workflow }}\n\n"
+          
+          # Prepend build details to the XML report file
+          {
+            echo -e "$BUILD_INFO"
+            cat "${{ env.NEWMAN_XML_REPORT_FILE }}"
+          } > tmp && mv tmp "${{ env.NEWMAN_XML_REPORT_FILE }}"
+          
+          # Prepend build details to the HTML report file
+          {
+            echo -e "$BUILD_INFO"
+            cat "${{ env.NEWMAN_HTML_REPORT_FILE }}"
+          } > tmp && mv tmp "${{ env.NEWMAN_HTML_REPORT_FILE }}"
 
       - name: Upload the content for GitHub Pages
         uses: actions/upload-artifact@v4

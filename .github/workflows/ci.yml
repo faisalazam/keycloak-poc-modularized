@@ -97,6 +97,18 @@ jobs:
           ./check_health.sh
         working-directory: ./.github/workflows/scripts
 
+      - name: Collect Docker container logs
+        run: |
+          # Loop through each container and print logs with a container-specific prefix
+          for container in mailhog keycloak openldap keycloak-db realm-export-generator keycloak_setup; do
+            echo "---- Logs for $container ----"
+
+            # Display the logs for the current container, prefixing each line with the container name for clarity
+            docker logs "$container" | sed "s/^/[$container] /"
+
+            echo "---- End of logs for $container ----"
+          done
+
       - name: Run Postman tests with Newman
         id: test-results # id is used later on to check whether tests passed or failed
         run: |
@@ -117,6 +129,18 @@ jobs:
           echo "#### Test run completed, view summary after deployment as otherwise you may see the old reports." >> $GITHUB_STEP_SUMMARY
           echo "#### HTML Report: [View HTML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_HTML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
           echo "#### XML Report: [View XML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_XML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
+
+      - name: Collect Docker container logs after the tests have run
+        run: |
+          # Loop through each container and print logs with a container-specific prefix
+          for container in mailhog keycloak openldap keycloak-db realm-export-generator keycloak_setup; do
+            echo "---- Logs for $container ----"
+
+            # Display the logs for the current container, prefixing each line with the container name for clarity
+            docker logs "$container" | sed "s/^/[$container] /"
+
+            echo "---- End of logs for $container ----"
+          done
 
       - name: Upload the content for GitHub Pages
         uses: actions/upload-artifact@v4

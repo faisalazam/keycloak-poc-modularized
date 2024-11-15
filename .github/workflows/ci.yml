@@ -143,11 +143,11 @@ jobs:
 
       - name: Prepend CI build details to HTML report file
         run: |
-          # Define the CI build details for HTML (with <br> tags for line breaks)
+          # Define the CI build details for HTML
           HTML_BUILD_INFO=$(
-            printf "Build Number: %s<br>" "${{ github.run_number }}"
-            printf "Commit: %s<br>" "${{ github.sha }}"
-            printf "Workflow: %s<br><br>" "${{ github.workflow }}"
+            printf "<strong>Build Number:</strong> %s<br>" "${{ github.run_number }}"
+            printf "<strong>Commit:</strong> %s<br>" "${{ github.sha }}"
+            printf "<strong>Workflow:</strong> %s<br>" "${{ github.workflow }}"
           )
           
           # Prepend build details to the HTML report file

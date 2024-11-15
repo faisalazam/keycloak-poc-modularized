@@ -3,4 +3,27 @@ include:
   - ./ldap/docker-compose.yml
   - ./mailhog/docker-compose.yml
   - ./postgres/docker-compose.yml
-  - ./keycloak/docker-compose.yml
+
+services:
+  realm-setup:
+    extends:
+      file: ./keycloak/docker-compose.yml
+      service: realm-setup
+
+  # TODO: Fix the "The "KEYCLOAK_PORT" and "KEYCLOAK_MANAGEMENT_PORT" variable not set." warning.
+  keycloak:
+    extends:
+      file: ./keycloak/docker-compose.yml
+      service: keycloak
+    depends_on:
+      realm-setup:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      mailhog:
+        condition: service_healthy
+      openldap:
+        condition: service_healthy
+
+volumes:
+  keycloak_data:

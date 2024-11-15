@@ -10,11 +10,12 @@ services:
       file: ./keycloak/docker-compose.yml
       service: realm-setup
 
-  # TODO: Fix the "The "KEYCLOAK_PORT" and "KEYCLOAK_MANAGEMENT_PORT" variable not set." warning.
   keycloak:
     extends:
       file: ./keycloak/docker-compose.yml
       service: keycloak
+    env_file:
+      - ./.env
     depends_on:
       realm-setup:
         condition: service_started

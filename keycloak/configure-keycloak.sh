@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Wait for Keycloak to be ready
+# Wait for Keycloak to be ready.
 until curl -s http://keycloak:9000/health/ready > /dev/null 2>&1; do
   echo "Waiting for Keycloak to be ready..."
   sleep 5

@@ -26,5 +26,10 @@ services:
       openldap:
         condition: service_healthy
 
+  keycloak_setup:
+    extends:
+      file: ./keycloak/docker-compose.yml
+      service: keycloak_setup
+
 volumes:
   keycloak_data:

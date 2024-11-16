@@ -216,7 +216,7 @@ jobs:
       - name: Copy all README files to GitHub Pages Folder
         run: |
           # Find all README.md files in the repository
-          find . -name "README.md" | while read -r file; do
+          find . -name "*README.md" | while read -r file; do
             # For each README.md found, create the corresponding directory in the destination folder
             target_dir="${{ env.PAGES_FOLDER }}/$(dirname "$file")"
             mkdir -p "$target_dir"

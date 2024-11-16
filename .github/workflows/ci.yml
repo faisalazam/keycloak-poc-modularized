@@ -211,16 +211,10 @@ jobs:
 
       - name: Check Contents of the Directory 📂
         run: |
-          ls -R .
+          ls -aR .
 
       - name: Copy all README files to GitHub Pages Folder
         run: |
-          echo "Simple find...."
-          find . -type f -name "README.md"
-
-          echo "Find with or condition...."
-          find . -type f -name "README.md" -o -path "./.github/README.md"
-
           # Find all README.md files in the repository, including the .github folder
           find . -type f -name "README.md" -o -path "./.github/README.md" | while read -r file; do
             # For each README.md found, create the corresponding directory in the destination folder

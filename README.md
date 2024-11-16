@@ -1,4 +1,3 @@
-
 [![CI](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml/badge.svg)](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml)
 <!-- BUILD_BADGE_PLACEHOLDER -->
 ![Keycloak](https://img.shields.io/badge/Keycloak-active-blue?style=flat-square)
@@ -9,30 +8,223 @@
 ![Mailhog](https://img.shields.io/badge/Mailhog-active-blue?style=flat-square)
 ![Docker](https://img.shields.io/badge/Docker-active-blue?style=flat-square)
 
-# Docker Keycloak LDAP Setup
+# Keycloak POC Modularized Setup
 
-This project sets up a modularized Docker environment for Keycloak with LDAP integration, along with additional services
-like MailHog and phpLDAPadmin.
+This repository contains a modularized setup for deploying Keycloak, PostgreSQL, MailHog, LDAP, and phpLDAPadmin using
+Docker Compose. The services are separated into individual folders for easy configuration and management. The setup is
+designed to provide an isolated environment for each service.
 
-## Folder Structure
+## Table of Contents
 
-- `keycloak/`: Contains Keycloak setup and MailHog for SMTP testing.
-- `ldap/`: Contains LDAP setup, sample data, and phpLDAPadmin for LDAP management.
-- `main-docker-compose.yml`: Main Docker Compose file to orchestrate all services.
-- `main.env`: Centralized environment configuration for all services.
-- `Keycloak_Postman_Collection.json`: Postman collection to test Keycloak functionalities.
+1. [Overview](#overview)
+2. [Project Structure](#project-structure)
+3. [Service Setups](#service-setups)
+    - [Keycloak](#keycloak)
+    - [PostgreSQL](#postgresql)
+    - [MailHog](#mailhog)
+    - [OpenLDAP](#openldap)
+    - [phpLDAPadmin](#phpldapadmin)
+4. [Instructions](#instructions)
+5. [Postman Collection](#postman-collection)
+6. [CI/CD Pipeline](#cicd-pipeline)
+7. [Deployment](#deployment)
+8. [Handy Docker Commands](#handy-docker-commands)
+9. [Relevant Links and Official Documentation](#relevant-links-and-official-documentation)
 
-Each folder has its own `README.md` file with service-specific setup and testing details.
+---
 
-### Usage
+## Overview
 
-1. Make sure Docker and Docker Compose are installed.
-2. Configure environment variables in `main.env`.
-3. Run the main Docker Compose file to start all services:
+This setup includes:
 
-```bash
-docker-compose -f main-docker-compose.yml up -d
+- **Keycloak** for identity and access management.
+- **PostgreSQL** as the database for Keycloak.
+- **MailHog** to capture and view SMTP messages for testing.
+- **OpenLDAP** for managing user directories.
+- **phpLDAPadmin** to manage and view the LDAP directory.
+
+The goal is to have these services integrated with minimal configuration to enable Keycloak to work with LDAP and
+MailHog for authentication and email testing.
+
+---
+
+## Project Structure
+
+```
+ keycloak-poc-modularized
+ ├── README.md
+ ├── docker-compose.yml
+ ├── .github
+ │   ├── configure-keycloak.sh
+ │   ├── docker-compose.yml
+ │   ├── prepare_realm_exports.sh
+ │   ├── workflows
+ │   │   ├── scripts
+ │   │   │   ├── check_health.sh
+ │   │   │   ├── install_docker.sh
+ │   │   │   └── install_npm_dependencies.sh
+ │   │   └── ci.yml
+ │   └── README.md
+ ├── keycloak
+ │   ├── configure-keycloak.sh
+ │   ├── docker-compose.yml
+ │   ├── prepare_realm_exports.sh
+ │   ├── realms
+ │   │   ├── quantum
+ │   │   │   ├── ldap.json
+ │   │   │   ├── realm-export.json
+ │   │   │   ├── smtp.json
+ │   │   │   └── users.json
+ │   │   └── zenith
+ │   │       ├── ldap.json
+ │   │       ├── realm-export.json
+ │   │       ├── smtp.json
+ │   │       └── users.json
+ │   ├── start.sh
+ │   └── README.md
+ ├── ldap
+ │   ├── Dockerfile
+ │   ├── docker-compose.yml
+ │   ├── sample.ldif
+ │   ├── start.sh
+ │   └── README.md
+ ├── mailhog
+ │   ├── README.md
+ │   ├── docker-compose.yml
+ │   └── start.sh
+ ├── postgres
+ │   ├── Dockerfile.pgadmin
+ │   ├── README.md
+ │   ├── docker-compose.yml
+ │   ├── init_pgadmin.sh
+ │   ├── pgpass.template
+ │   ├── servers.json.template
+ │   └── start.sh
+ ├── postman
+ │   ├── keycloak-local.postman_environment.json
+ │   ├── keycloak-postman-collection.json
+ │   └── README.md
+ ├── start.sh
+ └── startup_helper.sh
 ```
 
-[Mailhog](mailhog/README.md)
-[Postgres](postgres/README.md)
+---
+
+## Service Setups
+
+### Keycloak
+
+Keycloak is configured to work with OpenLDAP for authentication and uses PostgreSQL for storing its data. You can find
+more details about Keycloak setup in the [Keycloak README](./keycloak/README.md).
+
+**Keycloak Documentation:** [Keycloak Documentation](https://www.keycloak.org/documentation)
+
+### PostgreSQL
+
+PostgreSQL is used as the database for Keycloak. It is configured to persist data and integrate seamlessly with the
+Keycloak container. More details can be found in the [PostgreSQL README](./postgres/README.md).
+
+**PostgreSQL Documentation:** [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+
+### MailHog
+
+MailHog is used for capturing and viewing emails during the development and testing phases. You can find more details in
+the [MailHog README](./mailhog/README.md).
+
+**MailHog Documentation:** [MailHog Documentation](https://github.com/mailhog/MailHog)
+
+### OpenLDAP
+
+OpenLDAP is used for managing user directories for Keycloak authentication. For more information on setting up OpenLDAP,
+visit the [OpenLDAP README](./openldap/README.md).
+
+### phpLDAPadmin
+
+phpLDAPadmin is a web-based client for managing and viewing the LDAP directory. You can find more details in
+the [phpLDAPadmin README](./phpldapadmin/README.md).
+
+**phpLDAPadmin Documentation:** [phpLDAPadmin Documentation](https://phpldapadmin.sourceforge.io/)
+
+---
+
+## Instructions
+
+To clone and run the project, follow these steps:
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/faisalazam/keycloak-poc-modularized.git
+   cd keycloak-poc-modularized
+   ```
+
+2. **Start the services**:
+
+   To start all the services in the project, run the following command in the root directory:
+
+   ```bash
+   ./start.sh
+   ```
+
+This will bring up all the services defined in the `docker-compose.yml` files.
+
+---
+
+## Postman Collection
+
+The repository includes a [Postman collection](./postman/keycloak-postman-collection.json) that can be used to test the
+Keycloak setup. It can be imported into Postman and run with the associated environment file located
+at [keycloak-local.postman_environment.json](./postman/keycloak-local.postman_environment.json).
+
+For more details on Postman setup and usage, visit the [Postman README](./postman/README.md).
+
+---
+
+## CI/CD Pipeline
+
+For detailed instructions on the GitHub CI setup used for this project, check out the [README.md](./.github/README.md).
+
+---
+
+## Deployment
+
+The deployment of this project is done automatically via the GitHub CI pipeline. You can view the deployment at:
+
+[GitHub Pages Deployment](https://faisalazam.github.io/keycloak-poc-modularized)
+
+---
+
+## Handy Docker Commands
+
+To view the logs of the running containers, use the following command:
+
+```bash
+docker-compose logs
+```
+
+To stop all the running services, use:
+
+```bash
+docker-compose down
+```
+
+To rebuild the containers and restart the services, use:
+
+```bash
+docker-compose up --build
+```
+
+---
+
+[Back to Table of Contents](#table-of-contents)
+
+## Relevant Links and Official Documentation
+
+- **Keycloak Documentation:** [Keycloak Documentation](https://www.keycloak.org/documentation)
+- **PostgreSQL Documentation:** [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- **Docker Documentation:** [Docker Documentation](https://docs.docker.com/)
+- **Docker Compose Documentation:** [Docker Compose Documentation](https://docs.docker.com/compose/)
+- **MailHog Documentation:** [MailHog Documentation](https://github.com/mailhog/MailHog)
+- **phpLDAPadmin Documentation:** [phpLDAPadmin Documentation](https://phpldapadmin.sourceforge.io/)
+
+[Back to Table of Contents](#table-of-contents)

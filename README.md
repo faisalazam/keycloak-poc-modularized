@@ -136,12 +136,12 @@ the [MailHog README](./mailhog/README.md).
 ### OpenLDAP
 
 OpenLDAP is used for managing user directories for Keycloak authentication. For more information on setting up OpenLDAP,
-visit the [OpenLDAP README](./openldap/README.md).
+visit the [OpenLDAP README](./ldap/README.md).
 
 ### phpLDAPadmin
 
 phpLDAPadmin is a web-based client for managing and viewing the LDAP directory. You can find more details in
-the [phpLDAPadmin README](./phpldapadmin/README.md).
+the [phpLDAPadmin README](./ldap/README.md).
 
 **phpLDAPadmin Documentation:** [phpLDAPadmin Documentation](https://phpldapadmin.sourceforge.io/)
 

@@ -213,9 +213,17 @@ jobs:
         run: |
           ls -R .
 
-      - name: Copy README to GitHub Pages Folder
+      - name: Copy all README files to GitHub Pages Folder
         run: |
-          cp README.md ${{ env.PAGES_FOLDER }}/README.md
+          # Find all README.md files in the repository
+          find . -name "README.md" | while read -r file; do
+            # For each README.md found, create the corresponding directory in the destination folder
+            target_dir="${{ env.PAGES_FOLDER }}/$(dirname "$file")"
+            mkdir -p "$target_dir"
+
+            # Copy the README.md file to the corresponding directory in the GitHub Pages folder
+            cp "$file" "$target_dir"
+          done
 
       - name: Set SITE_ROOT_URL Variable
         run: echo "SITE_ROOT_URL=https://${GITHUB_ACTOR}.github.io/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV

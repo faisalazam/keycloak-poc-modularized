@@ -182,7 +182,7 @@ For more details on Postman setup and usage, visit the [Postman README](./postma
 
 ## CI/CD Pipeline
 
-For detailed instructions on the GitHub CI setup used for this project, check out the [README.md](./.github/README.md).
+For detailed instructions on the GitHub CI setup used for this project, check out the [README.md](CI_README.md).
 
 ---
 

@@ -18,7 +18,7 @@ services:
       - ./.env
     depends_on:
       realm-setup:
-        condition: service_started
+        condition: service_completed_successfully
       postgres:
         condition: service_healthy
       mailhog:

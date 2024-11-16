@@ -211,7 +211,7 @@ jobs:
 
       - name: Check Contents of the Directory 📂
         run: |
-          ls -aR .
+          ls -R .
 
       - name: Copy all README files to GitHub Pages Folder
         run: |

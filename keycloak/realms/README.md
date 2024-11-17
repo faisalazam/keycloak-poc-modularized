@@ -203,11 +203,42 @@ attributes, and manage users from LDAP.
         "providerId": "ldap",
         "subComponents": {
           "org.keycloak.storage.ldap.mappers.LDAPStorageMapper": [
-            // Attribute mappers (explained below)
+            {
+              "name": "uid-ldap-mapper",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["uid"],
+                "user.model.attribute": ["username"],
+                "is.mandatory.in.ldap": ["false"],
+                "read.only": ["false"]
+              }
+            },
+            ...
           ]
         },
         "config": {
-          // Main LDAP settings (explained below)
+          "enabled": ["true"],
+          "priority": ["0"],
+          "fullSyncPeriod": ["-1"],
+          "changedSyncPeriod": ["-1"],
+          "cachePolicy": ["DEFAULT"],
+          "bindDn": ["${LDAP_BIND_DN}"],
+          "bindCredential": ["${LDAP_BIND_CREDENTIAL}"],
+          "connectionUrl": ["${LDAP_URL}"],
+          "usersDn": ["${LDAP_USERS_DN}"],
+          "authType": ["simple"],
+          "useTruststoreSpi": ["ldapsOnly"],
+          "connectionPooling": ["true"],
+          "connectionTimeout": ["5000"],
+          "startTls": ["false"],
+          "editMode": ["WRITABLE"],
+          "userObjectClasses": ["inetOrgPerson"],
+          "usernameLDAPAttribute": ["uid"],
+          "rdnLDAPAttribute": ["uid"],
+          "uuidLDAPAttribute": ["entryUUID"],
+          "ldapSyncTimeout": ["30000"],
+          "pagination": ["true"],
+          "userSearchFilter": ["(objectClass=inetOrgPerson)"]
         }
       }
     ]

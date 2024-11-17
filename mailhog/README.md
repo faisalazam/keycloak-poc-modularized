@@ -57,6 +57,9 @@ These providers offer scalable, secure options for sending transactional emails 
 
 ---
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ## Directory Structure
 
 Your project directory should look something like this:
@@ -68,6 +71,9 @@ project-root/
        ├── docker-compose.yml         # Docker Compose file to spin up services
        └── README.md                  # Project documentation (this file)
 ```
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 # Configuration
 
@@ -88,6 +94,9 @@ MAILHOG_HEALTHCHECK_INTERVAL=30s
 MAILHOG_HEALTHCHECK_TIMEOUT=10s
 MAILHOG_HEALTHCHECK_RETRIES=5
 ```
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 ## 2. Docker Compose (`docker-compose.yml`)
 
@@ -124,6 +133,9 @@ networks:
 - **healthcheck**: Configures a health check using Netcat to ensure that MailHog’s SMTP service is responsive (explained
   in detail below).
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ## MailHog Configuration
 
 - **MailHog Ports**: MailHog listens on port `8025` for the web interface and `1025` for SMTP.
@@ -138,6 +150,9 @@ Run the following command to start MailHog and any associated services:
 ```bash
 ./start.sh
 ```
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 #### This Command Will:
 
@@ -154,6 +169,9 @@ You can also use:
 docker-compose up -d
 ```
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ### 2. Access MailHog Web Interface
 
 Once the service is running, you can access the MailHog web interface at:
@@ -162,6 +180,9 @@ Once the service is running, you can access the MailHog web interface at:
 
 You can view all the emails captured by MailHog through this interface. This is useful for testing applications that
 send emails, like Keycloak.
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 ### Testing the Setup
 
@@ -178,6 +199,9 @@ After the container is up, verify the following:
   `localhost:1025`).
 - Check if the email appears in the MailHog web interface.
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ## Healthcheck Explanation
 
 The healthcheck in the `docker-compose.yml` file ensures that the MailHog container is running and able to respond to
@@ -190,6 +214,9 @@ healthcheck:
   timeout: ${MAILHOG_HEALTHCHECK_TIMEOUT:-10s}
   retries: ${MAILHOG_HEALTHCHECK_RETRIES:-5}
 ```
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 ### Details:
 
@@ -204,6 +231,9 @@ healthcheck:
 
 For more details on health checks in Docker, refer to
 the [Docker Healthcheck Documentation](https://docs.docker.com/engine/reference/builder/#healthcheck).
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 ## Docker Commands
 
@@ -222,6 +252,9 @@ To stop the service:
 ```bash
 docker-compose down
 ```
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 ### Remove Containers, Volumes, and Networks
 
@@ -247,12 +280,18 @@ If the services were stopped, you can restart them using:
 docker-compose start
 ```
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ## Docker Bridge Network
 
 In Docker, containers are connected to networks to allow communication between them. The `bridge` network is the default
 network driver for containers.
 
 For more information, see [Docker Networking Overview](https://docs.docker.com/network/).
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 ### Why use the bridge network?
 
@@ -277,3 +316,6 @@ isolated environment.
 
 By following this guide, you will have MailHog set up and running in your development environment for testing email
 functionality.
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)

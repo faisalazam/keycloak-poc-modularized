@@ -65,6 +65,9 @@ project-root/
   └── startup_helper.sh                # Helper script for cleanup and service startup
 ```
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ### Environment Variables
 
 Define the following environment variables in the `.env` file to customize PostgreSQL and pgAdmin services:
@@ -95,6 +98,8 @@ HEALTHCHECK_INTERVAL=30s              # Time interval between health checks
 HEALTHCHECK_TIMEOUT=10s               # Timeout duration for health checks
 HEALTHCHECK_RETRIES=5                 # Number of retries for health checks
 ```
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 ### Explanation of Key Variables:
 
@@ -112,6 +117,9 @@ HEALTHCHECK_RETRIES=5                 # Number of retries for health checks
   mapped to `POSTGRES_PORT` on the host.
 - **KEYCLOAK_DB_HOST_NAME**: The container name for the PostgreSQL service, allowing other containers (e.g., Keycloak)
   to refer to it using this hostname.
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 #### pgAdmin Settings
 
@@ -131,6 +139,9 @@ HEALTHCHECK_RETRIES=5                 # Number of retries for health checks
 - **PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED**: It removes the need to enter the master password when the login screen is
   disabled.
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 #### Health Check Settings
 
 - **HEALTHCHECK_INTERVAL**: Sets the time interval between each health check for both PostgreSQL and pgAdmin. This
@@ -139,6 +150,9 @@ HEALTHCHECK_RETRIES=5                 # Number of retries for health checks
   longer, it's marked as failed.
 - **HEALTHCHECK_RETRIES**: Defines the number of retries for a service to pass health checks before it's marked as
   unhealthy. This can prevent intermittent issues from affecting the container’s health status.
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 #### PgPass
 
@@ -151,6 +165,9 @@ hostname:port:database:username:password
 
 It can have multiple such entries on new lines.
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ##### Example
 
 If your PostgreSQL database is named `keycloak-db`, hosted on `localhost`, with the username `keycloak` and password
@@ -160,6 +177,9 @@ If your PostgreSQL database is named `keycloak-db`, hosted on `localhost`, with 
 localhost:5432:keycloak-db:keycloak:yourpassword
 ```
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ###### Explanation of Fields
 
 - **hostname**: The hostname of the PostgreSQL server (e.g., localhost, 127.0.0.1, or the service name defined in Docker
@@ -168,6 +188,9 @@ localhost:5432:keycloak-db:keycloak:yourpassword
 - **database**: The name of the database to connect to (e.g., keycloak).
 - **username**: The PostgreSQL username.
 - **password**: The password associated with the username.
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 ###### Usage Notes
 
@@ -179,9 +202,15 @@ localhost:5432:keycloak-db:keycloak:yourpassword
 Using the `pgpass` file allows automatic password authentication when running commands with `psql` or connecting through
 pgAdmin, simplifying secure access.
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ### Docker Compose Configuration
 
 In this section, we will detail each service in `docker-compose.yml` separately.
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 #### PostgreSQL Service
 
@@ -209,6 +238,9 @@ services:
       - keycloak_network  # Connects the container to a specified Docker network (used for communication with other services).
 ```
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ##### Explanation of Key Sections
 
 - **image**: Specifies the PostgreSQL version.
@@ -222,6 +254,9 @@ services:
 
 This setup ensures that your PostgreSQL service is properly configured, monitored, and connected to the necessary
 network and resources.
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 #### pgAdmin Service
 
@@ -266,6 +301,9 @@ services:
       retries: ${HEALTHCHECK_RETRIES}  # Number of retries before marking the service as unhealthy.
 ```
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ##### Explanation of Key Sections
 
 - **image**: Uses the `dpage/pgadmin4` Docker image with version 8.12 to run pgAdmin.
@@ -287,11 +325,13 @@ services:
     - Copying configuration files and adjusting permissions.
 - **depends_on**: Ensures that the `postgres` service is healthy before pgAdmin starts.
 - **networks**: Connects pgAdmin to the same Docker network as other services (e.g., PostgreSQL).
-- **healthcheck**: Monitors the health of the pgAdmin container by checking if the HTTP service is responding on port
-    80.
+- **healthcheck**: Monitors the health of the pgAdmin container by checking if the HTTP service is responding on port 80.
 
 This configuration sets up pgAdmin to run with the necessary initialization and security settings, including the
 handling of database credentials with `pgpass` and server configurations with `servers.json`.
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 #### Healthcheck Explanation
 
@@ -309,6 +349,9 @@ healthcheck:
 
 For more details, refer to the [pg_isready Documentation](https://www.postgresql.org/docs/current/app-pgisready.html).
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ##### pgAdmin Health Check
 
 The pgAdmin health check uses nc (Netcat) to test if pgAdmin is running on port 80.
@@ -323,6 +366,9 @@ healthcheck:
 
 For more details, refer to the [Netcat documentation](https://man7.org/linux/man-pages/man1/nc.1.html).
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 #### Docker Bridge Network
 
 The Docker Bridge network is the default network mode for containers, providing secure communication between containers
@@ -332,6 +378,9 @@ bridge driver, the containers are isolated from the host network, providing an a
 
 For more information on Docker networking, refer to
 the [official Docker documentation on networking](https://docs.docker.com/network/).
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 #### Networks and Volumes
 
@@ -346,6 +395,9 @@ volumes:
   postgres_data:            # Volume for PostgreSQL data persistence
 ```
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ##### Explanation:
 
 - **networks.keycloak_network**: Uses the bridge driver to create an isolated network for secure inter-service
@@ -354,6 +406,9 @@ volumes:
   exposed to the host.
 - **volumes.postgres_data**: Ensures PostgreSQL data is retained across container restarts. This volume persists
   database data, preventing data loss if the PostgreSQL container is stopped or restarted.
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 ### Setup Instructions
 
@@ -364,6 +419,9 @@ volumes:
 ```bash
 ./start.sh
 ```
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 #### Starting Services
 
@@ -399,6 +457,9 @@ To re-build the image:
 docker build -t custom-pgadmin -f Dockerfile.pgadmin .
 ```
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 #### Stopping Services
 
 To stop and remove the services:
@@ -416,6 +477,9 @@ docker-compose logs -f postgres
 docker-compose logs -f pgadmin
 ```
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ### Testing the Setup
 
 #### Access pgAdmin
@@ -425,6 +489,9 @@ docker-compose logs -f pgadmin
 
 - **Email**: `PGADMIN_DEFAULT_EMAIL`
 - **Password**: `PGADMIN_DEFAULT_PASSWORD`
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
 
 #### Connect to PostgreSQL via pgAdmin
 
@@ -457,7 +524,13 @@ But there is no need of this manual setup of Postgres server, as it'll be added 
 
 The `init_pgadmin.sh` will substitute that placeholders with their values.
 
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)
+
 ### Custom Scripts
 
 - **init_pgadmin.sh**: Initializes `servers.json` and `pgpass` based on environment variables.
 - **start.sh**: Starts services after cleanup by calling `../startup_helper.sh`.
+
+[Go to Table of Contents](#table-of-contents)  
+[Go back to Project](../README.md)

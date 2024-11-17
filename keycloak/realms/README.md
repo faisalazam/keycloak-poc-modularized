@@ -102,8 +102,8 @@ values, and then finally create a fully merged realm json file per realm.
 - `users`: A placeholder for user configurations (optional).
 
 [Go to Table of Contents](#table-of-contents)
-[Go back to Keycloak](#realms-in-keycloak)
-[Go back to Project](#table-of-contents)
+[Go back to Keycloak](../README.md)
+[Go back to Project](../../README.md)
 
 ---
 
@@ -140,8 +140,8 @@ values, and then finally create a fully merged realm json file per realm.
     - `temporary`: Marks the password as temporary, forcing the user to change it upon login.
 
 [Go to Table of Contents](#table-of-contents)
-[Go back to Keycloak](#realms-in-keycloak)
-[Go back to Project](#table-of-contents)
+[Go back to Keycloak](../README.md)
+[Go back to Project](../../README.md)
 
 ---
 
@@ -178,7 +178,7 @@ values, and then finally create a fully merged realm json file per realm.
 [Keycloak Email Configuration Documentation](https://www.keycloak.org/docs/latest/server_admin/#email)
 
 [Go to Table of Contents](#table-of-contents)
-[Go back to Keycloak](#realms-in-keycloak)
+[Go back to Keycloak](../README.md)
 [Go back to Project](../../README.md)
 
 ---
@@ -282,8 +282,8 @@ These options can be configured in the `config` section:
 [Keycloak LDAP Integration Documentation](https://www.keycloak.org/docs/latest/server_admin/#ldap)
 
 [Go to Table of Contents](#table-of-contents)
-[Go back to Keycloak](#realms-in-keycloak)
-[Go back to Project](#table-of-contents)
+[Go back to Keycloak](../README.md)
+[Go back to Project](../../README.md)
 
 ---
 
@@ -305,8 +305,8 @@ These options can be configured in the `config` section:
 2. Use the `/admin/realms/{realm}` endpoint to import/export realms.
 
 [Go to Table of Contents](#table-of-contents)
-[Go back to Keycloak](#realms-in-keycloak)
-[Go back to Project](#table-of-contents)
+[Go back to Keycloak](../README.md)
+[Go back to Project](../../README.md)
 
 ---
 
@@ -317,5 +317,5 @@ These options can be configured in the `config` section:
 - [Keycloak SMTP Configuration](https://www.keycloak.org/docs/latest/server_admin/#smtp)
 
 [Go to Table of Contents](#table-of-contents)
-[Go back to Keycloak](#realms-in-keycloak)
-[Go back to Project](#table-of-contents)
+[Go back to Keycloak](../README.md)
+[Go back to Project](../../README.md)

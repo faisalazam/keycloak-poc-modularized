@@ -46,6 +46,8 @@ This setup includes:
 The goal is to have these services integrated with minimal configuration to enable Keycloak to work with LDAP and
 MailHog for authentication and email testing.
 
+[Go to Table of Contents](#table-of-contents)  
+
 ---
 
 ## Project Structure
@@ -110,6 +112,8 @@ MailHog for authentication and email testing.
 
 ---
 
+[Go to Table of Contents](#table-of-contents)
+
 ## Service Setups
 
 ### Keycloak
@@ -119,12 +123,16 @@ more details about Keycloak setup in the [Keycloak README](./keycloak/README.md)
 
 **Keycloak Documentation:** [Keycloak Documentation](https://www.keycloak.org/documentation)
 
+[Go to Table of Contents](#table-of-contents)
+
 ### PostgreSQL
 
 PostgreSQL is used as the database for Keycloak. It is configured to persist data and integrate seamlessly with the
 Keycloak container. More details can be found in the [PostgreSQL README](./postgres/README.md).
 
 **PostgreSQL Documentation:** [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+
+[Go to Table of Contents](#table-of-contents)
 
 ### MailHog
 
@@ -133,10 +141,14 @@ the [MailHog README](./mailhog/README.md).
 
 **MailHog Documentation:** [MailHog Documentation](https://github.com/mailhog/MailHog)
 
-### OpenLDAP
+[Go to Table of Contents](#table-of-contents)
+
+### LDAP
 
 OpenLDAP is used for managing user directories for Keycloak authentication. For more information on setting up OpenLDAP,
-visit the [OpenLDAP README](./ldap/README.md).
+visit the [LDAP README](./ldap/README.md).
+
+[Go to Table of Contents](#table-of-contents)
 
 ### phpLDAPadmin
 
@@ -144,6 +156,8 @@ phpLDAPadmin is a web-based client for managing and viewing the LDAP directory. 
 the [phpLDAPadmin README](./ldap/README.md).
 
 **phpLDAPadmin Documentation:** [phpLDAPadmin Documentation](https://phpldapadmin.sourceforge.io/)
+
+[Go to Table of Contents](#table-of-contents)
 
 ---
 
@@ -170,6 +184,8 @@ This will bring up all the services defined in the `docker-compose.yml` files.
 
 ---
 
+[Go to Table of Contents](#table-of-contents)
+
 ## Postman Collection
 
 The repository includes a [Postman collection](./postman/keycloak-postman-collection.json) that can be used to test the
@@ -178,11 +194,15 @@ at [keycloak-local.postman_environment.json](./postman/keycloak-local.postman_en
 
 For more details on Postman setup and usage, visit the [Postman README](./postman/README.md).
 
+[Go to Table of Contents](#table-of-contents)
+
 ---
 
 ## CI/CD Pipeline
 
 For detailed instructions on the GitHub CI setup used for this project, check out the [README.md](CI_README.md).
+
+[Go to Table of Contents](#table-of-contents)
 
 ---
 
@@ -191,6 +211,8 @@ For detailed instructions on the GitHub CI setup used for this project, check ou
 The deployment of this project is done automatically via the GitHub CI pipeline. You can view the deployment at:
 
 [GitHub Pages Deployment](https://faisalazam.github.io/keycloak-poc-modularized)
+
+[Go to Table of Contents](#table-of-contents)
 
 ---
 

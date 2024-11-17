@@ -77,11 +77,12 @@ MailHog for authentication and email testing.
  │   │   │   ├── realm-export.json
  │   │   │   ├── smtp.json
  │   │   │   └── users.json
- │   │   └── zenith
- │   │       ├── ldap.json
- │   │       ├── realm-export.json
- │   │       ├── smtp.json
- │   │       └── users.json
+ │   │   ├── zenith
+ │   │   │   ├── ldap.json
+ │   │   │   ├── realm-export.json
+ │   │   │   ├── smtp.json
+ │   │   │   └── users.json
+ │   │   └── README.md
  │   ├── start.sh
  │   └── README.md
  ├── ldap

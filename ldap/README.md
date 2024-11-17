@@ -34,7 +34,7 @@ Official documentation links:
 - [phpLDAPadmin Documentation](https://github.com/LeoFritz/docker-phpLDAPadmin)
 
 [Go to Table of Contents](#table-of-contents)  
-[Go back to Project](#ldap-setup-for-keycloak)
+[Go back to Project](../README.md)
 
 ---
 
@@ -66,7 +66,7 @@ official [osixia/openldap documentation](https://github.com/osixia/docker-openld
 and [phpLDAPadmin Docker documentation](https://hub.docker.com/r/osixia/phpldapadmin/).
 
 [Go to Table of Contents](#table-of-contents)  
-[Go back to Project](#ldap-setup-for-keycloak)
+[Go back to Project](../README.md)
 
 ---
 
@@ -214,7 +214,7 @@ For more information about `docker-compose.yml` configuration, refer to the
 official [Docker Compose documentation](https://docs.docker.com/compose/).
 
 [Go to Table of Contents](#table-of-contents)  
-[Go back to Project](#ldap-setup-for-keycloak)
+[Go back to Project](../README.md)
 
 ---
 
@@ -227,7 +227,7 @@ health checks will attempt to query the respective services and ensure they resp
 - **phpLDAPadmin Health Check**: Performs an HTTP request to check the availability of the phpLDAPadmin interface.
 
 [Go to Table of Contents](#table-of-contents)  
-[Go back to Project](#ldap-setup-for-keycloak)
+[Go back to Project](../README.md)
 
 ---
 
@@ -266,7 +266,7 @@ chmod +x start.sh
 ```
 
 [Go to Table of Contents](#table-of-contents)  
-[Go back to Project](#ldap-setup-for-keycloak)
+[Go back to Project](../README.md)
 
 ---
 
@@ -286,7 +286,7 @@ Use the following credentials to log in:
 For more details about phpLDAPadmin, refer to the [phpLDAPadmin documentation](https://phpldapadmin.github.io/).
 
 [Go to Table of Contents](#table-of-contents)  
-[Go back to Project](#ldap-setup-for-keycloak)
+[Go back to Project](../README.md)
 
 ---
 
@@ -310,7 +310,7 @@ official [OpenLDAP troubleshooting guide](https://www.openldap.org/doc/admin24/t
 and [phpLDAPadmin troubleshooting](https://github.com/osixia/docker-phpLDAPadmin/wiki/Troubleshooting).
 
 [Go to Table of Contents](#table-of-contents)  
-[Go back to Project](#ldap-setup-for-keycloak)
+[Go back to Project](../README.md)
 
 ---
 
@@ -378,6 +378,6 @@ Here’s a breakdown of what the file contains and how it works:
   automatically imported when the container starts.
 
 [Go to Table of Contents](#table-of-contents)  
-[Go back to Project](#ldap-setup-for-keycloak)
+[Go back to Project](../README.md)
 
 ---

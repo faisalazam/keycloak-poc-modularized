@@ -161,12 +161,12 @@ jobs:
         run: |
           # Define the CI build details for XML (with XML comments for line breaks)
           XML_BUILD_INFO=$(
-            echo "<!--"
-            echo -e "\tBuild Number: ${GITHUB_RUN_NUMBER}"
-            echo -e "\tWorkflow: ${GITHUB_WORKFLOW}"
-            echo -e "\tCommit: ${GITHUB_SHA}"
-            echo -e "\tProject Link: ${SITE_ROOT_URL}"
-            echo "-->"
+            printf "<BuildInfo>\n"
+            printf "\t<BuildNumber>%s</BuildNumber>\n" "${{ github.run_number }}"
+            printf "\t<Workflow>%s</Workflow>\n" "${{ github.workflow }}"
+            printf "\t<Commit>%s</Commit>\n" "${{ github.sha }}"
+            printf "\t<ProjectLink>%s</ProjectLink>\n" "${{ env.SITE_ROOT_URL }}"
+            printf "</BuildInfo>\n"
           )
 
           # Prepend build details after XML declaration in the XML report file

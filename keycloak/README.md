@@ -209,6 +209,64 @@ realm-setup:
       /tmp/prepare_realm_exports.sh
 ```
 
+##### realm-setup Service Explanation
+
+The `realm-setup` service in the provided Docker Compose snippet is responsible for preparing realm configuration files
+for Keycloak. Here's an explanation of each part:
+
+###### `image: alpine:3.16`
+
+- **alpine:3.16**: This specifies the Docker image to use for the container. `alpine` is a lightweight Linux
+  distribution, and `3.16` is the version being used here.
+
+###### `container_name: realm-export-generator`
+
+- **container_name**: This gives the container a specific name (`realm-export-generator`), making it easier to refer to
+  in Docker commands and logs.
+
+###### `env_file:`
+
+- **env_file**: The `env_file` option loads environment variables from the specified `.env` file. The environment
+  variables defined in this file will be available inside the container. This is used to set configuration values for
+  services like PostgreSQL, Keycloak, LDAP, etc.
+
+###### `volumes:`
+
+- **./realms:/tmp/realms**: This mounts the `./realms` directory from the host machine to `/tmp/realms` inside the
+  container. It allows the container to read and write to the `realms` directory in the project.
+- **./prepare_realm_exports.sh:/tmp/prepare_realm_exports.sh**: This mounts the `prepare_realm_exports.sh` script from
+  the host to the container, allowing it to be executed inside the container.
+- **keycloak_data:/shared**: This creates a Docker volume named `keycloak_data` and mounts it to `/shared` inside the
+  container. This volume is used for persisting data related to Keycloak.
+
+###### `networks:`
+
+- **keycloak_network**: The container is attached to the `keycloak_network`, which is a Docker network used to allow
+  communication between different services in the same network (e.g., Keycloak, PostgreSQL).
+
+###### `entrypoint:`
+
+The `entrypoint` defines the commands that will be run when the container starts.
+
+- `/bin/sh -c`: This runs the shell (`/bin/sh`) with the `-c` option to execute a command passed as a string.
+- The commands inside the string are:
+    - **apk add --no-cache gettext jq**: Installs the `gettext` and `jq` packages in the container. `gettext` is a
+      library used for internationalization, and `jq` is a lightweight and flexible command-line JSON processor.
+    - **chmod +x /tmp/prepare_realm_exports.sh**: Changes the permissions of the `prepare_realm_exports.sh` script to
+      make it executable.
+    - **/tmp/prepare_realm_exports.sh**: Runs the `prepare_realm_exports.sh` script, which is likely responsible for
+      preparing the realm configuration files that Keycloak will use.
+
+###### Purpose of the `realm-setup` Service:
+
+- The `realm-setup` service is used to prepare the configuration for Keycloak realms. It runs a shell script (
+  `prepare_realm_exports.sh`) that processes the realm configuration json files in realms folder (e.g.,
+  `realm-export.json`) and places them in a location where Keycloak can import them.
+- The service uses `alpine` because it's a minimal, efficient image that has the tools needed to process the
+  configuration files, like `jq`.
+- Once the setup completes, the prepared realm configurations are stored in the `keycloak_data` volume, which is shared
+  with the Keycloak container for import during startup.
+
 For more information on the alpine Docker image, check the [official documentation](https://hub.docker.com/_/alpine).
 
 [Go to Table of Contents](#table-of-contents)
@@ -256,6 +314,60 @@ keycloak:
     start_period: 10s
 ```
 
+##### Keycloak Service Configuration Explanation
+
+1. **`image: quay.io/keycloak/keycloak:26.0`**  
+   Specifies the Docker image to be used for the Keycloak container. In this case, it's version 26.0 of Keycloak from
+   `quay.io`. This is the official image for Keycloak.
+
+2. **`container_name: keycloak`**  
+   Sets the name of the container to `keycloak`, which helps when managing the container (e.g., stopping or viewing
+   logs).
+
+3. **`env_file:`**  
+   Loads environment variables from the `.env` file. These variables are used to configure the container, such as ports,
+   database credentials, and other service-specific settings.
+
+4. **`ports:`**
+    - `${KEYCLOAK_PORT}:8080`: Maps the host machine's `KEYCLOAK_PORT` to port `8080` inside the container. This allows
+      access to Keycloak's main interface.
+    - `${KEYCLOAK_MANAGEMENT_PORT}:9000`: Maps the host machine's `KEYCLOAK_MANAGEMENT_PORT` to port `9000` inside the
+      container, which is used for management interfaces or the Admin Console.
+
+5. **`depends_on:`**  
+   Specifies dependencies for the Keycloak container:
+    - `realm-setup`: The `realm-setup` service must complete successfully before Keycloak starts.
+    - `postgres`: Keycloak waits until the `postgres` service is healthy before starting. This ensures that the database
+      is ready.
+
+6. **`volumes:`**
+    - `keycloak_data:/opt/keycloak/data/import`: This mounts the `keycloak_data` Docker volume to
+      `/opt/keycloak/data/import` inside the container. It's used to import realm configuration files prepared by the
+      `realm-setup` service.
+
+7. **`networks:`**
+    - `keycloak_network`: Attaches the container to the `keycloak_network` network, allowing it to communicate with
+      other containers, like the PostgreSQL database and `realm-setup`.
+
+8. **`command:`**
+    - `["start-dev", "--import-realm"]`: This specifies the command to run when the Keycloak container starts. In this
+      case, it runs Keycloak in development mode (`start-dev`) and automatically imports realms using the
+      `--import-realm` flag.
+
+9. **`healthcheck:`**  
+   Defines a health check for the container to ensure that Keycloak is ready to accept requests.
+    - **`test:`** This runs a shell script to check the health of the service. It tries to open a TCP connection to port
+      `9000` and send an HTTP GET request to `/health/ready`. If the request is successful (i.e., it returns `200 OK`),
+      the container is considered healthy.
+        - If the connection fails or the health check does not return `200 OK`, the container is considered unhealthy.
+    - **`interval:`** Defines the time between health checks (configured using the `KEYCLOAK_HEALTHCHECK_INTERVAL`
+      variable from the `.env` file).
+    - **`retries:`** The number of retries before marking the container as unhealthy (configured using
+      `KEYCLOAK_HEALTHCHECK_RETRIES`).
+    - **`timeout:`** The maximum amount of time allowed for the health check to complete (configured using
+      `KEYCLOAK_HEALTHCHECK_TIMEOUT`).
+    - **`start_period:`** The initial delay before starting the health checks (set to `10s` in this case).
+
 [Go to Table of Contents](#table-of-contents)
 [Go back to Project](../README.md)
 
@@ -268,16 +380,90 @@ It runs an entrypoint script, entrypoint.sh, for realm setup and is triggered af
 
 ```yaml
 keycloak_setup:
-  image: alpine:3.16
-  container_name: keycloak-setup
+  container_name: keycloak_setup
+  image: appropriate/curl:latest
+  env_file:
+    - ./.env
+    - ../mailhog/.env
   depends_on:
-    - keycloak
-  environment:
-    - KEYCLOAK_HOST=${KEYCLOAK_HOST}
-  entrypoint: /opt/keycloak/entrypoint.sh
+    keycloak:
+      condition: service_healthy
+  entrypoint:
+    - "/bin/sh"
+    - "-c"
+    - |
+      # Install jq for JSON processing
+      apk add --no-cache jq
+
+      # Make the configuration script executable
+      chmod +x /tmp/configure-keycloak.sh
+
+      # Run the configuration script
+      /tmp/configure-keycloak.sh
+  volumes:
+    - ./configure-keycloak.sh:/tmp/configure-keycloak.sh
+  restart: "no"
+  tty: false
   networks:
     - keycloak_network
 ```
+
+##### Explanation:
+
+###### `container_name: keycloak_setup`
+
+Specifies the name of the container as `keycloak_setup`. This helps identify the container for management tasks like
+stopping or starting the container.
+
+###### `image: appropriate/curl:latest`
+
+Uses the `appropriate/curl:latest` image, which is a Docker image with `curl` installed. The image is based on Alpine
+Linux, providing a lightweight environment to run commands like `curl`. This image is chosen because it is simple and
+includes `curl`, which is often useful for interacting with APIs or services over HTTP.
+
+###### `env_file:`
+
+- `.env` and `../mailhog/.env` are environment variable files loaded into the container. These files contain environment
+  variables, such as configurations for Keycloak and MailHog, that will be available inside the container.
+- The variables are injected into the container during startup, and they can be used in the container's environment or
+  scripts.
+
+###### `depends_on:`
+
+- `keycloak`: This specifies that the `keycloak_setup` service depends on the `keycloak` service. The container will
+  wait for the `keycloak` service to be healthy before starting. The `condition: service_healthy` ensures that
+  `keycloak_setup` will not start until the Keycloak service is up and functioning correctly.
+
+###### `entrypoint:`
+
+The entry point is a shell command (`/bin/sh -c`) that runs a script upon container startup.  
+Inside the shell, the following actions occur:
+
+- **Install `jq`:** The command `apk add --no-cache jq` installs the `jq` tool, which is a lightweight and flexible
+  command-line JSON processor.
+- **Make the configuration script executable:** The script `/tmp/configure-keycloak.sh` is given executable permissions
+  with `chmod +x /tmp/configure-keycloak.sh`.
+- **Run the configuration script:** The script `/tmp/configure-keycloak.sh` is executed to perform configuration tasks
+  for Keycloak (e.g., setting up realms, clients, or other settings).
+
+###### `volumes:`
+
+- `./configure-keycloak.sh:/tmp/configure-keycloak.sh`: This volume mounts the local `configure-keycloak.sh` script to
+  the container at `/tmp/configure-keycloak.sh`. This allows the container to access and execute the script.
+
+###### `restart: "no"`
+
+This disables automatic restarts of the container. If the container stops or fails, it will not automatically restart.
+
+###### `tty: false`
+
+This option disables the allocation of a terminal for the container. It is set to `false` because this container doesn't
+require an interactive terminal.
+
+###### `networks:`
+
+- `keycloak_network`: This specifies that the container is connected to the `keycloak_network` network, enabling
+  communication with other containers in the same network, such as the Keycloak service.
 
 [Go to Table of Contents](#table-of-contents)
 [Go back to Project](../README.md)

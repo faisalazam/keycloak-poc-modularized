@@ -168,18 +168,18 @@ To clone and run the project, follow these steps:
 
 1. **Clone the repository:**
 
-   ```bash
-   git clone https://github.com/faisalazam/keycloak-poc-modularized.git
-   cd keycloak-poc-modularized
-   ```
+```bash
+git clone https://github.com/faisalazam/keycloak-poc-modularized.git
+cd keycloak-poc-modularized
+```
 
 2. **Start the services**:
 
-   To start all the services in the project, run the following command in the root directory:
+To start all the services in the project, run the following command in the root directory:
 
-   ```bash
-   ./start.sh
-   ```
+```bash
+./start.sh
+```
 
 This will bring up all the services defined in the `docker-compose.yml` files.
 

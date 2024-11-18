@@ -148,6 +148,7 @@ jobs:
             printf "<strong>Build Number:</strong> %s<br>" "${{ github.run_number }}"
             printf "<strong>Commit:</strong> %s<br>" "${{ github.sha }}"
             printf "<strong>Workflow:</strong> %s<br>" "${{ github.workflow }}"
+            printf "<strong>Project Link:</strong> <a href='%s'>%s</a><br>" "${{ env.SITE_ROOT_URL }}" "Keycloak POC Modularized"
           )
           
           # Prepend build details to the HTML report file
@@ -163,6 +164,7 @@ jobs:
             printf "<!--\n\tBuild Number: %s\n" "${{ github.run_number }}"
             printf "\tWorkflow: %s\n" "${{ github.workflow }}"
             printf "\tCommit: %s\n-->\n" "${{ github.sha }}"
+            printf "\tProject Link: %s\n-->\n" "${{ env.SITE_ROOT_URL }}"
           )
 
           # Prepend build details after XML declaration in the XML report file

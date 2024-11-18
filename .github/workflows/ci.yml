@@ -161,12 +161,12 @@ jobs:
         run: |
           # Define the CI build details for XML (with XML comments for line breaks)
           XML_BUILD_INFO=$(
-            printf "<!--\n"
+            echo "<!--\n"
             printf "\tBuild Number: %s\n" "${{ github.run_number }}"
             printf "\tWorkflow: %s\n" "${{ github.workflow }}"
             printf "\tCommit: %s\n" "${{ github.sha }}"
             printf "\tProject Link: %s\n" "${{ env.SITE_ROOT_URL }}"
-            printf "-->\n"
+            echo "-->\n"
           )
 
           # Prepend build details after XML declaration in the XML report file

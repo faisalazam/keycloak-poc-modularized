@@ -31,5 +31,13 @@ services:
       file: ./keycloak/docker-compose.yml
       service: keycloak_setup
 
+  apache_http_server:
+    extends:
+      file: ./apache-http-server/docker-compose.yml
+      service: apache_http_server
+    depends_on:
+      keycloak:
+        condition: service_healthy
+
 volumes:
   keycloak_data:

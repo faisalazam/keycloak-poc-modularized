@@ -1,0 +1,27 @@
+services:
+  # Apache HTTP Server service acting as a reverse proxy
+  # It forwards requests to Keycloak using the ProxyPass directive.
+  # The ProxyPassReverse ensures that response headers from Keycloak
+  # are properly routed back to the client.
+  apache_http_server:
+    image: httpd:2.4
+    container_name: ${HTTPD_CONTAINER_NAME}
+    volumes:
+      # Custom Apache config file - This will configure Apache to act as a reverse proxy for Keycloak
+      - ./httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./logs:/usr/local/apache2/logs
+    networks:
+      - keycloak_network
+    ports:
+      - "${HTTPD_PORT:-80}:80"
+    restart: always
+    healthcheck:
+      test: [ "CMD", "test", "-e", "/proc/net/tcp" ]
+      interval: ${HEALTHCHECK_INTERVAL:-30s}
+      timeout: ${HEALTHCHECK_TIMEOUT:-10s}
+      retries: ${HEALTHCHECK_RETRIES:-5} #ignore the intellij error
+
+networks:
+  keycloak_network:
+    driver: bridge  # Creates a new bridge network for this service
+    name: keycloak_network  # This will match the name in the main compose file

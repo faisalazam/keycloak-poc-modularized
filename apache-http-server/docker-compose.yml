@@ -9,7 +9,6 @@ services:
     volumes:
       # Custom Apache config file - This will configure Apache to act as a reverse proxy for Keycloak
       - ./httpd.conf:/usr/local/apache2/conf/httpd.conf
-      - ./logs:/usr/local/apache2/logs
     networks:
       - keycloak_network
     ports:

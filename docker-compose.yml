@@ -32,7 +32,7 @@ services:
 
   apache_http_server:
     extends:
-      file: ./apache-http-server/docker-compose.yml
+      file: ./apache-server/docker-compose.yml
       service: apache_http_server
     depends_on:
       keycloak:

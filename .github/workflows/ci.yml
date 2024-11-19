@@ -99,7 +99,7 @@ jobs:
       - name: Collect Docker container logs
         run: |
           # Loop through each container and print logs with a container-specific prefix
-          for container in mailhog keycloak openldap keycloak-db realm-export-generator keycloak_setup; do
+          for container in mailhog keycloak openldap keycloak-db realm-export-generator keycloak_setup apache_http_server; do
             echo "---- Logs for $container ----"
 
             # Display the logs for the current container, prefixing each line with the container name for clarity
@@ -132,7 +132,7 @@ jobs:
       - name: Collect Docker container logs after the tests have run
         run: |
           # Loop through each container and print logs with a container-specific prefix
-          for container in mailhog keycloak openldap keycloak-db realm-export-generator keycloak_setup; do
+          for container in mailhog keycloak openldap keycloak-db realm-export-generator keycloak_setup apache_http_server; do
             echo "---- Logs for $container ----"
 
             # Display the logs for the current container, prefixing each line with the container name for clarity

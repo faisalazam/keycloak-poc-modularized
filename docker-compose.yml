@@ -14,8 +14,7 @@ services:
     extends:
       file: ./keycloak/docker-compose.yml
       service: keycloak
-    env_file:
-      - ./.env
+    ports: !reset []
     depends_on:
       realm-setup:
         condition: service_completed_successfully

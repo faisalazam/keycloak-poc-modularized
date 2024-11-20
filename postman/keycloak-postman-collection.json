@@ -150,12 +150,12 @@
 										},
 										{
 											"key": "client_id",
-											"value": "{{USER_CLIENT_ID}}",
+											"value": "{{USER_MGMT_CLIENT_ID}}",
 											"type": "text"
 										},
 										{
 											"key": "client_secret",
-											"value": "{{USER_CLIENT_SECRET}}",
+											"value": "{{USER_MGMT_CLIENT_SECRET}}",
 											"type": "text"
 										}
 									]
@@ -238,12 +238,12 @@
 										},
 										{
 											"key": "client_id",
-											"value": "{{USER_CLIENT_ID}}",
+											"value": "{{USER_MGMT_CLIENT_ID}}",
 											"type": "text"
 										},
 										{
 											"key": "client_secret",
-											"value": "{{USER_CLIENT_SECRET}}",
+											"value": "{{USER_MGMT_CLIENT_SECRET}}",
 											"type": "text"
 										}
 									]
@@ -334,12 +334,12 @@
 										},
 										{
 											"key": "client_id",
-											"value": "{{USER_CLIENT_ID}}",
+											"value": "{{USER_MGMT_CLIENT_ID}}",
 											"type": "text"
 										},
 										{
 											"key": "client_secret",
-											"value": "{{USER_CLIENT_SECRET}}",
+											"value": "{{USER_MGMT_CLIENT_SECRET}}",
 											"type": "text"
 										},
 										{
@@ -416,12 +416,12 @@
 										},
 										{
 											"key": "client_id",
-											"value": "{{USER_CLIENT_ID}}",
+											"value": "{{USER_MGMT_CLIENT_ID}}",
 											"type": "text"
 										},
 										{
 											"key": "client_secret",
-											"value": "{{USER_CLIENT_SECRET}}",
+											"value": "{{USER_MGMT_CLIENT_SECRET}}",
 											"type": "text"
 										}
 									]
@@ -673,12 +673,12 @@
 										},
 										{
 											"key": "client_id",
-											"value": "{{USER_CLIENT_ID}}",
+											"value": "{{USER_MGMT_CLIENT_ID}}",
 											"type": "text"
 										},
 										{
 											"key": "client_secret",
-											"value": "{{USER_CLIENT_SECRET}}",
+											"value": "{{USER_MGMT_CLIENT_SECRET}}",
 											"type": "text"
 										}
 									]
@@ -764,12 +764,12 @@
 										},
 										{
 											"key": "client_id",
-											"value": "{{USER_CLIENT_ID}}",
+											"value": "{{USER_MGMT_CLIENT_ID}}",
 											"type": "text"
 										},
 										{
 											"key": "client_secret",
-											"value": "{{USER_CLIENT_SECRET}}",
+											"value": "{{USER_MGMT_CLIENT_SECRET}}",
 											"type": "text"
 										},
 										{
@@ -846,12 +846,12 @@
 										},
 										{
 											"key": "client_id",
-											"value": "{{USER_CLIENT_ID}}",
+											"value": "{{USER_MGMT_CLIENT_ID}}",
 											"type": "text"
 										},
 										{
 											"key": "client_secret",
-											"value": "{{USER_CLIENT_SECRET}}",
+											"value": "{{USER_MGMT_CLIENT_SECRET}}",
 											"type": "text"
 										}
 									]
@@ -1197,12 +1197,12 @@
 										},
 										{
 											"key": "client_id",
-											"value": "{{USER_CLIENT_ID}}",
+											"value": "{{USER_MGMT_CLIENT_ID}}",
 											"type": "text"
 										},
 										{
 											"key": "client_secret",
-											"value": "{{USER_CLIENT_SECRET}}",
+											"value": "{{USER_MGMT_CLIENT_SECRET}}",
 											"type": "text"
 										}
 									]
@@ -1453,12 +1453,12 @@
 										},
 										{
 											"key": "client_id",
-											"value": "{{USER_CLIENT_ID}}",
+											"value": "{{USER_MGMT_CLIENT_ID}}",
 											"type": "text"
 										},
 										{
 											"key": "client_secret",
-											"value": "{{USER_CLIENT_SECRET}}",
+											"value": "{{USER_MGMT_CLIENT_SECRET}}",
 											"type": "text"
 										}
 									]
@@ -1703,12 +1703,12 @@
 										},
 										{
 											"key": "client_id",
-											"value": "{{USER_CLIENT_ID}}",
+											"value": "{{USER_MGMT_CLIENT_ID}}",
 											"type": "text"
 										},
 										{
 											"key": "client_secret",
-											"value": "{{USER_CLIENT_SECRET}}",
+											"value": "{{USER_MGMT_CLIENT_SECRET}}",
 											"type": "text"
 										}
 									]
@@ -1805,7 +1805,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/clients?clientId={{USER_CLIENT_ID}}",
+									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/clients?clientId={{USER_MGMT_CLIENT_ID}}",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -1818,7 +1818,7 @@
 									"query": [
 										{
 											"key": "clientId",
-											"value": "{{USER_CLIENT_ID}}"
+											"value": "{{USER_MGMT_CLIENT_ID}}"
 										}
 									]
 								}

@@ -468,7 +468,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?username=user3",
+									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?username=user3&exact=true&briefRepresentation=true",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -896,7 +896,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?username=user8",
+									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?username=user8&exact=true&briefRepresentation=true",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -1071,7 +1071,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?username={{USER_ID}}",
+									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?username={{USER_ID}}&exact=true&briefRepresentation=true",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -1216,7 +1216,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?email=kzuser1@example.com",
+									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?email=kzuser1@example.com&exact=true&briefRepresentation=true",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -1469,7 +1469,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?email=kzuser1@example.com",
+									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?email=kzuser1@example.com&exact=true&briefRepresentation=true",
 									"host": [
 										"{{BASE_URL}}"
 									],

@@ -52,3 +52,70 @@ curl -s -X PUT "$KEYCLOAK_URL/admin/realms/master/users/$USER_ID" \
 }'
 
 echo "Updated the email for the '${KC_BOOTSTRAP_ADMIN_USERNAME}' user successfully."
+
+# Define realms and client IDs as pairs (space-separated)
+REALM_CLIENT_PAIRS="ZenithRealm:zenith-user-mgmt-client QuantumRealm:quantum-user-mgmt-client"
+
+# Iterate over the realm/client ID pairs
+for pair in $REALM_CLIENT_PAIRS ; do
+  REALM=${pair%:*};
+  CLIENT_ID=${pair#*:};
+
+  # Check if both realm and client ID are not empty
+  if [ -z "$REALM" ] || [ -z "$CLIENT_ID" ]; then
+      echo "Skipping due to empty realm or client ID."
+      continue
+  fi
+
+  # Get client info
+  CLIENT_INFO_RESPONSE=$(curl -s -X GET "$KEYCLOAK_URL/admin/realms/$REALM/clients?clientId=$CLIENT_ID" \
+  -H "Authorization: Bearer $ACCESS_TOKEN")
+
+  # Extract client UUID from response
+  CLIENT_UUID=$(echo "$CLIENT_INFO_RESPONSE" | jq -r '.[0].id')
+
+  if [ -z "$CLIENT_UUID" ]; then
+      echo "Failed to obtain CLIENT_UUID for '$CLIENT_ID' in realm '$REALM'."
+      continue
+  fi
+
+  echo "CLIENT_UUID obtained for '$CLIENT_ID' obtained successfully"
+
+  # Get the service account user ID
+  SERVICE_ACCOUNT_USER_ID=$(curl -s -X GET "$KEYCLOAK_URL/admin/realms/$REALM/clients/$CLIENT_UUID/service-account-user" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" | jq -r '.id')
+
+  if [ -z "$SERVICE_ACCOUNT_USER_ID" ]; then
+      echo "Failed to obtain SERVICE_ACCOUNT_USER_ID for '$CLIENT_ID' in realm '$REALM'."
+      continue
+  fi
+
+  echo "SERVICE_ACCOUNT_USER_ID for '$CLIENT_ID' obtained successfully"
+
+  # Get the 'manage-users' role ID from the 'realm-management' client
+  REALM_MGMT_CLIENT_ID=$(curl -s -X GET "$KEYCLOAK_URL/admin/realms/$REALM/clients?clientId=realm-management" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" | jq -r '.[0].id')
+
+  if [ -z "$REALM_MGMT_CLIENT_ID" ]; then
+      echo "Failed to obtain REALM_MGMT_CLIENT_ID for realm '$REALM'."
+      continue
+  fi
+
+  MANAGE_USERS_ROLE_ID=$(curl -s -X GET "$KEYCLOAK_URL/admin/realms/$REALM/clients/$REALM_MGMT_CLIENT_ID/roles" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" | jq -r '.[] | select(.name=="manage-users") | .id')
+
+  if [ -z "$MANAGE_USERS_ROLE_ID" ]; then
+      echo "Failed to obtain MANAGE_USERS_ROLE_ID for realm '$REALM'."
+      continue
+  fi
+
+  echo "MANAGE_USERS_ROLE_ID obtained successfully"
+
+  # Assign the 'manage-users' role to the service account
+  curl -s -X POST "$KEYCLOAK_URL/admin/realms/$REALM/users/$SERVICE_ACCOUNT_USER_ID/role-mappings/clients/$REALM_MGMT_CLIENT_ID" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "[{\"id\": \"$MANAGE_USERS_ROLE_ID\", \"name\": \"manage-users\"}]"
+
+  echo "'manage-users' role assigned to service account of '$CLIENT_ID' in realm '$REALM'."
+done

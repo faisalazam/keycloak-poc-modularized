@@ -80,7 +80,7 @@ values, and then finally create a fully merged realm json file per realm.
     {
       "enabled": true,
       "protocol": "openid-connect",
-      "clientId": "quantum-api-client",
+      "clientId": "quantum-user-mgmt-client",
       "redirectUris": [
         "${QUANTUM_REALM_REDIRECT_URI}"
       ]

@@ -7,6 +7,7 @@ REALMS_DIR="/tmp/realms"
 SMTP_FILE="smtp.json"
 LDAP_FILE="ldap.json"
 USERS_FILE="users.json"
+CLIENTS_FILE="clients.json"
 REALM_EXPORT_FILE="realm-export.json"
 
 # Temporary and output file names
@@ -63,6 +64,7 @@ for realm_dir in "$REALMS_DIR"/*; do
 
         # Merge JSON files with appropriate commands
         merge_json "$merged_template_path" "$realm_dir/$REALM_EXPORT_FILE" ". += \$source"
+        merge_if_enabled "$SETUP_CLIENTS" "$CLIENTS_FILE" ".clients = \$source.clients"
         merge_if_enabled "$SETUP_USERS" "$USERS_FILE" ".users = \$source.users"
         merge_if_enabled "$SETUP_SMTP" "$SMTP_FILE" ".smtpServer = \$source.smtpServer"
         merge_if_enabled "$SETUP_LDAP" "$LDAP_FILE" ".components += \$source.components"

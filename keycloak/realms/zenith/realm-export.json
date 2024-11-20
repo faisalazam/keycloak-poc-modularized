@@ -2,23 +2,6 @@
   "realm": "ZenithRealm",
   "enabled": true,
   "resetPasswordAllowed": true,
-  "clients": [
-    {
-      "enabled": true,
-      "protocol": "openid-connect",
-      "name": "zenith-user-mgmt-client",
-      "clientId": "zenith-user-mgmt-client",
-      "description": "User management client",
-      "clientAuthenticatorType": "client-secret",
-      "secret": "hard_coded_secret_used_in_local_env",
-      "standardFlowEnabled": false,
-      "implicitFlowEnabled": false,
-      "serviceAccountsEnabled": true,
-      "directAccessGrantsEnabled": false,
-      "redirectUris": [
-        "${ZENITH_REALM_REDIRECT_URI}"
-      ]
-    }
-  ],
+  "clients": [],
   "users": []
 }

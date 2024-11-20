@@ -1703,12 +1703,12 @@
 										},
 										{
 											"key": "client_id",
-											"value": "{{USER_MGMT_CLIENT_ID}}",
+											"value": "{{CLIENT_MGMT_CLIENT_ID}}",
 											"type": "text"
 										},
 										{
 											"key": "client_secret",
-											"value": "{{USER_MGMT_CLIENT_SECRET}}",
+											"value": "{{CLIENT_MGMT_CLIENT_SECRET}}",
 											"type": "text"
 										}
 									]
@@ -1805,7 +1805,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/clients?clientId={{USER_MGMT_CLIENT_ID}}",
+									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/clients?clientId={{CLIENT_MGMT_CLIENT_ID}}",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -1818,7 +1818,7 @@
 									"query": [
 										{
 											"key": "clientId",
-											"value": "{{USER_MGMT_CLIENT_ID}}"
+											"value": "{{CLIENT_MGMT_CLIENT_ID}}"
 										}
 									]
 								}

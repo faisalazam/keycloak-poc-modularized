@@ -2,9 +2,9 @@
 
 # If you face script not found error even though the script does exist, then it'll more likely be due to the fact that
 # the script has CRLF line terminators (Windows-style). Run the following command to convert CRLF to LF to fix it:
-# dos2unix keycloak/prepare_realm_exports.sh
+# dos2unix keycloak/configure-keycloak.sh
 # You can run the following to check the line terminators:
-# file keycloak/prepare_realm_exports.sh
+# file keycloak/configure-keycloak.sh
 # If the output contains something like below, then it'd mean that it needs fixing to run on unix systems:
 # ASCII text executable, with CRLF line terminators
 
@@ -77,27 +77,29 @@ get_realm_management_client_id() {
   echo "$response" | jq -r '.[0].id'
 }
 
-# Get 'manage-users' role ID
-get_manage_users_role_id() {
+# Get role ID by role name
+get_role_id() {
   realm=$1
   realm_mgmt_client_id=$2
+  role_name=$3
   response=$(curl -s -X GET "$KEYCLOAK_URL/admin/realms/$realm/clients/$realm_mgmt_client_id/roles" \
     -H "Authorization: Bearer $ACCESS_TOKEN")
-  echo "$response" | jq -r '.[] | select(.name=="manage-users") | .id'
+  echo "$response" | jq -r ".[] | select(.name==\"$role_name\") | .id"
 }
 
-# Assign 'manage-users' role to service account
-assign_manage_users_role() {
+# Assign role to service account
+assign_role_to_service_account() {
   realm=$1
   service_account_user_id=$2
   realm_mgmt_client_id=$3
-  manage_users_role_id=$4
+  role_id=$4
+  role_name=$5
 
   curl -s -X POST "$KEYCLOAK_URL/admin/realms/$realm/users/$service_account_user_id/role-mappings/clients/$realm_mgmt_client_id" \
     -H "Authorization: Bearer $ACCESS_TOKEN" \
     -H "Content-Type: application/json" \
-    -d "[{\"id\": \"$manage_users_role_id\", \"name\": \"manage-users\"}]"
-  echo "'manage-users' role assigned to service account in realm '$realm'."
+    -d "[{\"id\": \"$role_id\", \"name\": \"$role_name\"}]"
+  echo "'$role_name' role assigned to service account in realm '$realm'."
 }
 
 # Main script logic
@@ -119,14 +121,19 @@ main() {
 
   update_user_email "$USER_ID"
 
-  REALM_CLIENT_PAIRS="zenithrealm:zenith-user-mgmt-client quantumrealm:quantum-user-mgmt-client"
+  REALM_CLIENT_ROLE_PAIRS="
+    zenithrealm:zenith-user-mgmt-client:manage-users
+    zenithrealm:zenith-client-mgmt-client:manage-clients
+    quantumrealm:quantum-user-mgmt-client:manage-users
+    quantumrealm:quantum-client-mgmt-client:manage-clients"
 
-  for pair in $REALM_CLIENT_PAIRS; do
-    REALM=${pair%:*}
-    CLIENT_ID=${pair#*:}
+  for pair in $REALM_CLIENT_ROLE_PAIRS; do
+    REALM=$(echo "$pair" | cut -d':' -f1)
+    CLIENT_ID=$(echo "$pair" | cut -d':' -f2)
+    ROLE_NAME=$(echo "$pair" | cut -d':' -f3)
 
-    if [ -z "$REALM" ] || [ -z "$CLIENT_ID" ]; then
-      echo "Skipping due to empty realm or client ID."
+    if [ -z "$REALM" ] || [ -z "$CLIENT_ID" ] || [ -z "$ROLE_NAME" ]; then
+      echo "Skipping due to empty realm, client ID, or role name."
       continue
     fi
 
@@ -148,13 +155,13 @@ main() {
       continue
     fi
 
-    MANAGE_USERS_ROLE_ID=$(get_manage_users_role_id "$REALM" "$REALM_MGMT_CLIENT_ID")
-    if [ -z "$MANAGE_USERS_ROLE_ID" ]; then
-      echo "Failed to obtain MANAGE_USERS_ROLE_ID for realm '$REALM'."
+    ROLE_ID=$(get_role_id "$REALM" "$REALM_MGMT_CLIENT_ID" "$ROLE_NAME")
+    if [ -z "$ROLE_ID" ]; then
+      echo "Failed to obtain ROLE_ID for role '$ROLE_NAME' in realm '$REALM'."
       continue
     fi
 
-    assign_manage_users_role "$REALM" "$SERVICE_ACCOUNT_USER_ID" "$REALM_MGMT_CLIENT_ID" "$MANAGE_USERS_ROLE_ID"
+    assign_role_to_service_account "$REALM" "$SERVICE_ACCOUNT_USER_ID" "$REALM_MGMT_CLIENT_ID" "$ROLE_ID" "$ROLE_NAME"
   done
 }
 

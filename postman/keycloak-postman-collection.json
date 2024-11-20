@@ -117,7 +117,8 @@
 											"    }",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -133,20 +134,29 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "client_id",
-											"value": "{{CLIENT_ID}}"
-										},
-										{
 											"key": "username",
-											"value": "kzuser1"
+											"value": "kzuser1",
+											"type": "text"
 										},
 										{
 											"key": "password",
-											"value": "password1"
+											"value": "password1",
+											"type": "text"
 										},
 										{
 											"key": "grant_type",
-											"value": "password"
+											"value": "client_credentials",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{USER_CLIENT_ID}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{USER_CLIENT_SECRET}}",
+											"type": "text"
 										}
 									]
 								},
@@ -195,7 +205,8 @@
 											"    });",
 											"}"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -211,20 +222,29 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "client_id",
-											"value": "{{CLIENT_ID}}"
-										},
-										{
 											"key": "username",
-											"value": "kzuser1"
+											"value": "kzuser1",
+											"type": "text"
 										},
 										{
 											"key": "password",
-											"value": "password1"
+											"value": "password1",
+											"type": "text"
 										},
 										{
 											"key": "grant_type",
-											"value": "password"
+											"value": "client_credentials",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{USER_CLIENT_ID}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{USER_CLIENT_SECRET}}",
+											"type": "text"
 										}
 									]
 								},
@@ -268,7 +288,8 @@
 											"    });",
 											"}"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								},
 								{
@@ -290,7 +311,8 @@
 											"pm.environment.unset(\"REFRESH_TOKEN\");",
 											"console.log(\"REFRESH_TOKEN cleared from environment\");"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -306,12 +328,25 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "text",
+											"disabled": true
+										},
+										{
 											"key": "client_id",
-											"value": "{{CLIENT_ID}}"
+											"value": "{{CLIENT_ID}}",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{USER_CLIENT_ID}}",
+											"type": "text"
 										},
 										{
 											"key": "refresh_token",
-											"value": "{{REFRESH_TOKEN}}"
+											"value": "{{REFRESH_TOKEN}}",
+											"type": "text"
 										}
 									]
 								},
@@ -337,7 +372,7 @@
 					"name": "Get User Info",
 					"item": [
 						{
-							"name": "1 - Login - Admin",
+							"name": "1 - Login - User",
 							"event": [
 								{
 									"listen": "test",
@@ -359,7 +394,8 @@
 											"    });",
 											"}"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -375,31 +411,30 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "client_id",
-											"value": "{{ADMIN_CLIENT_ID}}"
-										},
-										{
-											"key": "username",
-											"value": "admin"
-										},
-										{
-											"key": "password",
-											"value": "admin"
-										},
-										{
 											"key": "grant_type",
-											"value": "password"
+											"value": "client_credentials",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{USER_CLIENT_ID}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{USER_CLIENT_SECRET}}",
+											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}/protocol/openid-connect/token",
+									"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/protocol/openid-connect/token",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"realms",
-										"{{ADMIN_REALM_NAME}}",
+										"{{USER_REALM_NAME}}",
 										"protocol",
 										"openid-connect",
 										"token"
@@ -468,7 +503,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?username=user3&exact=true&briefRepresentation=true",
+									"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/users?username=user3&exact=true&briefRepresentation=true",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -615,20 +650,29 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "client_id",
-											"value": "{{CLIENT_ID}}"
-										},
-										{
 											"key": "username",
-											"value": "kzuser1"
+											"value": "kzuser1",
+											"type": "text"
 										},
 										{
 											"key": "password",
-											"value": "password1"
+											"value": "password1",
+											"type": "text"
 										},
 										{
 											"key": "grant_type",
-											"value": "password"
+											"value": "client_credentials",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{USER_CLIENT_ID}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{USER_CLIENT_SECRET}}",
+											"type": "text"
 										}
 									]
 								},
@@ -896,7 +940,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?username=user8&exact=true&briefRepresentation=true",
+									"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/users?username=user8&exact=true&briefRepresentation=true",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -1071,7 +1115,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?username={{USER_ID}}&exact=true&briefRepresentation=true",
+									"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/users?username={{USER_ID}}&exact=true&briefRepresentation=true",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -1216,7 +1260,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?email=kzuser1@example.com&exact=true&briefRepresentation=true",
+									"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/users?email=kzuser1@example.com&exact=true&briefRepresentation=true",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -1469,7 +1513,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/users?email=kzuser1@example.com&exact=true&briefRepresentation=true",
+									"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/users?email=kzuser1@example.com&exact=true&briefRepresentation=true",
 									"host": [
 										"{{BASE_URL}}"
 									],

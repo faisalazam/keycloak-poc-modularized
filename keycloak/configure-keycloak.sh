@@ -111,7 +111,7 @@ main() {
 
   update_user_email "$USER_ID"
 
-  REALM_CLIENT_PAIRS="ZenithRealm:zenith-user-mgmt-client QuantumRealm:quantum-user-mgmt-client"
+  REALM_CLIENT_PAIRS="zenithrealm:zenith-user-mgmt-client quantumrealm:quantum-user-mgmt-client"
 
   for pair in $REALM_CLIENT_PAIRS; do
     REALM=${pair%:*}

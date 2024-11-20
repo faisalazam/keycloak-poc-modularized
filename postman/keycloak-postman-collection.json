@@ -191,17 +191,17 @@
 											"try {",
 											"    const jsonData = pm.response.json();",
 											"    const currentFolder = FolderNames.logoutFolder;",
-											"    FolderVariables.setVariable(pm, currentFolder, \"REFRESH_TOKEN\", jsonData.refresh_token);",
+											"    FolderVariables.setVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\", jsonData.access_token);",
 											"",
-											"    console.log(`REFRESH_TOKEN for ${currentFolder} set to: ${jsonData.refresh_token}`);",
+											"    console.log(`USER_ACCESS_TOKEN for ${currentFolder} set to: ${jsonData.access_token.substring(0, 60) + '...'}`);",
 											"",
-											"    pm.test(\"Login - User: Refresh token retrieved and stored\", function () {",
-											"        pm.expect(jsonData.refresh_token).to.exist;",
-											"        pm.expect(FolderVariables.getVariable(pm, currentFolder, \"REFRESH_TOKEN\")).to.eql(jsonData.refresh_token);",
+											"    pm.test(\"Login - User: Access token retrieved and stored\", function () {",
+											"        pm.expect(jsonData.access_token).to.exist;",
+											"        pm.expect(FolderVariables.getVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\")).to.eql(jsonData.access_token);",
 											"    });",
 											"} catch (e) {",
-											"    pm.test(\"Login - User: Error in setting refresh token\", function () {",
-											"        throw new Error(\"Failed to parse refresh token from response\");",
+											"    pm.test(\"Login - User: Error in setting access token\", function () {",
+											"        throw new Error(\"Failed to parse access token from response\");",
 											"    });",
 											"}"
 										],
@@ -273,18 +273,18 @@
 										"exec": [
 											"try {",
 											"    const currentFolder = FolderNames.logoutFolder;",
-											"    const refreshToken = FolderVariables.getVariable(pm, currentFolder, \"REFRESH_TOKEN\");",
+											"    const accessToken = FolderVariables.getVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\");",
 											"",
-											"    if (refreshToken) {",
-											"        pm.environment.set(\"REFRESH_TOKEN\", refreshToken);",
-											"        console.log(`Using REFRESH_TOKEN for logout: ${refreshToken.substring(0, 60) + '...'}`);",
+											"    if (accessToken) {",
+											"        pm.environment.set(\"USER_ACCESS_TOKEN\", accessToken);",
+											"        console.log(`Using USER_ACCESS_TOKEN for logout: ${accessToken.substring(0, 60) + '...'}`);",
 											"    } else {",
-											"        throw new Error(\"REFRESH_TOKEN is not set in folder-level variables\");",
+											"        throw new Error(\"USER_ACCESS_TOKEN is not set in folder-level variables\");",
 											"    }",
 											"} catch (e) {",
 											"    console.error(e.message);",
 											"    pm.test(\"Logout - User: Error setting refresh token\", function () {",
-											"        throw new Error(\"Failed to set REFRESH_TOKEN before logout\");",
+											"        throw new Error(\"Failed to set USER_ACCESS_TOKEN before logout\");",
 											"    });",
 											"}"
 										],
@@ -297,19 +297,19 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Logout - User: Logout request successful\", function () {",
-											"    pm.response.to.have.status(204);",
-											"    console.log(\"Logout - User: Successfully logged out with 204 status.\");",
+											"    pm.response.to.have.status(200);",
+											"    console.log(\"Logout - User: Successfully logged out with 200 status.\");",
 											"});",
 											"",
-											"pm.test('Handle error if status code is not 204', function () {",
-											"    if (pm.response.code !== 204) {",
-											"        console.error('Error: Expected 204 but got', pm.response.code);",
+											"pm.test('Handle error if status code is not 200', function () {",
+											"    if (pm.response.code !== 200) {",
+											"        console.error('Error: Expected 200 but got', pm.response.code);",
 											"        throw new Error('Unexpected status code: ' + pm.response.code);",
 											"    }",
 											"});",
 											"",
-											"pm.environment.unset(\"REFRESH_TOKEN\");",
-											"console.log(\"REFRESH_TOKEN cleared from environment\");"
+											"pm.environment.unset(\"USER_ACCESS_TOKEN\");",
+											"console.log(\"USER_ACCESS_TOKEN cleared from environment\");"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -330,12 +330,6 @@
 										{
 											"key": "grant_type",
 											"value": "client_credentials",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "client_id",
-											"value": "{{CLIENT_ID}}",
 											"type": "text"
 										},
 										{
@@ -344,8 +338,13 @@
 											"type": "text"
 										},
 										{
-											"key": "refresh_token",
-											"value": "{{REFRESH_TOKEN}}",
+											"key": "client_secret",
+											"value": "{{USER_CLIENT_SECRET}}",
+											"type": "text"
+										},
+										{
+											"key": "access_token",
+											"value": "{{USER_ACCESS_TOKEN}}",
 											"type": "text"
 										}
 									]
@@ -380,16 +379,16 @@
 										"exec": [
 											"const jsonData = pm.response.json();",
 											"const currentFolder = FolderNames.userInfoFolder;",
-											"pm.test('Admin Login: Status code should be 200', function () {",
+											"pm.test('User Login: Status code should be 200', function () {",
 											"    pm.response.to.have.status(200);",
-											"    console.log('Admin login successful with status code 200.');",
+											"    console.log('User login successful with status code 200.');",
 											"});",
 											"if (jsonData && jsonData.access_token) {",
-											"    FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);",
-											"    console.log('Admin access token set successfully.');",
+											"    FolderVariables.setVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\", jsonData.access_token);",
+											"    console.log('User access token set successfully.');",
 											"} else {",
 											"    console.error('Error: No access token found in response.');",
-											"    pm.test('Admin Login: Access token should be present', function () {",
+											"    pm.test('User Login: Access token should be present', function () {",
 											"        pm.expect(jsonData.access_token).to.exist;",
 											"    });",
 											"}"
@@ -444,16 +443,16 @@
 							"response": []
 						},
 						{
-							"name": "2 - Get User (Name) - Admin",
+							"name": "2 - Get User (Name)",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
+											"pm.environment.unset(\"USER_ACCESS_TOKEN\");",
 											"const username = pm.request.url.query.get(\"username\");",
 											"const user = Utilities.getUserIdByCriteria(pm, username, \"username\");",
-											"pm.test('Get User (Name) - Admin: User retrieval status should be 200', function () {",
+											"pm.test('Get User (Name): User retrieval status should be 200', function () {",
 											"    pm.response.to.have.status(200);",
 											"    console.log('User retrieval successful with status code 200.');",
 											"});",
@@ -463,7 +462,7 @@
 											"    console.log(`USER_ID for ${currentFolder} is:`, user.userId);",
 											"} else {",
 											"    console.error('Error: User not found or userId is missing.');",
-											"    pm.test('Get User (Name) - Admin: User should exist and have userId', function () {",
+											"    pm.test('Get User (Name): User should exist and have userId', function () {",
 											"        pm.expect(user).to.exist;",
 											"        pm.expect(user.userId).to.exist;",
 											"    });",
@@ -477,12 +476,12 @@
 									"script": {
 										"exec": [
 											"const currentFolder = FolderNames.userInfoFolder;",
-											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
+											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\");",
 											"if (accessToken) {",
-											"    pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
-											"    console.log('Admin access token set in environment.');",
+											"    pm.environment.set(\"USER_ACCESS_TOKEN\", accessToken);",
+											"    console.log('User access token set in environment.');",
 											"} else {",
-											"    console.error('Error: Admin access token not found in environment.');",
+											"    console.error('Error: User access token not found in environment.');",
 											"}"
 										],
 										"type": "text/javascript"
@@ -498,7 +497,7 @@
 									},
 									{
 										"key": "Authorization",
-										"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+										"value": "Bearer {{USER_ACCESS_TOKEN}}",
 										"type": "text"
 									}
 								],
@@ -517,6 +516,14 @@
 										{
 											"key": "username",
 											"value": "user3"
+										},
+										{
+											"key": "exact",
+											"value": "true"
+										},
+										{
+											"key": "briefRepresentation",
+											"value": "true"
 										}
 									]
 								}
@@ -524,15 +531,15 @@
 							"response": []
 						},
 						{
-							"name": "3 - Get User Info - Admin",
+							"name": "3 - Get User Info",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
 											"pm.environment.unset(\"USER_ID\");",
-											"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
-											"pm.test('Get User Info - Admin: Response status should be 200', function () {",
+											"pm.environment.unset(\"USER_ACCESS_TOKEN\");",
+											"pm.test('Get User Info: Response status should be 200', function () {",
 											"    pm.response.to.have.status(200);",
 											"    console.log('User info fetched successfully with status code 200.');",
 											"});",
@@ -563,8 +570,8 @@
 											"    });\r",
 											"}\r",
 											"\r",
-											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");\r",
-											"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
+											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\");\r",
+											"pm.environment.set(\"USER_ACCESS_TOKEN\", accessToken);"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -580,7 +587,7 @@
 									},
 									{
 										"key": "Authorization",
-										"value": "Bearer {{ADMIN_ACCESS_TOKEN}}"
+										"value": "Bearer {{USER_ACCESS_TOKEN}}"
 									}
 								],
 								"url": {
@@ -751,16 +758,24 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
+											"key": "grant_type",
+											"value": "refresh_token",
+											"type": "text"
+										},
+										{
 											"key": "client_id",
-											"value": "{{CLIENT_ID}}"
+											"value": "{{USER_CLIENT_ID}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{USER_CLIENT_SECRET}}",
+											"type": "text"
 										},
 										{
 											"key": "refresh_token",
-											"value": "{{REFRESH_TOKEN}}"
-										},
-										{
-											"key": "grant_type",
-											"value": "refresh_token"
+											"value": "{{REFRESH_TOKEN}}",
+											"type": "text"
 										}
 									]
 								},
@@ -786,40 +801,27 @@
 					"name": "Delete User",
 					"item": [
 						{
-							"name": "1 - Login - Admin",
+							"name": "1 - Login - User",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
 											"const jsonData = pm.response.json();",
 											"const currentFolder = FolderNames.deleteUserFolder;",
-											"",
-											"pm.test(\"Access token is present in response\", function () {",
-											"    pm.expect(jsonData).to.have.property(\"access_token\");",
+											"pm.test('User Login: Status code should be 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"    console.log('User login successful with status code 200.');",
 											"});",
-											"",
 											"if (jsonData && jsonData.access_token) {",
-											"    FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);",
-											"    console.log(`ADMIN_ACCESS_TOKEN set for ${currentFolder}`);",
-											"",
-											"    pm.test(\"Access token is valid\", function () {",
-											"        pm.expect(jsonData.access_token).to.not.be.null;",
-											"        pm.expect(jsonData.access_token).to.not.be.undefined;",
-											"    });",
-											"",
+											"    FolderVariables.setVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\", jsonData.access_token);",
+											"    console.log('User access token set successfully.');",
 											"} else {",
-											"    console.error('Access token not found in response');",
-											"",
-											"    pm.test('Access token validation failed', function () {",
-											"        pm.expect(false, 'Access token missing').to.be.true;",
+											"    console.error('Error: No access token found in response.');",
+											"    pm.test('User Login: Access token should be present', function () {",
+											"        pm.expect(jsonData.access_token).to.exist;",
 											"    });",
-											"}",
-											""
+											"}"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -831,43 +833,37 @@
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/x-www-form-urlencoded",
-										"type": "text"
+										"value": "application/x-www-form-urlencoded"
 									}
 								],
 								"body": {
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "client_id",
-											"value": "{{ADMIN_CLIENT_ID}}",
-											"type": "text"
-										},
-										{
-											"key": "username",
-											"value": "admin",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "admin",
-											"type": "text"
-										},
-										{
 											"key": "grant_type",
-											"value": "password",
+											"value": "client_credentials",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{USER_CLIENT_ID}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{USER_CLIENT_SECRET}}",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}/protocol/openid-connect/token",
+									"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/protocol/openid-connect/token",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"realms",
-										"{{ADMIN_REALM_NAME}}",
+										"{{USER_REALM_NAME}}",
 										"protocol",
 										"openid-connect",
 										"token"
@@ -877,31 +873,30 @@
 							"response": []
 						},
 						{
-							"name": "2 - Get User (Name) - Admin",
+							"name": "2 - Get User (Name)",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
+											"pm.environment.unset(\"USER_ACCESS_TOKEN\");",
 											"const username = pm.request.url.query.get(\"username\");",
 											"const user = Utilities.getUserIdByCriteria(pm, username, \"username\");",
-											"",
+											"pm.test('Get User (Name): User retrieval status should be 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"    console.log('User retrieval successful with status code 200.');",
+											"});",
 											"if (user && user.userId) {",
 											"    const currentFolder = FolderNames.deleteUserFolder;",
 											"    FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);",
 											"    console.log(`USER_ID for ${currentFolder} is:`, user.userId);",
-											"    pm.test(\"User retrieval test - User ID is set\", function () {",
+											"} else {",
+											"    console.error('Error: User not found or userId is missing.');",
+											"    pm.test('Get User (Name): User should exist and have userId', function () {",
+											"        pm.expect(user).to.exist;",
 											"        pm.expect(user.userId).to.exist;",
 											"    });",
-											"} else {",
-											"    console.error(\"Error: User not found or userId is missing.\");",
-											"    pm.test(\"User retrieval test - User and userId should exist\", function () {",
-											"        pm.expect(user, \"User data is missing\").to.exist;",
-											"        pm.expect(user.userId, \"User ID is missing\").to.exist;",
-											"    });",
-											"}",
-											""
+											"}"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -912,12 +907,12 @@
 									"script": {
 										"exec": [
 											"const currentFolder = FolderNames.deleteUserFolder;",
-											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
+											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\");",
 											"if (accessToken) {",
-											"    pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
-											"    console.log('Admin access token set in environment.');",
+											"    pm.environment.set(\"USER_ACCESS_TOKEN\", accessToken);",
+											"    console.log('User access token set in environment.');",
 											"} else {",
-											"    console.error('Error: Admin access token not found in environment.');",
+											"    console.error('Error: User access token not found in environment.');",
 											"}"
 										],
 										"type": "text/javascript",
@@ -930,12 +925,11 @@
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/x-www-form-urlencoded",
-										"type": "text"
+										"value": "application/x-www-form-urlencoded"
 									},
 									{
 										"key": "Authorization",
-										"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+										"value": "Bearer {{USER_ACCESS_TOKEN}}",
 										"type": "text"
 									}
 								],
@@ -954,6 +948,14 @@
 										{
 											"key": "username",
 											"value": "user8"
+										},
+										{
+											"key": "exact",
+											"value": "true"
+										},
+										{
+											"key": "briefRepresentation",
+											"value": "true"
 										}
 									]
 								}
@@ -978,12 +980,12 @@
 											"        pm.expect(userId).to.exist;",
 											"    });",
 											"}",
-											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
+											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\");",
 											"if (accessToken) {",
-											"    pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
-											"    console.log('Admin access token set in environment.');",
+											"    pm.environment.set(\"USER_ACCESS_TOKEN\", accessToken);",
+											"    console.log('User access token set in environment.');",
 											"} else {",
-											"    console.error('Error: Admin access token not found in environment.');",
+											"    console.error('Error: User access token not found in environment.');",
 											"}"
 										],
 										"type": "text/javascript",
@@ -995,8 +997,8 @@
 									"script": {
 										"exec": [
 											"pm.environment.unset(\"USER_ID\");",
-											"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
-											"pm.test(\"Delete User - Admin: User should be deleted successfully\", function () {",
+											"pm.environment.unset(\"USER_ACCESS_TOKEN\");",
+											"pm.test(\"Delete User: User should be deleted successfully\", function () {",
 											"    pm.response.to.have.status(204);",
 											"    console.log('User successfully deleted with status code 204.');",
 											"});",
@@ -1016,7 +1018,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+										"value": "Bearer {{USER_ACCESS_TOKEN}}",
 										"type": "text"
 									}
 								],
@@ -1043,7 +1045,8 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
+											"pm.environment.unset(\"USER_ID\");",
+											"pm.environment.unset(\"USER_ACCESS_TOKEN\");",
 											"const username = pm.request.url.query.get(\"username\");",
 											"",
 											"try {",
@@ -1087,12 +1090,12 @@
 											"        pm.expect(userId).to.exist;",
 											"    });",
 											"}",
-											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
+											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\");",
 											"if (accessToken) {",
-											"    pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
-											"    console.log('Admin access token set in environment.');",
+											"    pm.environment.set(\"USER_ACCESS_TOKEN\", accessToken);",
+											"    console.log('User access token set in environment.');",
 											"} else {",
-											"    console.error('Error: Admin access token not found in environment.');",
+											"    console.error('Error: User access token not found in environment.');",
 											"}"
 										],
 										"type": "text/javascript",
@@ -1110,7 +1113,7 @@
 									},
 									{
 										"key": "Authorization",
-										"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+										"value": "Bearer {{USER_ACCESS_TOKEN}}",
 										"type": "text"
 									}
 								],
@@ -1129,6 +1132,14 @@
 										{
 											"key": "username",
 											"value": "{{USER_ID}}"
+										},
+										{
+											"key": "exact",
+											"value": "true"
+										},
+										{
+											"key": "briefRepresentation",
+											"value": "true"
 										}
 									]
 								}
@@ -1141,7 +1152,7 @@
 					"name": "Reset/Forgot Password via Email",
 					"item": [
 						{
-							"name": "1 - Login - Admin",
+							"name": "1 - Login - User",
 							"event": [
 								{
 									"listen": "test",
@@ -1149,12 +1160,19 @@
 										"exec": [
 											"const jsonData = pm.response.json();",
 											"const currentFolder = FolderNames.forgotPasswordFolder;",
-											"FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);",
-											"pm.test('Access token retrieved successfully', function () {",
-											"    pm.expect(jsonData.access_token).to.not.be.null;",
-											"    pm.expect(jsonData.access_token).to.not.be.undefined;",
+											"pm.test('User Login: Status code should be 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"    console.log('User login successful with status code 200.');",
 											"});",
-											"console.log('Access token retrieved:', jsonData.access_token.substring(0, 60) + '...');"
+											"if (jsonData && jsonData.access_token) {",
+											"    FolderVariables.setVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\", jsonData.access_token);",
+											"    console.log('User access token set successfully.');",
+											"} else {",
+											"    console.error('Error: No access token found in response.');",
+											"    pm.test('User Login: Access token should be present', function () {",
+											"        pm.expect(jsonData.access_token).to.exist;",
+											"    });",
+											"}"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1166,43 +1184,37 @@
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/x-www-form-urlencoded",
-										"type": "text"
+										"value": "application/x-www-form-urlencoded"
 									}
 								],
 								"body": {
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "client_id",
-											"value": "{{ADMIN_CLIENT_ID}}",
-											"type": "text"
-										},
-										{
-											"key": "username",
-											"value": "admin",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "admin",
-											"type": "text"
-										},
-										{
 											"key": "grant_type",
-											"value": "password",
+											"value": "client_credentials",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{USER_CLIENT_ID}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{USER_CLIENT_SECRET}}",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}/protocol/openid-connect/token",
+									"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/protocol/openid-connect/token",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"realms",
-										"{{ADMIN_REALM_NAME}}",
+										"{{USER_REALM_NAME}}",
 										"protocol",
 										"openid-connect",
 										"token"
@@ -1212,13 +1224,13 @@
 							"response": []
 						},
 						{
-							"name": "2 - Get User (Email)- Admin",
+							"name": "2 - Get User (Email)",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
+											"pm.environment.unset(\"USER_ACCESS_TOKEN\");",
 											"const email = pm.request.url.query.get(\"email\");",
 											"const user = Utilities.getUserIdByCriteria(pm, email, \"email\");",
 											"const currentFolder = FolderNames.forgotPasswordFolder;",
@@ -1237,8 +1249,8 @@
 									"script": {
 										"exec": [
 											"const currentFolder = FolderNames.forgotPasswordFolder;",
-											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
-											"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);"
+											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\");",
+											"pm.environment.set(\"USER_ACCESS_TOKEN\", accessToken);"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1255,7 +1267,7 @@
 									},
 									{
 										"key": "Authorization",
-										"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+										"value": "Bearer {{USER_ACCESS_TOKEN}}",
 										"type": "text"
 									}
 								],
@@ -1274,6 +1286,14 @@
 										{
 											"key": "email",
 											"value": "kzuser1@example.com"
+										},
+										{
+											"key": "exact",
+											"value": "true"
+										},
+										{
+											"key": "briefRepresentation",
+											"value": "true"
 										}
 									]
 								}
@@ -1290,8 +1310,8 @@
 											"const currentFolder = FolderNames.forgotPasswordFolder;",
 											"const userId = FolderVariables.getVariable(pm, currentFolder, \"USER_ID\");",
 											"pm.environment.set(\"USER_ID\", userId);",
-											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
-											"pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
+											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\");",
+											"pm.environment.set(\"USER_ACCESS_TOKEN\", accessToken);",
 											"pm.test('User ID and Access Token set correctly', function () {",
 											"    pm.expect(userId).to.not.be.null;",
 											"    pm.expect(accessToken).to.not.be.null;",
@@ -1306,12 +1326,19 @@
 									"script": {
 										"exec": [
 											"pm.environment.unset(\"USER_ID\");",
-											"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
+											"pm.environment.unset(\"USER_ACCESS_TOKEN\");",
 											"",
-											"pm.test('Response status is OK', function () {",
-											"    pm.response.to.have.status(204);",
-											"});",
-											""
+											"if (pm.response.code === 204) {",
+											"    pm.test('Password reset email sent successfully', function () {",
+											"        pm.response.to.have.status(204);",
+											"    });",
+											"    console.log('Password reset email sent successfully.');",
+											"} else {",
+											"    console.error('Failed to send password reset email:', pm.response.body);",
+											"    pm.test('Failed to send password reset email', function () {",
+											"        pm.response.to.have.status(204);",
+											"    });",
+											"}"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1328,7 +1355,7 @@
 									},
 									{
 										"key": "Authorization",
-										"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+										"value": "Bearer {{USER_ACCESS_TOKEN}}",
 										"type": "text"
 									}
 								],
@@ -1381,7 +1408,7 @@
 					"name": "Reset Password Directly",
 					"item": [
 						{
-							"name": "1 - Login - Admin",
+							"name": "1 - Login - User",
 							"event": [
 								{
 									"listen": "test",
@@ -1389,21 +1416,22 @@
 										"exec": [
 											"const jsonData = pm.response.json();",
 											"const currentFolder = FolderNames.resetPasswordFolder;",
-											"if (jsonData.access_token) {",
-											"    FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);",
-											"    pm.test('Access token retrieved successfully', function () {",
-											"        pm.expect(jsonData.access_token).to.not.be.null;",
-											"        pm.expect(jsonData.access_token).to.not.be.undefined;",
-											"    });",
+											"pm.test('User Login: Status code should be 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"    console.log('User login successful with status code 200.');",
+											"});",
+											"if (jsonData && jsonData.access_token) {",
+											"    FolderVariables.setVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\", jsonData.access_token);",
+											"    console.log('User access token set successfully.');",
 											"} else {",
-											"    pm.test('Failed to retrieve access token', function () {",
-											"        pm.expect(jsonData.access_token).to.not.be.null;",
-											"        pm.expect(jsonData.access_token).to.not.be.undefined;",
+											"    console.error('Error: No access token found in response.');",
+											"    pm.test('User Login: Access token should be present', function () {",
+											"        pm.expect(jsonData.access_token).to.exist;",
 											"    });",
-											"    console.error('Access token not found');",
 											"}"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1419,31 +1447,30 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "client_id",
-											"value": "{{ADMIN_CLIENT_ID}}"
-										},
-										{
-											"key": "username",
-											"value": "admin"
-										},
-										{
-											"key": "password",
-											"value": "admin"
-										},
-										{
 											"key": "grant_type",
-											"value": "password"
+											"value": "client_credentials",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{USER_CLIENT_ID}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{USER_CLIENT_SECRET}}",
+											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}/protocol/openid-connect/token",
+									"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/protocol/openid-connect/token",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"realms",
-										"{{ADMIN_REALM_NAME}}",
+										"{{USER_REALM_NAME}}",
 										"protocol",
 										"openid-connect",
 										"token"
@@ -1453,31 +1480,24 @@
 							"response": []
 						},
 						{
-							"name": "2 - Get User (Email)- Admin",
+							"name": "2 - Get User (Email)",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
+											"pm.environment.unset(\"USER_ACCESS_TOKEN\");",
 											"const email = pm.request.url.query.get(\"email\");",
-											"console.log(`Fetching user by email: ${email}`);",
 											"const user = Utilities.getUserIdByCriteria(pm, email, \"email\");",
-											"if (user && user.userId) {",
-											"    const currentFolder = FolderNames.resetPasswordFolder;",
-											"    FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);",
-											"    pm.test('User ID retrieved successfully', function () {",
-											"        pm.expect(user.userId).to.not.be.null;",
-											"        pm.expect(user.userId).to.not.be.undefined;",
-											"    });",
-											"} else {",
-											"    pm.test('User not found', function () {",
-											"        pm.expect(user).to.be.null;",
-											"    });",
-											"    console.error('User not found for email:', email);",
-											"}"
+											"const currentFolder = FolderNames.resetPasswordFolder;",
+											"FolderVariables.setVariable(pm, currentFolder, \"USER_ID\", user.userId);",
+											"pm.test('User ID retrieved successfully', function () {",
+											"    pm.expect(user.userId).to.not.be.null;",
+											"    pm.expect(user.userId).to.not.be.undefined;",
+											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								},
 								{
@@ -1485,18 +1505,11 @@
 									"script": {
 										"exec": [
 											"const currentFolder = FolderNames.resetPasswordFolder;",
-											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
-											"if (!accessToken) {",
-											"    console.error('Access token is missing. Cannot proceed.');",
-											"    pm.test('Access token is missing', function () {",
-											"        pm.expect(accessToken).to.not.be.null;",
-											"    });",
-											"} else {",
-											"    pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
-											"    console.log('Access token is set for the request');",
-											"}"
+											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\");",
+											"pm.environment.set(\"USER_ACCESS_TOKEN\", accessToken);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1505,11 +1518,13 @@
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/x-www-form-urlencoded"
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
 									},
 									{
 										"key": "Authorization",
-										"value": "Bearer {{ADMIN_ACCESS_TOKEN}}"
+										"value": "Bearer {{USER_ACCESS_TOKEN}}",
+										"type": "text"
 									}
 								],
 								"url": {
@@ -1527,6 +1542,14 @@
 										{
 											"key": "email",
 											"value": "kzuser1@example.com"
+										},
+										{
+											"key": "exact",
+											"value": "true"
+										},
+										{
+											"key": "briefRepresentation",
+											"value": "true"
 										}
 									]
 								}
@@ -1553,24 +1576,27 @@
 											"}",
 											"const username = FolderVariables.getVariable(pm, currentFolder, \"USER_NAME\");",
 											"pm.environment.set(\"USER_NAME\", username);",
-											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
+											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\");",
 											"if (!accessToken) {",
 											"    console.error('Access token is missing. Cannot reset password.');",
 											"    pm.test('Access token is missing', function () {",
 											"        pm.expect(accessToken).to.not.be.null;",
 											"    });",
 											"} else {",
-											"    pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
+											"    pm.environment.set(\"USER_ACCESS_TOKEN\", accessToken);",
 											"    console.log('Access token is set for reset password request');",
 											"}"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								},
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
+											"pm.environment.unset(\"USER_ID\");",
+											"pm.environment.unset(\"USER_ACCESS_TOKEN\");",
 											"if (pm.response.code === 204) {",
 											"    pm.test('Password reset successfully', function () {",
 											"        pm.response.to.have.status(204);",
@@ -1583,7 +1609,8 @@
 											"    });",
 											"}"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1596,7 +1623,7 @@
 									},
 									{
 										"key": "Authorization",
-										"value": "Bearer {{ADMIN_ACCESS_TOKEN}}"
+										"value": "Bearer {{USER_ACCESS_TOKEN}}"
 									}
 								],
 								"body": {
@@ -1631,40 +1658,27 @@
 					"name": "Update Client Props",
 					"item": [
 						{
-							"name": "1 - Login - Admin",
+							"name": "1 - Login - User",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
 											"const jsonData = pm.response.json();",
 											"const currentFolder = FolderNames.updateClientPropsFolder;",
-											"",
-											"pm.test(\"Access token is present in response\", function () {",
-											"    pm.expect(jsonData).to.have.property(\"access_token\");",
+											"pm.test('User Login: Status code should be 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"    console.log('User login successful with status code 200.');",
 											"});",
-											"",
 											"if (jsonData && jsonData.access_token) {",
-											"    FolderVariables.setVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\", jsonData.access_token);",
-											"    console.log(`ADMIN_ACCESS_TOKEN set for ${currentFolder}`);",
-											"",
-											"    pm.test(\"Access token is valid\", function () {",
-											"        pm.expect(jsonData.access_token).to.not.be.null;",
-											"        pm.expect(jsonData.access_token).to.not.be.undefined;",
-											"    });",
-											"",
+											"    FolderVariables.setVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\", jsonData.access_token);",
+											"    console.log('User access token set successfully.');",
 											"} else {",
-											"    console.error('Access token not found in response');",
-											"",
-											"    pm.test('Access token validation failed', function () {",
-											"        pm.expect(false, 'Access token missing').to.be.true;",
+											"    console.error('Error: No access token found in response.');",
+											"    pm.test('User Login: Access token should be present', function () {",
+											"        pm.expect(jsonData.access_token).to.exist;",
 											"    });",
-											"}",
-											""
+											"}"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1683,31 +1697,30 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "client_id",
-											"value": "{{ADMIN_CLIENT_ID}}"
-										},
-										{
-											"key": "username",
-											"value": "admin"
-										},
-										{
-											"key": "password",
-											"value": "admin"
-										},
-										{
 											"key": "grant_type",
-											"value": "password"
+											"value": "client_credentials",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{USER_CLIENT_ID}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{USER_CLIENT_SECRET}}",
+											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}/protocol/openid-connect/token",
+									"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/protocol/openid-connect/token",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"realms",
-										"{{ADMIN_REALM_NAME}}",
+										"{{USER_REALM_NAME}}",
 										"protocol",
 										"openid-connect",
 										"token"
@@ -1717,12 +1730,13 @@
 							"response": []
 						},
 						{
-							"name": "2 - Client Info - Admin",
+							"name": "2 - Client Info",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
+											"pm.environment.unset(\"USER_ACCESS_TOKEN\");",
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});",
@@ -1765,15 +1779,15 @@
 									"script": {
 										"exec": [
 											"const currentFolder = FolderNames.updateClientPropsFolder;",
-											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
+											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\");",
 											"if (!accessToken) {",
-											"    console.error('No ADMIN_ACCESS_TOKEN found. Abort the request.');",
+											"    console.error('No USER_ACCESS_TOKEN found. Abort the request.');",
 											"    pm.test('Check Access Token', function () {",
 											"        pm.expect(false, 'Access token is missing').to.be.true;",
 											"    });",
 											"} else {",
-											"    pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
-											"    console.log('Using ADMIN_ACCESS_TOKEN:', accessToken.substring(0, 60) + '...');",
+											"    pm.environment.set(\"USER_ACCESS_TOKEN\", accessToken);",
+											"    console.log('Using USER_ACCESS_TOKEN:', accessToken.substring(0, 60) + '...');",
 											"}"
 										],
 										"type": "text/javascript",
@@ -1786,12 +1800,12 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+										"value": "Bearer {{USER_ACCESS_TOKEN}}",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/clients?clientId={{CLIENT_ID}}",
+									"raw": "{{BASE_URL}}/admin/realms/{{USER_REALM_NAME}}/clients?clientId={{USER_CLIENT_ID}}",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -1804,7 +1818,7 @@
 									"query": [
 										{
 											"key": "clientId",
-											"value": "{{CLIENT_ID}}"
+											"value": "{{USER_CLIENT_ID}}"
 										}
 									]
 								}
@@ -1812,7 +1826,7 @@
 							"response": []
 						},
 						{
-							"name": "3 - Update Client - Admin",
+							"name": "3 - Update Client",
 							"event": [
 								{
 									"listen": "prerequest",
@@ -1828,11 +1842,11 @@
 											"        pm.expect(false, 'Client UUID is missing').to.be.true;",
 											"    });",
 											"}",
-											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"ADMIN_ACCESS_TOKEN\");",
+											"const accessToken = FolderVariables.getVariable(pm, currentFolder, \"USER_ACCESS_TOKEN\");",
 											"if (accessToken) {",
-											"    pm.environment.set(\"ADMIN_ACCESS_TOKEN\", accessToken);",
+											"    pm.environment.set(\"USER_ACCESS_TOKEN\", accessToken);",
 											"} else {",
-											"    console.error('ADMIN_ACCESS_TOKEN is missing. Abort the request.');",
+											"    console.error('USER_ACCESS_TOKEN is missing. Abort the request.');",
 											"    pm.test('Check Access Token', function () {",
 											"        pm.expect(false, 'Access token is missing').to.be.true;",
 											"    });",
@@ -1847,7 +1861,7 @@
 									"script": {
 										"exec": [
 											"pm.environment.unset(\"CLIENT_UUID\");",
-											"pm.environment.unset(\"ADMIN_ACCESS_TOKEN\");",
+											"pm.environment.unset(\"USER_ACCESS_TOKEN\");",
 											"",
 											"pm.test(\"Status code is 204 for successful update\", function () {",
 											"    pm.response.to.have.status(204);",
@@ -1877,7 +1891,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer {{ADMIN_ACCESS_TOKEN}}",
+										"value": "Bearer {{USER_ACCESS_TOKEN}}",
 										"type": "text"
 									},
 									{
@@ -1888,7 +1902,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"publicClient\": true,\r\n  \"serviceAccountsEnabled\": false,\r\n  \"standardFlowEnabled\": false,\r\n  \"directAccessGrantsEnabled\": true\r\n}",
+									"raw": "{\r\n  \"publicClient\": false,\r\n  \"standardFlowEnabled\": false,\r\n  \"serviceAccountsEnabled\": true,\r\n  \"directAccessGrantsEnabled\": false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

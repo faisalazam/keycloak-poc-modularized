@@ -1,5 +1,13 @@
 #!/bin/sh
 
+# If you face script not found error even though the script does exist, then it'll more likely be due to the fact that
+# the script has CRLF line terminators (Windows-style). Run the following command to convert CRLF to LF to fix it:
+# dos2unix keycloak/prepare_realm_exports.sh
+# You can run the following to check the line terminators:
+# file keycloak/prepare_realm_exports.sh
+# If the output contains something like below, then it'd mean that it needs fixing to run on unix systems:
+# ASCII text executable, with CRLF line terminators
+
 KEYCLOAK_URL="http://keycloak:8080"
 
 # Wait for Keycloak to be ready

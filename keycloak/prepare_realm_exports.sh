@@ -1,5 +1,13 @@
 #!/bin/sh
 
+# If you face script not found error even though the script does exist, then it'll more likely be due to the fact that
+# the script has CRLF line terminators (Windows-style). Run the following command to convert CRLF to LF to fix it:
+# dos2unix keycloak/prepare_realm_exports.sh
+# You can run the following to check the line terminators:
+# file keycloak/prepare_realm_exports.sh
+# If the output contains something like below, then it'd mean that it needs fixing to run on unix systems:
+# ASCII text executable, with CRLF line terminators
+
 # Directory containing realm folders
 REALMS_DIR="/tmp/realms"
 
@@ -79,7 +87,7 @@ for realm_dir in "$REALMS_DIR"/*; do
         cp "$output_path" "$shared_output_path" || {
             echo "Error: Failed to copy $output_path to $shared_output_path"; exit 1;
         }
-
+cat $merged_template_path
         # Clean up temporary files
         rm "$output_path" "$merged_template_path" || {
             echo "Error: Failed to clean up temporary files"; exit 1;

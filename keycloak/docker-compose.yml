@@ -8,6 +8,9 @@ services:
     container_name: realm-export-generator
     env_file:
       - ./.env
+      - ../ldap/.env
+      - ../mailhog/.env
+      - ./../.env
     volumes:
       - ./realms:/tmp/realms
       - ./prepare_realm_exports.sh:/tmp/prepare_realm_exports.sh

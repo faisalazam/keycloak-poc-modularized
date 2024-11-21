@@ -87,7 +87,7 @@ for realm_dir in "$REALMS_DIR"/*; do
         cp "$output_path" "$shared_output_path" || {
             echo "Error: Failed to copy $output_path to $shared_output_path"; exit 1;
         }
-cat $merged_template_path
+
         # Clean up temporary files
         rm "$output_path" "$merged_template_path" || {
             echo "Error: Failed to clean up temporary files"; exit 1;

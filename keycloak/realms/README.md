@@ -73,14 +73,14 @@ values, and then finally create a fully merged realm json file per realm.
 
 ```json
 {
-  "realm": "QuantumRealm",
+  "realm": "quantumrealm",
   "enabled": true,
   "resetPasswordAllowed": true,
   "clients": [
     {
       "enabled": true,
       "protocol": "openid-connect",
-      "clientId": "quantum-api-client",
+      "clientId": "quantum-user-mgmt-client",
       "redirectUris": [
         "${QUANTUM_REALM_REDIRECT_URI}"
       ]
@@ -92,7 +92,7 @@ values, and then finally create a fully merged realm json file per realm.
 
 #### Fields Explanation:
 
-- `realm`: The name of the realm (e.g., "QuantumRealm").
+- `realm`: The name of the realm (e.g., "quantumrealm").
 - `enabled`: Whether the realm is active.
 - `resetPasswordAllowed`: Allows users to reset passwords via email.
 - `clients`: A list of clients within the realm, including:

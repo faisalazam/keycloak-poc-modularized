@@ -55,35 +55,6 @@ services:
       timeout: ${KEYCLOAK_HEALTHCHECK_TIMEOUT:-10s}
       retries: ${KEYCLOAK_HEALTHCHECK_RETRIES:-5} #ignore the intellij error
 
-  # I can use this if I want to run the script after the services have started
-  keycloak_setup:
-    container_name: keycloak_setup
-    image: appropriate/curl:latest
-    env_file:
-      - ./.env
-      - ../mailhog/.env
-    depends_on:
-      keycloak:
-        condition: service_healthy
-    entrypoint:
-      - "/bin/sh"
-      - "-c"
-      - |
-        # Install jq for JSON processing
-        apk add --no-cache jq
-    
-        # Make the configuration script executable
-        chmod +x /tmp/configure-keycloak.sh
-    
-        # Run the configuration script
-        /tmp/configure-keycloak.sh
-    volumes:
-      - ./configure-keycloak.sh:/tmp/configure-keycloak.sh
-    restart: "no"
-    tty: false
-    networks:
-      - keycloak_network
-
 networks:
   keycloak_network:
     driver: bridge  # Creates a new bridge network for this service

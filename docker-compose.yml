@@ -27,10 +27,33 @@ services:
       openldap:
         condition: service_healthy
 
+  # I can use this if I want to run the script after the services have started
   keycloak_setup:
-    extends:
-      file: ./keycloak/docker-compose.yml
-      service: keycloak_setup
+    container_name: keycloak_setup
+    image: appropriate/curl:latest
+    env_file:
+      - ./keycloak/.env
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+      - |
+        # Install jq for JSON processing
+        apk add --no-cache jq
+        
+        # Make the configuration script executable
+        chmod +x /tmp/configure-keycloak.sh
+        
+        # Run the configuration script
+        /tmp/configure-keycloak.sh
+    volumes:
+      - ./keycloak/configure-keycloak.sh:/tmp/configure-keycloak.sh
+    restart: "no"
+    tty: false
+    networks:
+      - keycloak_network
 
   apache_http_server:
     extends:

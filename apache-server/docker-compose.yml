@@ -13,7 +13,10 @@ services:
       - ./httpd.conf:/usr/local/apache2/conf/httpd.conf
       - ./keycloak-reverse-proxy.conf:/usr/local/apache2/conf/keycloak-reverse-proxy.conf
       - ./startup_script.sh:/usr/local/bin/startup_script.sh
-    entrypoint: [ "/bin/sh", "/usr/local/bin/startup_script.sh" ]
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+      - "(chmod +x /usr/local/bin/startup_script.sh && /usr/local/bin/startup_script.sh) || echo 'startup_script.sh failed'"
     networks:
       - keycloak_network
     ports:

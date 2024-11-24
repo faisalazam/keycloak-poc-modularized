@@ -6,10 +6,14 @@ services:
   apache_http_server:
     image: httpd:2.4
     container_name: ${HTTPD_CONTAINER_NAME}
+    env_file:
+      - ./.env
     volumes:
       # Custom Apache config file - This will configure Apache to act as a reverse proxy for Keycloak
       - ./httpd.conf:/usr/local/apache2/conf/httpd.conf
       - ./keycloak-reverse-proxy.conf:/usr/local/apache2/conf/keycloak-reverse-proxy.conf
+      - ./startup_script.sh:/usr/local/bin/startup_script.sh
+    entrypoint: [ "/bin/sh", "/usr/local/bin/startup_script.sh" ]
     networks:
       - keycloak_network
     ports:

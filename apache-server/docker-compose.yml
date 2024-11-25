@@ -9,6 +9,7 @@ services:
     env_file:
       - ./.env
     volumes:
+      - ./logs:/usr/local/apache2/logs
       # Custom Apache config file - This will configure Apache to act as a reverse proxy for Keycloak
       - ./httpd.conf:/usr/local/apache2/conf/httpd.conf
       - ./keycloak-reverse-proxy.conf:/usr/local/apache2/conf/keycloak-reverse-proxy.conf

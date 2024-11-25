@@ -9,5 +9,4 @@ else
 fi
 
 # Start Apache
-echo "Starting Apache..."
-httpd-foreground && echo "SUCCESS: Apache started successfully" || echo "FAILURE: Apache failed to start"
+httpd-foreground

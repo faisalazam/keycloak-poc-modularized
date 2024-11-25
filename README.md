@@ -1,5 +1,7 @@
 [![CI](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml/badge.svg)](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml)
+
 <!-- BUILD_BADGE_PLACEHOLDER -->
+
 ![Keycloak](https://img.shields.io/badge/Keycloak-active-blue?style=flat-square)
 ![PhpLdapAdmin](https://img.shields.io/badge/PhpLdapAdmin-active-blue?style=flat-square)
 ![LDAP](https://img.shields.io/badge/LDAP-active-blue?style=flat-square)
@@ -14,6 +16,8 @@
 This repository contains a modularized setup for deploying Keycloak, PostgreSQL, MailHog, LDAP, and phpLDAPadmin using
 Docker Compose. The services are separated into individual folders for easy configuration and management. The setup is
 designed to provide an isolated environment for each service.
+
+---
 
 ## Table of Contents
 
@@ -70,6 +74,16 @@ MailHog for authentication and email testing.
  │   │   │   └── install_npm_dependencies.sh
  │   │   └── ci.yml
  │   └── README.md
+ ├── apache-server
+ │   ├── conf
+ │   │   ├── httpd.conf
+ │   │   ├── keycloak-reverse-proxy.conf
+ │   │   └── README.md
+ │   ├── .env
+ │   ├── docker-compose.yml
+ │   ├── start.sh
+ │   ├── startup_script.sh
+ │   └── README.md
  ├── keycloak
  │   ├── configure-keycloak.sh
  │   ├── docker-compose.yml
@@ -124,6 +138,23 @@ MailHog for authentication and email testing.
 
 Keycloak is configured to work with OpenLDAP for authentication and uses PostgreSQL for storing its data. You can find
 more details about Keycloak setup in the [Keycloak README](./keycloak/README.md).
+
+With the reverse proxy in place, Keycloak should be accessible on the following URLs:
+
+* http://localhost:${HTTPD_PORT}/admin
+    * http://localhost:80/admin => http://localhost/admin
+* http://localhost/admin/${REALM_NAME}/console => Case sensitive realm name
+    * http://localhost/admin/master/console
+    * http://localhost/admin/zenithrealm/console
+    * http://localhost/admin/quantumrealm/console
+* http://localhost/realms/${REALM_NAME}/account => Case sensitive realm name
+    * http://localhost/realms/master/account
+    * http://localhost/realms/zenithrealm/account
+    * http://localhost/realms/quantumrealm/account
+* http://localhost/realms/zenithrealm/protocol/openid-connect/auth?client_id=security-admin-console
+* http://localhost/robots.txt
+
+If reverse proxy is disabled, then access them from the keycloak host (i.e. localhost) and ${KEYCLOAK_PORT}.
 
 **Keycloak Documentation:** [Keycloak Documentation](https://www.keycloak.org/documentation)
 
@@ -266,3 +297,5 @@ docker-compose up --build
 - **Apache Documentation:** [Apache HTTP Server Documentation](https://httpd.apache.org/docs/)
 
 [Back to Table of Contents](#table-of-contents)
+
+---

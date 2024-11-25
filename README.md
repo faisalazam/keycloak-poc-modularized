@@ -6,6 +6,7 @@
 ![PgAdmin](https://img.shields.io/badge/PgAdmin-active-blue?style=flat-square)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-active-blue?style=flat-square)
 ![Mailhog](https://img.shields.io/badge/Mailhog-active-blue?style=flat-square)
+![Apache](https://img.shields.io/badge/Apache-active-blue?style=flat-square)
 ![Docker](https://img.shields.io/badge/Docker-active-blue?style=flat-square)
 
 # Keycloak POC Modularized Setup
@@ -22,8 +23,9 @@ designed to provide an isolated environment for each service.
     - [Keycloak](#keycloak)
     - [PostgreSQL](#postgresql)
     - [MailHog](#mailhog)
-    - [OpenLDAP](#openldap)
+    - [OpenLDAP](#ldap)
     - [phpLDAPadmin](#phpldapadmin)
+    - [Apache Reverse Proxy](#apache-reverse-proxy)
 4. [Instructions](#instructions)
 5. [Postman Collection](#postman-collection)
 6. [CI/CD Pipeline](#cicd-pipeline)
@@ -42,11 +44,12 @@ This setup includes:
 - **MailHog** to capture and view SMTP messages for testing.
 - **OpenLDAP** for managing user directories.
 - **phpLDAPadmin** to manage and view the LDAP directory.
+- **Apache Reverse Proxy** to route and secure requests.
 
 The goal is to have these services integrated with minimal configuration to enable Keycloak to work with LDAP and
 MailHog for authentication and email testing.
 
-[Go to Table of Contents](#table-of-contents)  
+[Go to Table of Contents](#table-of-contents)
 
 ---
 
@@ -160,6 +163,15 @@ the [phpLDAPadmin README](./ldap/README.md).
 
 [Go to Table of Contents](#table-of-contents)
 
+### Apache Reverse Proxy
+
+Apache is used as a reverse proxy to route and secure requests to the services, particularly Keycloak. You can find
+detailed configuration steps in the [Apache README](./apache-server/README.md).
+
+**Apache Documentation:** [Apache HTTP Server Documentation](https://httpd.apache.org/docs/)
+
+[Go to Table of Contents](#table-of-contents)
+
 ---
 
 ## Instructions
@@ -211,6 +223,8 @@ For detailed instructions on the GitHub CI setup used for this project, check ou
 
 The deployment of this project is done automatically via the GitHub CI pipeline. You can view the deployment at:
 
+[GitHub CI](https://github.com/faisalazam/keycloak-poc-modularized/actions)
+
 [GitHub Pages Deployment](https://faisalazam.github.io/keycloak-poc-modularized)
 
 [Go to Table of Contents](#table-of-contents)
@@ -249,5 +263,6 @@ docker-compose up --build
 - **Docker Compose Documentation:** [Docker Compose Documentation](https://docs.docker.com/compose/)
 - **MailHog Documentation:** [MailHog Documentation](https://github.com/mailhog/MailHog)
 - **phpLDAPadmin Documentation:** [phpLDAPadmin Documentation](https://phpldapadmin.sourceforge.io/)
+- **Apache Documentation:** [Apache HTTP Server Documentation](https://httpd.apache.org/docs/)
 
 [Back to Table of Contents](#table-of-contents)

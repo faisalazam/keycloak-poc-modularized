@@ -93,6 +93,19 @@ MAILHOG_SMTP_FROM_DISPLAY_NAME=Support
 MAILHOG_HEALTHCHECK_INTERVAL=30s
 MAILHOG_HEALTHCHECK_TIMEOUT=10s
 MAILHOG_HEALTHCHECK_RETRIES=5
+
+# SMTP Configuration
+SETUP_SMTP=true
+SMTP_AUTH=false
+SMTP_PORT=1025
+SMTP_HOST=mailhog
+SMTP_STARTTLS=false
+SMTP_ENCRYPTION=none
+SMTP_USER=smtp_user
+SMTP_PASSWORD=smtp_password
+SMTP_FROM_DISPLAY_NAME=Support
+SMTP_FROM=no-reply@example.org
+SMTP_REPLY_TO=no-reply@example.org
 ```
 
 [Go to Table of Contents](#table-of-contents)  
@@ -140,6 +153,18 @@ networks:
 
 - **MailHog Ports**: MailHog listens on port `8025` for the web interface and `1025` for SMTP.
 - **Healthcheck**: Ensures MailHog is reachable by checking if port `8025` is open.
+
+### SMTP Configuration:
+
+- **SETUP_SMTP**: Set to true to enable SMTP configuration.
+- **SMTP_AUTH**: Whether authentication is required for SMTP (default is false).
+- **SMTP_PORT**: Port for the SMTP server.
+- **SMTP_HOST**: Host for the SMTP server (default is MailHog in this setup).
+- **SMTP_STARTTLS**: Whether to use STARTTLS for secure communication (default is false).
+- **SMTP_ENCRYPTION**: Type of encryption for SMTP (none or starttls).
+- **SMTP_USER**, **SMTP_PASSWORD**: SMTP credentials.
+- **SMTP_FROM_DISPLAY_NAME**: The display name for the "From" field in emails.
+- **SMTP_FROM** and **SMTP_REPLY_TO**: The email addresses for sending and replying to emails.
 
 ## Setup Instructions
 

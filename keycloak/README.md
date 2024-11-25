@@ -97,26 +97,6 @@ KC_HEALTH_ENABLED=true
 KEYCLOAK_HEALTHCHECK_INTERVAL=30s
 KEYCLOAK_HEALTHCHECK_TIMEOUT=10s
 KEYCLOAK_HEALTHCHECK_RETRIES=5
-
-# LDAP Configuration
-SETUP_LDAP=true
-LDAP_URL=ldap://openldap:389
-LDAP_BIND_DN=cn=admin,dc=example,dc=com
-LDAP_BIND_CREDENTIAL=ldap_admin_password
-LDAP_USERS_DN=ou=users,dc=example,dc=com
-
-# SMTP Configuration
-SETUP_SMTP=true
-SMTP_AUTH=false
-SMTP_PORT=1025
-SMTP_HOST=mailhog
-SMTP_STARTTLS=false
-SMTP_ENCRYPTION=none
-SMTP_USER=smtp_user
-SMTP_PASSWORD=smtp_password
-SMTP_FROM_DISPLAY_NAME=Support
-SMTP_FROM=no-reply@example.org
-SMTP_REPLY_TO=no-reply@example.org
 ```
 
 [Go to Table of Contents](#table-of-contents)
@@ -149,26 +129,6 @@ SMTP_REPLY_TO=no-reply@example.org
 - **KEYCLOAK_HEALTHCHECK_INTERVAL**: How often health checks are performed (e.g., 30s).
 - **KEYCLOAK_HEALTHCHECK_TIMEOUT**: Timeout duration for health checks (e.g., 10s).
 - **KEYCLOAK_HEALTHCHECK_RETRIES**: Number of retries for health checks.
-
-#### LDAP Configuration:
-
-- **SETUP_LDAP**: Set to true to enable LDAP integration.
-- **LDAP_URL**: URL of the LDAP server.
-- **LDAP_BIND_DN**: Distinguished Name (DN) for binding to the LDAP server.
-- **LDAP_BIND_CREDENTIAL**: Password for the bind DN.
-- **LDAP_USERS_DN**: DN to use for querying users.
-
-#### SMTP Configuration:
-
-- **SETUP_SMTP**: Set to true to enable SMTP configuration.
-- **SMTP_AUTH**: Whether authentication is required for SMTP (default is false).
-- **SMTP_PORT**: Port for the SMTP server.
-- **SMTP_HOST**: Host for the SMTP server (default is MailHog in this setup).
-- **SMTP_STARTTLS**: Whether to use STARTTLS for secure communication (default is false).
-- **SMTP_ENCRYPTION**: Type of encryption for SMTP (none or starttls).
-- **SMTP_USER**, **SMTP_PASSWORD**: SMTP credentials.
-- **SMTP_FROM_DISPLAY_NAME**: The display name for the "From" field in emails.
-- **SMTP_FROM** and **SMTP_REPLY_TO**: The email addresses for sending and replying to emails.
 
 [Go to Table of Contents](#table-of-contents)
 [Go back to Project](../README.md)

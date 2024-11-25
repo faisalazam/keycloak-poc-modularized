@@ -53,6 +53,11 @@ The `.env` file contains the following important configuration variables:
 - **LDAP_CONFIG_PASSWORD**: The password for configuring OpenLDAP.
 - **LDAP_TLS**: Whether to enable TLS (default: `true`).
 - **LDAP_REPLICATION**: Whether replication is enabled (default: `false`).
+- **SETUP_LDAP**: Set to true to enable LDAP integration.
+- **LDAP_URL**: URL of the LDAP server.
+- **LDAP_BIND_DN**: Distinguished Name (DN) for binding to the LDAP server.
+- **LDAP_BIND_CREDENTIAL**: Password for the bind DN.
+- **LDAP_USERS_DN**: DN to use for querying users.
 
 ### phpLDAPadmin Variables
 

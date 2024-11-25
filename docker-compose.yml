@@ -59,6 +59,8 @@ services:
     extends:
       file: ./apache-server/docker-compose.yml
       service: apache_http_server
+    env_file:
+      - ./.env
     depends_on:
       keycloak:
         condition: service_healthy

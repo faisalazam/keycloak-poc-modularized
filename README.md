@@ -141,8 +141,12 @@ more details about Keycloak setup in the [Keycloak README](./keycloak/README.md)
 
 With the reverse proxy in place, Keycloak should be accessible on the following URLs:
 
-* http://localhost:${HTTPD_PORT}/admin
-    * http://localhost:80/admin => http://localhost/admin
+BASE_URL = http://${APACHE_HOST}:${HTTPD_PORT} => Let's assume APACHE_HOST is localhost and HTTPD_PORT is 80:
+
+So BASE_URL = http://localhost:80 => http://localhost
+
+* http://localhost/robots.txt
+* http://localhost/admin
 * http://localhost/admin/${REALM_NAME}/console => Case sensitive realm name
     * http://localhost/admin/master/console
     * http://localhost/admin/zenithrealm/console
@@ -152,7 +156,6 @@ With the reverse proxy in place, Keycloak should be accessible on the following 
     * http://localhost/realms/zenithrealm/account
     * http://localhost/realms/quantumrealm/account
 * http://localhost/realms/zenithrealm/protocol/openid-connect/auth?client_id=security-admin-console
-* http://localhost/robots.txt
 
 If reverse proxy is disabled, then access them from the keycloak host (i.e. localhost) and ${KEYCLOAK_PORT}.
 

@@ -10,10 +10,10 @@ services:
       - ./.env
     volumes:
       - ./logs:/usr/local/apache2/logs
-      # Custom Apache config file - This will configure Apache to act as a reverse proxy for Keycloak
-      - ./httpd.conf:/usr/local/apache2/conf/httpd.conf
-      - ./keycloak-reverse-proxy.conf:/usr/local/apache2/conf/keycloak-reverse-proxy.conf
       - ./startup_script.sh:/usr/local/bin/startup_script.sh
+      # Custom Apache config file - This will configure Apache to act as a reverse proxy for Keycloak
+      - ./conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./conf/keycloak-reverse-proxy.conf:/usr/local/apache2/conf/keycloak-reverse-proxy.conf
     entrypoint:
       - "/bin/sh"
       - "-c"

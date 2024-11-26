@@ -38,7 +38,7 @@ services:
       - keycloak_network
 
   phpadmin:
-    image: osixia/phpldapadmin:latest
+    image: osixia/phpldapadmin:stable
     container_name: ${PHP_ADMIN_HOST_NAME}
     env_file:
       - ./.env

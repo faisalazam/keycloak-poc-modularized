@@ -2010,6 +2010,522 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "/admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"const BASE_URL = pm.environment.get(\"BASE_URL\");\r",
+											"const REALM_NAME = pm.environment.get(\"ADMIN_REALM_NAME\");\r",
+											"\r",
+											"pm.test(\"Response status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within acceptable range\", function () {\r",
+											"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header should just be 'Apache' without any extra info\", function () {\r",
+											"    pm.response.to.have.header(\"Server\", \"Apache\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Cache-Control is no-cache\", function () {\r",
+											"    pm.response.to.have.header(\"Cache-Control\", \"no-cache\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Frame-Options is SAMEORIGIN\", function () {\r",
+											"    pm.response.to.have.header(\"X-Frame-Options\", \"SAMEORIGIN\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Content-Type-Options is nosniff\", function () {\r",
+											"    pm.response.to.have.header(\"X-Content-Type-Options\", \"nosniff\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-XSS-Protection is set\", function () {\r",
+											"    pm.response.to.have.header(\"X-XSS-Protection\", \"1; mode=block\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Strict-Transport-Security is configured\", function () {\r",
+											"    pm.response.to.have.header(\"Strict-Transport-Security\", \"max-age=31536000; includeSubDomains\");\r",
+											"});\r",
+											"\r",
+											"// Validate ProxyPreserveHost Behavior\r",
+											"pm.test(\"Host header is preserved by Apache\", function () {\r",
+											"    const expectedHost = BASE_URL.replace(/^https?:\\/\\//, '');\r",
+											"    pm.expect(pm.request.headers.get(\"Host\")).to.equal(expectedHost);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content type is text/html\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate the response\", function () {\r",
+											"  const responseData = pm.response.text();\r",
+											"  pm.expect(responseData).to.include('Loading the Administration Console');\r",
+											"  pm.expect(responseData).to.include('JavaScript is required to use the Administration Console.');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/admin/{{ADMIN_REALM_NAME}}/console",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"const BASE_URL = pm.environment.get(\"BASE_URL\");\r",
+											"const REALM_NAME = pm.environment.get(\"ADMIN_REALM_NAME\");\r",
+											"\r",
+											"pm.test(\"Response status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within acceptable range\", function () {\r",
+											"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header should just be 'Apache' without any extra info\", function () {\r",
+											"    pm.response.to.have.header(\"Server\", \"Apache\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Cache-Control is no-cache\", function () {\r",
+											"    pm.response.to.have.header(\"Cache-Control\", \"no-cache\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Frame-Options is SAMEORIGIN\", function () {\r",
+											"    pm.response.to.have.header(\"X-Frame-Options\", \"SAMEORIGIN\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Content-Type-Options is nosniff\", function () {\r",
+											"    pm.response.to.have.header(\"X-Content-Type-Options\", \"nosniff\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-XSS-Protection is set\", function () {\r",
+											"    pm.response.to.have.header(\"X-XSS-Protection\", \"1; mode=block\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Strict-Transport-Security is configured\", function () {\r",
+											"    pm.response.to.have.header(\"Strict-Transport-Security\", \"max-age=31536000; includeSubDomains\");\r",
+											"});\r",
+											"\r",
+											"// Validate ProxyPreserveHost Behavior\r",
+											"pm.test(\"Host header is preserved by Apache\", function () {\r",
+											"    const expectedHost = BASE_URL.replace(/^https?:\\/\\//, '');\r",
+											"    pm.expect(pm.request.headers.get(\"Host\")).to.equal(expectedHost);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content type is text/html\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate the response\", function () {\r",
+											"  const responseData = pm.response.text();\r",
+											"  pm.expect(responseData).to.include('Loading the Administration Console');\r",
+											"  pm.expect(responseData).to.include('JavaScript is required to use the Administration Console.');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/{{ADMIN_REALM_NAME}}/console",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"{{ADMIN_REALM_NAME}}",
+										"console"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/admin/{{USER_REALM_NAME}}/console",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"const BASE_URL = pm.environment.get(\"BASE_URL\");\r",
+											"const REALM_NAME = pm.environment.get(\"ADMIN_REALM_NAME\");\r",
+											"\r",
+											"pm.test(\"Response status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within acceptable range\", function () {\r",
+											"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header should just be 'Apache' without any extra info\", function () {\r",
+											"    pm.response.to.have.header(\"Server\", \"Apache\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Cache-Control is no-cache\", function () {\r",
+											"    pm.response.to.have.header(\"Cache-Control\", \"no-cache\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Frame-Options is SAMEORIGIN\", function () {\r",
+											"    pm.response.to.have.header(\"X-Frame-Options\", \"SAMEORIGIN\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Content-Type-Options is nosniff\", function () {\r",
+											"    pm.response.to.have.header(\"X-Content-Type-Options\", \"nosniff\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-XSS-Protection is set\", function () {\r",
+											"    pm.response.to.have.header(\"X-XSS-Protection\", \"1; mode=block\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Strict-Transport-Security is configured\", function () {\r",
+											"    pm.response.to.have.header(\"Strict-Transport-Security\", \"max-age=31536000; includeSubDomains\");\r",
+											"});\r",
+											"\r",
+											"// Validate ProxyPreserveHost Behavior\r",
+											"pm.test(\"Host header is preserved by Apache\", function () {\r",
+											"    const expectedHost = BASE_URL.replace(/^https?:\\/\\//, '');\r",
+											"    pm.expect(pm.request.headers.get(\"Host\")).to.equal(expectedHost);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content type is text/html\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate the response\", function () {\r",
+											"  const responseData = pm.response.text();\r",
+											"  pm.expect(responseData).to.include('Loading the Administration Console');\r",
+											"  pm.expect(responseData).to.include('JavaScript is required to use the Administration Console.');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/{{USER_REALM_NAME}}/console",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"{{USER_REALM_NAME}}",
+										"console"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/realms/.../openid-connect",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"const BASE_URL = pm.environment.get(\"BASE_URL\");\r",
+											"const REALM_NAME = pm.environment.get(\"ADMIN_REALM_NAME\");\r",
+											"\r",
+											"pm.test(\"Response status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within acceptable range\", function () {\r",
+											"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header should just be 'Apache' without any extra info\", function () {\r",
+											"    pm.response.to.have.header(\"Server\", \"Apache\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Cache-Control is no-cache\", function () {\r",
+											"    pm.response.to.have.header(\"Cache-Control\", \"no-cache\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Frame-Options is SAMEORIGIN\", function () {\r",
+											"    pm.response.to.have.header(\"X-Frame-Options\", \"SAMEORIGIN\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Content-Type-Options is nosniff\", function () {\r",
+											"    pm.response.to.have.header(\"X-Content-Type-Options\", \"nosniff\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-XSS-Protection is set\", function () {\r",
+											"    pm.response.to.have.header(\"X-XSS-Protection\", \"1; mode=block\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Strict-Transport-Security is configured\", function () {\r",
+											"    pm.response.to.have.header(\"Strict-Transport-Security\", \"max-age=31536000; includeSubDomains\");\r",
+											"});\r",
+											"\r",
+											"// Validate ProxyPreserveHost Behavior\r",
+											"pm.test(\"Host header is preserved by Apache\", function () {\r",
+											"    const expectedHost = BASE_URL.replace(/^https?:\\/\\//, '');\r",
+											"    pm.expect(pm.request.headers.get(\"Host\")).to.equal(expectedHost);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content type is text/html\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate the response\", function () {\r",
+											"  const responseData = pm.response.text();\r",
+											"  pm.expect(responseData).to.include('Loading the Administration Console');\r",
+											"  pm.expect(responseData).to.include('JavaScript is required to use the Administration Console.');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/protocol/openid-connect/auth?client_id=security-admin-console",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"realms",
+										"{{USER_REALM_NAME}}",
+										"protocol",
+										"openid-connect",
+										"auth"
+									],
+									"query": [
+										{
+											"key": "client_id",
+											"value": "security-admin-console"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/realms/{{ADMIN_REALM_NAME}}/account",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"const BASE_URL = pm.environment.get(\"BASE_URL\");\r",
+											"const REALM_NAME = pm.environment.get(\"ADMIN_REALM_NAME\");\r",
+											"\r",
+											"pm.test(\"Response status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within acceptable range\", function () {\r",
+											"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header should just be 'Apache' without any extra info\", function () {\r",
+											"    pm.response.to.have.header(\"Server\", \"Apache\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Cache-Control is no-cache\", function () {\r",
+											"    pm.response.to.have.header(\"Cache-Control\", \"no-cache\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Frame-Options is SAMEORIGIN\", function () {\r",
+											"    pm.response.to.have.header(\"X-Frame-Options\", \"SAMEORIGIN\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Content-Type-Options is nosniff\", function () {\r",
+											"    pm.response.to.have.header(\"X-Content-Type-Options\", \"nosniff\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-XSS-Protection is set\", function () {\r",
+											"    pm.response.to.have.header(\"X-XSS-Protection\", \"1; mode=block\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Strict-Transport-Security is configured\", function () {\r",
+											"    pm.response.to.have.header(\"Strict-Transport-Security\", \"max-age=31536000; includeSubDomains\");\r",
+											"});\r",
+											"\r",
+											"// Validate ProxyPreserveHost Behavior\r",
+											"pm.test(\"Host header is preserved by Apache\", function () {\r",
+											"    const expectedHost = BASE_URL.replace(/^https?:\\/\\//, '');\r",
+											"    pm.expect(pm.request.headers.get(\"Host\")).to.equal(expectedHost);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content type is text/html\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate the response\", function () {\r",
+											"  const responseData = pm.response.text();\r",
+											"  pm.expect(responseData).to.include('Loading the Account Console');\r",
+											"  pm.expect(responseData).to.include('JavaScript is required to use the Account Console.');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}/account",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"realms",
+										"{{ADMIN_REALM_NAME}}",
+										"account"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/realms/{{USER_REALM_NAME}}/account",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"const BASE_URL = pm.environment.get(\"BASE_URL\");\r",
+											"const REALM_NAME = pm.environment.get(\"ADMIN_REALM_NAME\");\r",
+											"\r",
+											"pm.test(\"Response status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within acceptable range\", function () {\r",
+											"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header should just be 'Apache' without any extra info\", function () {\r",
+											"    pm.response.to.have.header(\"Server\", \"Apache\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Cache-Control is no-cache\", function () {\r",
+											"    pm.response.to.have.header(\"Cache-Control\", \"no-cache\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Frame-Options is SAMEORIGIN\", function () {\r",
+											"    pm.response.to.have.header(\"X-Frame-Options\", \"SAMEORIGIN\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Content-Type-Options is nosniff\", function () {\r",
+											"    pm.response.to.have.header(\"X-Content-Type-Options\", \"nosniff\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-XSS-Protection is set\", function () {\r",
+											"    pm.response.to.have.header(\"X-XSS-Protection\", \"1; mode=block\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Strict-Transport-Security is configured\", function () {\r",
+											"    pm.response.to.have.header(\"Strict-Transport-Security\", \"max-age=31536000; includeSubDomains\");\r",
+											"});\r",
+											"\r",
+											"// Validate ProxyPreserveHost Behavior\r",
+											"pm.test(\"Host header is preserved by Apache\", function () {\r",
+											"    const expectedHost = BASE_URL.replace(/^https?:\\/\\//, '');\r",
+											"    pm.expect(pm.request.headers.get(\"Host\")).to.equal(expectedHost);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content type is text/html\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate the response\", function () {\r",
+											"  const responseData = pm.response.text();\r",
+											"  pm.expect(responseData).to.include('Loading the Account Console');\r",
+											"  pm.expect(responseData).to.include('JavaScript is required to use the Account Console.');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/realms/{{USER_REALM_NAME}}/account",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"realms",
+										"{{USER_REALM_NAME}}",
+										"account"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},

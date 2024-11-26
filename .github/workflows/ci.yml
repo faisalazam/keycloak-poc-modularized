@@ -110,7 +110,6 @@ jobs:
 
       - name: Run Postman tests with Newman
         id: test-results # id is used later on to check whether tests passed or failed
-        continue-on-error: true
         run: |
           newman run ${{ env.POSTMAN_COLLECTION }} \
             -e ${{ env.POSTMAN_ENVIRONMENT }} \

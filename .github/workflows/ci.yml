@@ -118,10 +118,25 @@ jobs:
             echo "outcome=failure" >> $GITHUB_OUTPUT
           fi
 
-      - name: Set Initial Test Results Summary 📜
+      - name: Report Build Failure
+        if: steps.test-results.outcome == null
+        run: |
+          echo "### Workflow Summary" >> $GITHUB_STEP_SUMMARY
+          echo "❌ Tests were not executed because the build failed or the test step was skipped." >> $GITHUB_STEP_SUMMARY
+
+      - name: Set Test Results Summary
+        if: steps.test-results.outcome != null && steps.test-results.outputs.outcome == 'success'
         run: |
           echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
-          echo "#### Test run completed, view summary after deployment as otherwise you may see the old reports." >> $GITHUB_STEP_SUMMARY
+          echo "#### ✅ All tests passed!" >> $GITHUB_STEP_SUMMARY
+          echo "#### HTML Report: [View HTML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_HTML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
+          echo "#### XML Report: [View XML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_XML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
+
+      - name: Handle Test Failures
+        if: steps.test-results.outcome != null && steps.test-results.outputs.outcome == 'failure'
+        run: |
+          echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "#### ❌ Some tests failed!" >> $GITHUB_STEP_SUMMARY
           echo "#### HTML Report: [View HTML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_HTML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
           echo "#### XML Report: [View XML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_XML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
 
@@ -134,6 +149,9 @@ jobs:
           done
 
       - name: Prepend CI build details to HTML report file
+        if: steps.test-results.outcome != null &&
+          (steps.test-results.outputs.outcome == 'success'
+          || steps.test-results.outputs.outcome == 'failure')
         run: |
           # Define the CI build details for HTML
           HTML_BUILD_INFO=$(
@@ -150,6 +168,9 @@ jobs:
           } > tmp && mv tmp "${{ env.NEWMAN_HTML_REPORT_FILE }}"
 
       - name: Prepend CI build details to XML report file
+        if: steps.test-results.outcome != null &&
+          (steps.test-results.outputs.outcome == 'success'
+          || steps.test-results.outputs.outcome == 'failure')
         run: |
           # Define the CI build details for XML (with XML comments for line breaks)
           XML_BUILD_INFO=$(
@@ -174,6 +195,9 @@ jobs:
           } > tmp && mv tmp "${{ env.NEWMAN_XML_REPORT_FILE }}"
 
       - name: Upload the content for GitHub Pages
+        if: steps.test-results.outcome != null &&
+          (steps.test-results.outputs.outcome == 'success' 
+            || steps.test-results.outputs.outcome == 'failure')
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.PAGES_FOLDER }}
@@ -183,8 +207,9 @@ jobs:
 
       - name: Clean up Docker containers and volumes
         run: |
-          # Explicit check for docker-compose before using it
+          # Safety check before using docker-compose
           which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
+          [ -f "${{ env.DOCKER_COMPOSE_FILE }}" ] || { echo "Compose file not found!"; exit 1; }
           docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
 
   deploy-gh-pages:

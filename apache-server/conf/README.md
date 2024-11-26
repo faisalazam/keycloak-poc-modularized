@@ -15,6 +15,7 @@ Keycloak instance, enabling secure and seamless integration between the Apache s
 3. [keycloak-reverse-proxy.conf - Keycloak Reverse Proxy Configuration](#keycloak-reverse-proxyconf---keycloak-reverse-proxy-configuration)
     - [Key Definitions](#key-definitions-1)
     - [Key Features](#key-features)
+    - [Setting Reverse Proxy Headers for Keycloak](#setting-reverse-proxy-headers-for-keycloak)
 4. [Keycloak Reverse Proxy Path Recommendations](#keycloak-reverse-proxy-path-recommendations)
 5. [Securing the "admin/" Path](#securing-the-admin-path)
 6. [How to Use](#how-to-use)
@@ -100,6 +101,69 @@ This file configures Apache to act as a reverse proxy for Keycloak.
 
 3. **Security Headers**: The configuration adds extra HTTP headers to prevent clickjacking, cross-site scripting (XSS),
    and other security vulnerabilities by setting headers like `X-Frame-Options` and `Strict-Transport-Security`.
+
+### Setting Reverse Proxy Headers for Keycloak
+
+To ensure proper handling of reverse proxy traffic and accurate construction of URLs in Keycloak, the following
+`X-Forwarded-*` headers are explicitly set in the reverse proxy configuration:
+
+```apache
+RequestHeader set "X-Forwarded-Host" expr=%{HTTP_HOST}
+RequestHeader set "X-Forwarded-For" expr=%{REMOTE_ADDR}
+RequestHeader set "X-Forwarded-Port" expr=%{SERVER_PORT}
+RequestHeader set "X-Forwarded-Proto" expr=%{REQUEST_SCHEME}
+```
+
+#### Explanation of Headers
+
+##### **X-Forwarded-Host**
+
+- Reflects the original `Host` header sent by the client.
+- Ensures Keycloak can generate correct URLs and handle redirects using the intended host, even when accessed through a
+  reverse proxy.
+
+##### **X-Forwarded-For**
+
+- Captures the client's IP address (`REMOTE_ADDR`) as seen by the reverse proxy.
+- Allows Keycloak to log the actual client's IP and not the reverse proxy's IP in audit logs.
+
+##### **X-Forwarded-Port**
+
+- Indicates the port number used by the client to connect to the reverse proxy.
+- Ensures Keycloak recognizes the original port when constructing URLs (e.g., redirect URIs).
+
+##### **X-Forwarded-Proto**
+
+- Specifies the protocol (`http` or `https`) used by the client.
+- Ensures Keycloak constructs URLs with the correct scheme, especially important for HTTPS setups.
+
+---
+
+#### Why Explicitly Set These Headers?
+
+- **Consistency**: While Apache sets these headers automatically in most cases, explicitly configuring them ensures
+  consistent behavior across environments (local, staging, production).
+- **Future-Proofing**: If additional proxies or load balancers are introduced, explicitly set headers prevent unexpected
+  behavior.
+- **Debugging**: Setting these headers explicitly ensures the values match your intent, making debugging and monitoring
+  easier.
+- **Edge Case Handling**: Without these headers, Keycloak might incorrectly construct URLs or log proxy IPs instead of
+  client IPs in certain scenarios (e.g., complex proxy chains, load balancers).
+
+---
+
+#### When Are These Headers Used?
+
+These headers are particularly relevant in scenarios where:
+
+- The application (Keycloak) is hosted behind one or more reverse proxies or load balancers.
+- HTTPS is terminated at the proxy layer, and the application runs on HTTP internally.
+- Accurate client information (IP, protocol, etc.) is required for security, logging, or URL construction.
+
+---
+
+Including these headers in the reverse proxy configuration ensures that Keycloak works seamlessly in proxied
+environments and avoids potential issues with URL construction, client identification, or protocol mismatches.
 
 For more information about reverse proxying with Apache, refer to
 the [Apache mod_proxy documentation](https://httpd.apache.org/docs/2.4/mod/mod_proxy.html).

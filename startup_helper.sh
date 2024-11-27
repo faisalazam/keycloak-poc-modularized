@@ -27,10 +27,13 @@ cleanup_and_start() {
         echo "No networks found with the name ${NETWORK_NAME}. Skipping network removal."
     fi
 
-    echo "Running 'docker-compose up -d' to start the services..."
-
-    # Run the docker-compose up command
-    docker-compose up -d || handle_error "Failed to bring up services using docker-compose up"
+    if [ "$EXPOSE_KEYCLOAK_TO_HOST_ONLY" = "true" ]; then
+      echo "Running 'docker-compose up -d' to start the services with overrides..."
+      docker-compose -f docker-compose.yml -f override.yml up -d || handle_error "Failed to bring up services using docker-compose up"
+    else
+      echo "Running 'docker-compose up -d' to start the services without overrides..."
+      docker-compose -f docker-compose.yml up -d || handle_error "Failed to bring up services using docker-compose up"
+    fi
 
     echo "Services have been started successfully!"
 }

@@ -73,10 +73,10 @@ jobs:
         id: docker-start
         run: |
           chmod +x ./startup_helper.sh
-          chmod +x ./start.sh
+          chmod +x ./ci.sh
           # Check if docker-compose is available before running the start.sh script
           which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
-          ./start.sh
+          ./ci.sh
 
           # Check if any container is running
           container_count=$(docker ps -q | wc -l)

@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      test_outcome: ${{ steps.test-results.outcome }}
+      test_outcome: ${{ steps.test-results.outputs.outcome }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

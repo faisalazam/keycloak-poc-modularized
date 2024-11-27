@@ -106,7 +106,7 @@ jobs:
         working-directory: ./.github/workflows/scripts
 
       - name: Collect Docker container logs
-        if: env.docker_service_started == 'true'
+        if: ${{ always() && env.docker_service_started == 'true' }}
         run: |
           for container in $(docker ps --format '{{.Names}}'); do
             echo "---- Logs for $container ----"
@@ -151,7 +151,7 @@ jobs:
           echo "#### XML Report: [View XML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_XML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
 
       - name: Collect Docker container logs after the tests have run
-        if: env.docker_service_started == 'true'
+        if: ${{ always() && env.docker_service_started == 'true' }}
         run: |
           for container in $(docker ps --format '{{.Names}}'); do
             echo "---- Logs for $container ----"

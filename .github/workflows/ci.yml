@@ -117,16 +117,20 @@ jobs:
       - name: Run Postman tests with Newman
         id: test-results # id is used later on to check whether tests passed or failed
         run: |
+          set +e  # Allow the script to continue even if the tests fail
           newman run ${{ env.POSTMAN_COLLECTION }} \
             -e ${{ env.POSTMAN_ENVIRONMENT }} \
             --reporters cli,html,junit \
             --reporter-html-export ${{ env.NEWMAN_HTML_REPORT_FILE }} \
             --reporter-junit-export ${{ env.NEWMAN_XML_REPORT_FILE }}
-          if [ $? -eq 0 ]; then
+
+          TEST_EXIT_CODE=$?
+          if [ $TEST_EXIT_CODE -eq 0 ]; then
             echo "outcome=success" >> $GITHUB_OUTPUT
           else
             echo "outcome=failure" >> $GITHUB_OUTPUT
           fi
+          exit $TEST_EXIT_CODE  # Exit with the same code so the job fails if needed
 
       - name: Report Build Failure
         if: steps.test-results.outcome == null

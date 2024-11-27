@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "494fc7db-ae40-4ea3-9b8d-51ad2580b23f",
+		"_postman_id": "63180889-acc8-4de8-add1-48fb453b391d",
 		"name": "Keycloak",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "39468559"
@@ -3143,8 +3143,8 @@
 									"script": {
 										"exec": [
 											"\r",
-											"const BASE_URL = pm.environment.get(\"BASE_URL\");\r",
 											"const REALM_NAME = pm.environment.get(\"ADMIN_REALM_NAME\");\r",
+											"const KEYCLOAK_DIRECT_URL = pm.environment.get(\"KEYCLOAK_DIRECT_URL\");\r",
 											"\r",
 											"pm.test(\"Response status code is 200\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -3172,7 +3172,7 @@
 											"\r",
 											"// Validate ProxyPreserveHost Behavior\r",
 											"pm.test(\"Host header is preserved by Apache\", function () {\r",
-											"    const expectedHost = BASE_URL.replace(/^https?:\\/\\//, '');\r",
+											"    const expectedHost = KEYCLOAK_DIRECT_URL.replace(/^https?:\\/\\//, '');\r",
 											"    pm.expect(pm.request.headers.get(\"Host\")).to.equal(expectedHost);\r",
 											"});\r",
 											"\r",
@@ -3199,12 +3199,18 @@
 											"pm.test(\"Validate the response schema for required fields\", function () {\r",
 											"  const responseData = pm.response.json();\r",
 											"\r",
-											"  // Manually parse BASE_URL (extract protocol, hostname, and port)\r",
+											"  // This has to be exactly same as the KC_HOSTNAME used in docker compose/.env file.\r",
+											"  const KC_HOSTNAME = 'http://localhost:80';\r",
+											"\r",
+											"  // Manually parse KEYCLOAK_DIRECT_URL (extract protocol, hostname, and port)\r",
 											"  const regex = /^(https?):\\/\\/([^\\/:]+)(?::(\\d+))?/;\r",
-											"  const matches = BASE_URL.match(regex);\r",
+											"  const matches = KC_HOSTNAME.match(regex);\r",
 											"\r",
 											"  if (matches) {\r",
-											"    const expectedBaseUrl = 'https://keycloak-server:38497';\r",
+											"    const protocol = matches[1];\r",
+											"    const hostname = matches[2];\r",
+											"    const port = matches[3] || (protocol === 'https' ? '443' : '80'); // Default to 443 for https, 80 for http\r",
+											"    const expectedBaseUrl = port !== '80' && port !== '443' ? `${protocol}://${hostname}:${port}` : `${protocol}://${hostname}`;\r",
 											"\r",
 											"    pm.expect(responseData).to.be.an('object');\r",
 											"    pm.expect(responseData.public_key).to.exist;\r",
@@ -3212,7 +3218,7 @@
 											"    pm.expect(responseData['token-service']).to.eq(`${expectedBaseUrl}/realms/${REALM_NAME}/protocol/openid-connect`);\r",
 											"    pm.expect(responseData['account-service']).to.eq(`${expectedBaseUrl}/realms/${REALM_NAME}/account`);\r",
 											"  } else {\r",
-											"    pm.fail(\"BASE_URL format is incorrect\");\r",
+											"    pm.fail(\"KC_HOSTNAME format is incorrect\");\r",
 											"  }\r",
 											"});\r",
 											""
@@ -3251,14 +3257,313 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/realms/{{ADMIN_REALM_NAME}}",
+									"raw": "{{KEYCLOAK_DIRECT_URL}}/realms/{{ADMIN_REALM_NAME}}",
 									"host": [
-										"{{BASE_URL}}"
+										"{{KEYCLOAK_DIRECT_URL}}"
 									],
 									"path": [
-										"auth",
 										"realms",
 										"{{ADMIN_REALM_NAME}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Headers Verification Console",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"const REALM_NAME = pm.environment.get(\"USER_REALM_NAME\");\r",
+											"const KEYCLOAK_DIRECT_URL = pm.environment.get(\"KEYCLOAK_DIRECT_URL\");\r",
+											"\r",
+											"pm.test(\"Response status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within acceptable range\", function () {\r",
+											"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Frame-Options is SAMEORIGIN\", function () {\r",
+											"    pm.response.to.have.header(\"X-Frame-Options\", \"SAMEORIGIN\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Content-Type-Options is nosniff\", function () {\r",
+											"    pm.response.to.have.header(\"X-Content-Type-Options\", \"nosniff\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-XSS-Protection is set\", function () {\r",
+											"    pm.response.to.have.header(\"X-XSS-Protection\", \"1; mode=block\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Strict-Transport-Security is configured\", function () {\r",
+											"    pm.response.to.have.header(\"Strict-Transport-Security\", \"max-age=31536000; includeSubDomains\");\r",
+											"});\r",
+											"\r",
+											"// Validate ProxyPreserveHost Behavior\r",
+											"pm.test(\"Host header is preserved by Apache\", function () {\r",
+											"    const expectedHost = KEYCLOAK_DIRECT_URL.replace(/^https?:\\/\\//, '');\r",
+											"    pm.expect(pm.request.headers.get(\"Host\")).to.equal(expectedHost);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Forwarded-Host header is keycloak-server\", function () {\r",
+											"    pm.expect(pm.request.headers.get(\"X-Forwarded-Host\")).to.equal('keycloak-server');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Forwarded-For header is 192.168.182.123\", function () {\r",
+											"    pm.expect(pm.request.headers.get(\"X-Forwarded-For\")).to.equal('192.168.182.123');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Forwarded-Port header is 38497\", function () {\r",
+											"    pm.expect(pm.request.headers.get(\"X-Forwarded-Port\")).to.equal('38497');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Forwarded-Proto header is https\", function () {\r",
+											"    pm.expect(pm.request.headers.get(\"X-Forwarded-Proto\")).to.equal('https');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content type is application/json\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate the response schema for required fields\", function () {\r",
+											"  const responseData = pm.response.text();\r",
+											"\r",
+											"  // This has to be exactly same as the KC_HOSTNAME used in docker compose/.env file.\r",
+											"  const KC_HOSTNAME = 'http://localhost:80';\r",
+											"\r",
+											"  // Manually parse KEYCLOAK_DIRECT_URL (extract protocol, hostname, and port)\r",
+											"  const regex = /^(https?):\\/\\/([^\\/:]+)(?::(\\d+))?/;\r",
+											"  const matches = KC_HOSTNAME.match(regex);\r",
+											"\r",
+											"  if (matches) {\r",
+											"    const protocol = matches[1];\r",
+											"    const hostname = matches[2];\r",
+											"    const port = matches[3] || (protocol === 'https' ? '443' : '80'); // Default to 443 for https, 80 for http\r",
+											"    const expectedBaseUrl = port !== '80' && port !== '443' ? `${protocol}://${hostname}:${port}` : `${protocol}://${hostname}`;\r",
+											"\r",
+											"    const cheerio = require('cheerio');\r",
+											"\r",
+											"    // Load the HTML response data into Cheerio\r",
+											"    const $ = cheerio.load(responseData);\r",
+											"\r",
+											"    // Extract the JSON object from the <script> tag with id \"environment\"\r",
+											"    const environmentScript = $('#environment').html();\r",
+											"\r",
+											"    // Parse the JSON string into an object\r",
+											"    const environmentData = JSON.parse(environmentScript);\r",
+											"\r",
+											"    pm.expect(environmentData).to.be.an('object');\r",
+											"    pm.expect(environmentData.authUrl).to.be.eq(expectedBaseUrl);\r",
+											"    pm.expect(environmentData.authServerUrl).to.be.eq(expectedBaseUrl);\r",
+											"    pm.expect(environmentData.serverBaseUrl).to.be.eq(expectedBaseUrl);\r",
+											"    pm.expect(environmentData.consoleBaseUrl).to.be.eq(`/admin/${REALM_NAME}/console/`);\r",
+											"  } else {\r",
+											"    pm.fail(\"KC_HOSTNAME format is incorrect\");\r",
+											"  }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Forwarded-Host",
+										"value": "keycloak-server",
+										"description": "Random hostname but should be reflected in urls in response",
+										"type": "text"
+									},
+									{
+										"key": "X-Forwarded-For",
+										"value": "192.168.182.123",
+										"description": "Random IP address",
+										"type": "text"
+									},
+									{
+										"key": "X-Forwarded-Port",
+										"value": "38497",
+										"description": "Random port but should be reflected in urls in response",
+										"type": "text"
+									},
+									{
+										"key": "X-Forwarded-Proto",
+										"value": "https",
+										"description": "Random proto but should be reflected in urls in response",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{KEYCLOAK_DIRECT_URL}}/realms/{{USER_REALM_NAME}}/protocol/openid-connect/auth?client_id=security-admin-console",
+									"host": [
+										"{{KEYCLOAK_DIRECT_URL}}"
+									],
+									"path": [
+										"realms",
+										"{{USER_REALM_NAME}}",
+										"protocol",
+										"openid-connect",
+										"auth"
+									],
+									"query": [
+										{
+											"key": "client_id",
+											"value": "security-admin-console"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Headers Verification Account Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"const REALM_NAME = pm.environment.get(\"ADMIN_REALM_NAME\");\r",
+											"const KEYCLOAK_DIRECT_URL = pm.environment.get(\"KEYCLOAK_DIRECT_URL\");\r",
+											"\r",
+											"pm.test(\"Response status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within acceptable range\", function () {\r",
+											"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Frame-Options is SAMEORIGIN\", function () {\r",
+											"    pm.response.to.have.header(\"X-Frame-Options\", \"SAMEORIGIN\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Content-Type-Options is nosniff\", function () {\r",
+											"    pm.response.to.have.header(\"X-Content-Type-Options\", \"nosniff\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-XSS-Protection is set\", function () {\r",
+											"    pm.response.to.have.header(\"X-XSS-Protection\", \"1; mode=block\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Strict-Transport-Security is configured\", function () {\r",
+											"    pm.response.to.have.header(\"Strict-Transport-Security\", \"max-age=31536000; includeSubDomains\");\r",
+											"});\r",
+											"\r",
+											"// Validate ProxyPreserveHost Behavior\r",
+											"pm.test(\"Host header is preserved by Apache\", function () {\r",
+											"    const expectedHost = KEYCLOAK_DIRECT_URL.replace(/^https?:\\/\\//, '');\r",
+											"    pm.expect(pm.request.headers.get(\"Host\")).to.equal(expectedHost);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Forwarded-Host header is keycloak-server\", function () {\r",
+											"    pm.expect(pm.request.headers.get(\"X-Forwarded-Host\")).to.equal('keycloak-server');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Forwarded-For header is 192.168.182.123\", function () {\r",
+											"    pm.expect(pm.request.headers.get(\"X-Forwarded-For\")).to.equal('192.168.182.123');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Forwarded-Port header is 38497\", function () {\r",
+											"    pm.expect(pm.request.headers.get(\"X-Forwarded-Port\")).to.equal('38497');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"X-Forwarded-Proto header is https\", function () {\r",
+											"    pm.expect(pm.request.headers.get(\"X-Forwarded-Proto\")).to.equal('https');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content type is application/json\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate the response schema for required fields\", function () {\r",
+											"  const responseData = pm.response.text();\r",
+											"\r",
+											"  // This has to be exactly same as the KC_HOSTNAME used in docker compose/.env file.\r",
+											"  const KC_HOSTNAME = 'http://localhost:80';\r",
+											"\r",
+											"  // Manually parse KEYCLOAK_DIRECT_URL (extract protocol, hostname, and port)\r",
+											"  const regex = /^(https?):\\/\\/([^\\/:]+)(?::(\\d+))?/;\r",
+											"  const matches = KC_HOSTNAME.match(regex);\r",
+											"\r",
+											"  if (matches) {\r",
+											"    const protocol = matches[1];\r",
+											"    const hostname = matches[2];\r",
+											"    const port = matches[3] || (protocol === 'https' ? '443' : '80'); // Default to 443 for https, 80 for http\r",
+											"    const expectedBaseUrl = port !== '80' && port !== '443' ? `${protocol}://${hostname}:${port}` : `${protocol}://${hostname}`;\r",
+											"\r",
+											"    const cheerio = require('cheerio');\r",
+											"\r",
+											"    // Load the HTML response data into Cheerio\r",
+											"    const $ = cheerio.load(responseData);\r",
+											"\r",
+											"    // Extract the JSON object from the <script> tag with id \"environment\"\r",
+											"    const environmentScript = $('#environment').html();\r",
+											"\r",
+											"    // Parse the JSON string into an object\r",
+											"    const environmentData = JSON.parse(environmentScript);\r",
+											"\r",
+											"    pm.expect(environmentData).to.be.an('object');\r",
+											"    pm.expect(environmentData.authUrl).to.be.eq(`${expectedBaseUrl}/`);\r",
+											"    pm.expect(environmentData.authServerUrl).to.be.eq(`${expectedBaseUrl}/`);\r",
+											"    pm.expect(environmentData.serverBaseUrl).to.be.eq(expectedBaseUrl);\r",
+											"    pm.expect(environmentData.baseUrl).to.be.eq(`${expectedBaseUrl}/realms/${REALM_NAME}/account/`);\r",
+											"  } else {\r",
+											"    pm.fail(\"KC_HOSTNAME format is incorrect\");\r",
+											"  }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Forwarded-Host",
+										"value": "keycloak-server",
+										"description": "Random hostname but should be reflected in urls in response",
+										"type": "text"
+									},
+									{
+										"key": "X-Forwarded-For",
+										"value": "192.168.182.123",
+										"description": "Random IP address",
+										"type": "text"
+									},
+									{
+										"key": "X-Forwarded-Port",
+										"value": "38497",
+										"description": "Random port but should be reflected in urls in response",
+										"type": "text"
+									},
+									{
+										"key": "X-Forwarded-Proto",
+										"value": "https",
+										"description": "Random proto but should be reflected in urls in response",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{KEYCLOAK_DIRECT_URL}}/realms/{{ADMIN_REALM_NAME}}/account",
+									"host": [
+										"{{KEYCLOAK_DIRECT_URL}}"
+									],
+									"path": [
+										"realms",
+										"{{ADMIN_REALM_NAME}}",
+										"account"
 									]
 								}
 							},

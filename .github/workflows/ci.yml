@@ -70,12 +70,21 @@ jobs:
           docker-compose --version
 
       - name: Build and run services using start.sh script
+        id: docker-start
         run: |
           chmod +x ./startup_helper.sh
           chmod +x ./start.sh
           # Check if docker-compose is available before running the start.sh script
           which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
           ./start.sh
+
+          # Check if any container is running
+          container_count=$(docker ps -q | wc -l)
+          if [ "$container_count" -gt 0 ]; then
+            echo "docker_service_started=true" >> $GITHUB_ENV
+          else
+            echo "docker_service_started=false" >> $GITHUB_ENV
+          fi
 
       # Installing other dependencies after starting up the services as they'll act as an
       # implicit wait for the services to be fully ready before the tests interact with them.
@@ -97,6 +106,7 @@ jobs:
         working-directory: ./.github/workflows/scripts
 
       - name: Collect Docker container logs
+        if: env.docker_service_started == 'true'
         run: |
           for container in $(docker ps --format '{{.Names}}'); do
             echo "---- Logs for $container ----"
@@ -141,6 +151,7 @@ jobs:
           echo "#### XML Report: [View XML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_XML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
 
       - name: Collect Docker container logs after the tests have run
+        if: env.docker_service_started == 'true'
         run: |
           for container in $(docker ps --format '{{.Names}}'); do
             echo "---- Logs for $container ----"
@@ -206,6 +217,7 @@ jobs:
             ${{ env.NEWMAN_HTML_REPORT_FILE }}
 
       - name: Clean up Docker containers and volumes
+        if: env.docker_service_started == 'true'
         run: |
           # Safety check before using docker-compose
           which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }

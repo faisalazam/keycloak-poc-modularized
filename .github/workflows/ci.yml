@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      test_outcome: ${{ steps.test-results.outputs.outcome }}
+      test_outcome: ${{ steps.test-results.conclusion }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -135,7 +135,7 @@ jobs:
           echo "❌ Tests were not executed because the build failed or the test step was skipped." >> $GITHUB_STEP_SUMMARY
 
       - name: Set Test Results Summary
-        if: ${{ always() && steps.test-results.outputs.conclusion == 'success' }}
+        if: ${{ always() && steps.test-results.conclusion == 'success' }}
         run: |
           echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
           echo "#### ✅ All tests passed!" >> $GITHUB_STEP_SUMMARY
@@ -143,7 +143,7 @@ jobs:
           echo "#### XML Report: [View XML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_XML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
 
       - name: Handle Test Failures
-        if: ${{ always() && steps.test-results.outputs.conclusion == 'failure' }}
+        if: ${{ always() && steps.test-results.conclusion == 'failure' }}
         run: |
           echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
           echo "#### ❌ Some tests failed!" >> $GITHUB_STEP_SUMMARY
@@ -160,7 +160,7 @@ jobs:
           done
 
       - name: Prepend CI build details to HTML report file
-        if: ${{ always() && steps.test-results.outputs.conclusion != null }}
+        if: ${{ always() && steps.test-results.conclusion != null }}
         run: |
           # Define the CI build details for HTML
           HTML_BUILD_INFO=$(
@@ -177,7 +177,7 @@ jobs:
           } > tmp && mv tmp "${{ env.NEWMAN_HTML_REPORT_FILE }}"
 
       - name: Prepend CI build details to XML report file
-        if: ${{ always() && steps.test-results.outputs.conclusion != null }}
+        if: ${{ always() && steps.test-results.conclusion != null }}
         run: |
           # Define the CI build details for XML (with XML comments for line breaks)
           XML_BUILD_INFO=$(
@@ -202,7 +202,7 @@ jobs:
           } > tmp && mv tmp "${{ env.NEWMAN_XML_REPORT_FILE }}"
 
       - name: Upload the content for GitHub Pages
-        if: ${{ always() && steps.test-results.outputs.conclusion != null }}
+        if: ${{ always() && steps.test-results.conclusion != null }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.PAGES_FOLDER }}

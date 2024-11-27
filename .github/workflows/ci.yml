@@ -74,6 +74,7 @@ jobs:
         run: |
           chmod +x ./startup_helper.sh
           chmod +x ./ci.sh
+          chmod +x ./start.sh
           # Check if docker-compose is available before running the start.sh script
           which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
           ./ci.sh

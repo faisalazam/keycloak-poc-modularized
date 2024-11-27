@@ -129,13 +129,13 @@ jobs:
           fi
 
       - name: Report Build Failure
-        if: ${{ always() && env.outcome == null }}
+        if: ${{ always() && steps.test-results.outcome == null }}
         run: |
           echo "### Workflow Summary" >> $GITHUB_STEP_SUMMARY
           echo "❌ Tests were not executed because the build failed or the test step was skipped." >> $GITHUB_STEP_SUMMARY
 
       - name: Set Test Results Summary
-        if: ${{ always() && env.outcome == 'success' }}
+        if: ${{ always() && steps.test-results.outcome == 'success' }}
         run: |
           echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
           echo "#### ✅ All tests passed!" >> $GITHUB_STEP_SUMMARY
@@ -143,7 +143,7 @@ jobs:
           echo "#### XML Report: [View XML Report](${{ env.SITE_ROOT_URL }}/${{ env.NEWMAN_XML_REPORT_FILE }})" >> $GITHUB_STEP_SUMMARY
 
       - name: Handle Test Failures
-        if: ${{ always() && env.outcome == 'failure' }}
+        if: ${{ always() && steps.test-results.outcome == 'failure' }}
         run: |
           echo "### Postman Test Results" >> $GITHUB_STEP_SUMMARY
           echo "#### ❌ Some tests failed!" >> $GITHUB_STEP_SUMMARY
@@ -160,7 +160,7 @@ jobs:
           done
 
       - name: Prepend CI build details to HTML report file
-        if: ${{ always() && env.outcome != null }}
+        if: ${{ always() && steps.test-results.outcome != null }}
         run: |
           # Define the CI build details for HTML
           HTML_BUILD_INFO=$(
@@ -177,7 +177,7 @@ jobs:
           } > tmp && mv tmp "${{ env.NEWMAN_HTML_REPORT_FILE }}"
 
       - name: Prepend CI build details to XML report file
-        if: ${{ always() && env.outcome != null }}
+        if: ${{ always() && steps.test-results.outcome != null }}
         run: |
           # Define the CI build details for XML (with XML comments for line breaks)
           XML_BUILD_INFO=$(
@@ -202,7 +202,7 @@ jobs:
           } > tmp && mv tmp "${{ env.NEWMAN_XML_REPORT_FILE }}"
 
       - name: Upload the content for GitHub Pages
-        if: ${{ always() && env.outcome != null }}
+        if: ${{ always() && steps.test-results.outcome != null }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.PAGES_FOLDER }}
@@ -211,7 +211,7 @@ jobs:
             ${{ env.NEWMAN_HTML_REPORT_FILE }}
 
       - name: Clean up Docker containers and volumes
-        if: env.docker_service_started == 'true'
+        if: ${{ always() && env.docker_service_started == 'true' }}
         run: |
           # Safety check before using docker-compose
           which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }

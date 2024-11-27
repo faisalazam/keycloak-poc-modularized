@@ -16,5 +16,5 @@ services:
 
 networks:
   keycloak_network:
-    driver: bridge  # Creates a new bridge network for this service
-    name: keycloak_network  # This will match the name in the main compose file
+    driver: bridge
+    name: keycloak_network

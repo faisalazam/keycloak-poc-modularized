@@ -129,7 +129,7 @@ jobs:
           fi
 
       - name: Report Build Failure
-        if: ${{ always() && steps.test-results.outcome == null }}
+        if: ${{ always() && steps.test-results.outcome == 'skipped' }}
         run: |
           echo "### Workflow Summary" >> $GITHUB_STEP_SUMMARY
           echo "❌ Tests were not executed because the build failed or the test step was skipped." >> $GITHUB_STEP_SUMMARY
@@ -160,7 +160,7 @@ jobs:
           done
 
       - name: Prepend CI build details to HTML report file
-        if: ${{ always() && steps.test-results.outcome != null }}
+        if: ${{ always() && steps.test-results.outcome != 'skipped' }}
         run: |
           # Define the CI build details for HTML
           HTML_BUILD_INFO=$(
@@ -177,7 +177,7 @@ jobs:
           } > tmp && mv tmp "${{ env.NEWMAN_HTML_REPORT_FILE }}"
 
       - name: Prepend CI build details to XML report file
-        if: ${{ always() && steps.test-results.outcome != null }}
+        if: ${{ always() && steps.test-results.outcome != 'skipped' }}
         run: |
           # Define the CI build details for XML (with XML comments for line breaks)
           XML_BUILD_INFO=$(
@@ -202,7 +202,7 @@ jobs:
           } > tmp && mv tmp "${{ env.NEWMAN_XML_REPORT_FILE }}"
 
       - name: Upload the content for GitHub Pages
-        if: ${{ always() && steps.test-results.outcome != null }}
+        if: ${{ always() && steps.test-results.outcome != 'skipped' }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.PAGES_FOLDER }}

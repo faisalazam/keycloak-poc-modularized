@@ -76,8 +76,8 @@ jobs:
           chmod +x ./start.sh
           # Check if docker-compose is available before running the start.sh script
           which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
-          # ./start.sh
-          just_random_text_to_test_ci_flow
+          ./start.sh
+
           # Check if any container is running
           container_count=$(docker ps -q | wc -l)
           if [ "$container_count" -gt 0 ]; then

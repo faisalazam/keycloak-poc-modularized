@@ -135,6 +135,11 @@ jobs:
           echo "### Workflow Summary" >> $GITHUB_STEP_SUMMARY
           echo "❌ Tests were not executed because the build failed or the test step was skipped." >> $GITHUB_STEP_SUMMARY
 
+      # TODO: Make the report links build specific, i.e. add build number to the report URLs. 
+      # That way each build will have its own reoirt file and wont get overwritten by the
+      # subsequent builds, and will be able to look at the report of specific build.
+      # TODO: Think of a way to remove the old build specific report files from 
+      # the gh-pages branch once the build specific report links are implemented.
       - name: Set Test Results Summary
         if: ${{ always() && steps.test-results.outcome == 'success' }}
         run: |

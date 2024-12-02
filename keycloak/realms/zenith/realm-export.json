@@ -1,7 +1,7 @@
 {
   "realm": "zenithrealm",
   "enabled": true,
-  "resetPasswordAllowed": true,
+  "resetPasswordAllowed": false,
   "clients": [],
   "users": []
 }

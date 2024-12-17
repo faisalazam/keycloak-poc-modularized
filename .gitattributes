@@ -1,1 +1,21 @@
+# Use dos2unix to convert existing files to LF:
+# find . -type f \( -name "*.env" -o -name "*.conf" -o -name "*.ldif" -o -name "*.json" -o -name "*.template" -o -name "*.sh" -o -name "Dockerfile*" \) -exec dos2unix {} +
+# Verify with `git ls-files --eol`
+
+# Enforce LF for all text files
 *.sh text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.env text eol=lf
+*.conf text eol=lf
+*.ldif text eol=lf
+*.template text eol=lf
+Dockerfile* text eol=lf
+.gitattributes text eol=lf
+.gitignore text eol=lf
+
+# Mark binary files
+*.jpg binary
+*.png binary
+*.pdf binary

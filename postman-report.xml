@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	Build Number: 185
+	Build Number: 187
 	Workflow: CI/CD Workflow
-	Commit: ee8bef59b5f351519dcbca19400d5792d99744a6
+	Commit: bb29e189a2f17ddf60868b2e617b453ba7f8bccf
 	Project Link: https://faisalazam.github.io/keycloak-poc-modularized
 -->
 <testsuites name="Keycloak" tests="39" time="0.000">
-  <testsuite name="User/Auth Management / Login / Login - Admin" id="3e9c60c8-aee6-4294-899e-74e09774b78a" timestamp="2024-12-17T06:46:45.897Z" tests="4" failures="4" errors="1" time="0.000">
+  <testsuite name="User/Auth Management / Login / Login - Admin" id="6d930d29-cfd4-4fce-97a4-d237696af45f" timestamp="2024-12-17T09:44:47.582Z" tests="4" failures="4" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -67,7 +67,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="User/Auth Management / Login / Login - User" id="34e6c1df-5af3-4826-886f-871276eb86f8" timestamp="2024-12-17T06:46:45.897Z" tests="4" failures="4" errors="1" time="0.000">
+  <testsuite name="User/Auth Management / Login / Login - User" id="f5184b3b-6dac-42f3-9226-d5f900ab8a6d" timestamp="2024-12-17T09:44:47.582Z" tests="4" failures="4" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -128,7 +128,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="User/Auth Management / Logout / 1 - Login - User" id="2d18092e-dc85-4ce8-9637-c62177d8ea27" timestamp="2024-12-17T06:46:45.897Z" tests="1" failures="1" errors="1" time="0.000">
+  <testsuite name="User/Auth Management / Logout / 1 - Login - User" id="48b79d1c-c82d-41cf-a0ff-03cb86dc1aa8" timestamp="2024-12-17T09:44:47.582Z" tests="1" failures="1" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -153,7 +153,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="User/Auth Management / Logout / 2 - Logout - User" id="2f50db93-d6d6-4319-a46c-7e9c9f95da34" timestamp="2024-12-17T06:46:45.897Z" tests="3" failures="3" errors="1" time="0.000">
+  <testsuite name="User/Auth Management / Logout / 2 - Logout - User" id="0a587339-80ab-416a-a246-967e769e7ef4" timestamp="2024-12-17T09:44:47.582Z" tests="3" failures="3" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -202,7 +202,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="User/Auth Management / Get User Info / 1 - Login - User" id="c81d3320-7bcf-4c38-a186-b65b0e4a054e" timestamp="2024-12-17T06:46:45.897Z" tests="0" failures="0" errors="2" time="0.000">
+  <testsuite name="User/Auth Management / Get User Info / 1 - Login - User" id="a7230481-f7a4-4b18-8d2b-ca5693dfc3fe" timestamp="2024-12-17T09:44:47.582Z" tests="0" failures="0" errors="2" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -217,7 +217,7 @@ testScriptError: "undefined" is not valid JSON
 ---
 ]]></system-err>
   </testsuite>
-  <testsuite name="User/Auth Management / Get User Info / 2 - Get User (Name)" id="52e8aa8d-f013-435b-86be-530ebcd193a9" timestamp="2024-12-17T06:46:45.897Z" tests="0" failures="0" errors="2" time="0.000">
+  <testsuite name="User/Auth Management / Get User Info / 2 - Get User (Name)" id="1323a0bd-8ef7-4002-aaaa-03ddca214258" timestamp="2024-12-17T09:44:47.582Z" tests="0" failures="0" errors="2" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -232,7 +232,7 @@ testScriptError: "undefined" is not valid JSON
 ---
 ]]></system-err>
   </testsuite>
-  <testsuite name="User/Auth Management / Get User Info / 3 - Get User Info" id="598874b0-0e18-4e0b-86be-dbad3d3084c2" timestamp="2024-12-17T06:46:45.897Z" tests="3" failures="3" errors="1" time="0.000">
+  <testsuite name="User/Auth Management / Get User Info / 3 - Get User Info" id="b3768744-43be-4b81-9b31-49a2d80a7515" timestamp="2024-12-17T09:44:47.582Z" tests="3" failures="3" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -281,7 +281,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="User/Auth Management / Delete User / 1 - Login - User" id="4fcc3a2e-733d-4efb-8ed5-b292af974340" timestamp="2024-12-17T06:46:45.897Z" tests="0" failures="0" errors="2" time="0.000">
+  <testsuite name="User/Auth Management / Delete User / 1 - Login - User" id="6d8bf52e-43f2-480b-b56d-7ad49b85cecc" timestamp="2024-12-17T09:44:47.582Z" tests="0" failures="0" errors="2" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -296,7 +296,7 @@ testScriptError: "undefined" is not valid JSON
 ---
 ]]></system-err>
   </testsuite>
-  <testsuite name="User/Auth Management / Delete User / 2 - Get User (Name)" id="efc21a5f-ec2d-4f57-9482-5fb60a594afe" timestamp="2024-12-17T06:46:45.897Z" tests="0" failures="0" errors="2" time="0.000">
+  <testsuite name="User/Auth Management / Delete User / 2 - Get User (Name)" id="58306273-51f9-48b7-ad19-a5e972ee3a9d" timestamp="2024-12-17T09:44:47.582Z" tests="0" failures="0" errors="2" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -311,7 +311,7 @@ testScriptError: "undefined" is not valid JSON
 ---
 ]]></system-err>
   </testsuite>
-  <testsuite name="User/Auth Management / Delete User / 3 - Delete User - Admin" id="82dafe09-36f9-48f7-a3d7-eba6b61353ee" timestamp="2024-12-17T06:46:45.897Z" tests="3" failures="2" errors="1" time="0.000">
+  <testsuite name="User/Auth Management / Delete User / 3 - Delete User - Admin" id="a9669582-b44f-4053-812e-46470f3b2d59" timestamp="2024-12-17T09:44:47.582Z" tests="3" failures="2" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -349,7 +349,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     </testcase>
     <testcase name="Ensure no unexpected error during deletion" time="0.000" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="User/Auth Management / Delete User / 4 - Get User (Name) - Admin" id="92d7323d-42eb-478c-a40e-6b9b200a2ed4" timestamp="2024-12-17T06:46:45.897Z" tests="2" failures="1" errors="1" time="0.000">
+  <testsuite name="User/Auth Management / Delete User / 4 - Get User (Name) - Admin" id="d959f24c-3930-4c5f-a088-1f17518f2171" timestamp="2024-12-17T09:44:47.582Z" tests="2" failures="1" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -375,7 +375,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     </testcase>
     <testcase name="Negative Test - User retrieval should handle exceptions gracefully" time="0.000" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 1 - Login - User" id="45ae1455-e802-4694-84f1-499a3ccb13de" timestamp="2024-12-17T06:46:45.897Z" tests="0" failures="0" errors="2" time="0.000">
+  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 1 - Login - User" id="5e6105f3-ee76-4f25-8339-8da2e95060a5" timestamp="2024-12-17T09:44:47.582Z" tests="0" failures="0" errors="2" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -390,7 +390,7 @@ testScriptError: "undefined" is not valid JSON
 ---
 ]]></system-err>
   </testsuite>
-  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 2 - Get User (Email)" id="50a1df4e-a261-4ffd-9b3d-5bb21bcd53b6" timestamp="2024-12-17T06:46:45.897Z" tests="0" failures="0" errors="2" time="0.000">
+  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 2 - Get User (Email)" id="78d244c8-2b30-460d-b4ad-44b628df07e5" timestamp="2024-12-17T09:44:47.582Z" tests="0" failures="0" errors="2" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -405,7 +405,7 @@ testScriptError: "undefined" is not valid JSON
 ---
 ]]></system-err>
   </testsuite>
-  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 3 - Update Password - Trigger Email" id="e6869c2f-879b-4a1c-9688-9ff562b5ef9b" timestamp="2024-12-17T06:46:45.897Z" tests="2" failures="2" errors="1" time="0.000">
+  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 3 - Update Password - Trigger Email" id="c27e566b-dc4c-4860-88eb-163a747c587f" timestamp="2024-12-17T09:44:47.582Z" tests="2" failures="2" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -442,7 +442,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="User/Auth Management / Reset Password Directly / 1 - Login - User" id="cf571d8a-2f2f-442b-8f52-9eab6ae907ee" timestamp="2024-12-17T06:46:45.897Z" tests="0" failures="0" errors="2" time="0.000">
+  <testsuite name="User/Auth Management / Reset Password Directly / 1 - Login - User" id="74db6eed-d97b-43e3-b642-faa91c940fe1" timestamp="2024-12-17T09:44:47.582Z" tests="0" failures="0" errors="2" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -457,7 +457,7 @@ testScriptError: "undefined" is not valid JSON
 ---
 ]]></system-err>
   </testsuite>
-  <testsuite name="User/Auth Management / Reset Password Directly / 2 - Get User (Email)" id="dacf2f5e-f1c0-4674-85b9-20f614407ecb" timestamp="2024-12-17T06:46:45.897Z" tests="0" failures="0" errors="2" time="0.000">
+  <testsuite name="User/Auth Management / Reset Password Directly / 2 - Get User (Email)" id="c4c8af44-ba92-498f-a715-23b49ec2b709" timestamp="2024-12-17T09:44:47.582Z" tests="0" failures="0" errors="2" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -472,7 +472,7 @@ testScriptError: "undefined" is not valid JSON
 ---
 ]]></system-err>
   </testsuite>
-  <testsuite name="User/Auth Management / Reset Password Directly / 3 - Reset Password" id="3fb7a800-5d8b-4221-888d-11d1cb91a715" timestamp="2024-12-17T06:46:45.897Z" tests="3" failures="3" errors="1" time="0.000">
+  <testsuite name="User/Auth Management / Reset Password Directly / 3 - Reset Password" id="a71c0a7c-8d0f-4298-aaf7-08143d8b9f57" timestamp="2024-12-17T09:44:47.582Z" tests="3" failures="3" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -521,7 +521,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="Config Management / Update Client Props / 1 - Login - User" id="87bbe0df-52b7-41fb-bb90-1a4462cbc87c" timestamp="2024-12-17T06:46:45.897Z" tests="0" failures="0" errors="2" time="0.000">
+  <testsuite name="Config Management / Update Client Props / 1 - Login - User" id="880d738d-a5f8-4428-b41b-99efd690d6bc" timestamp="2024-12-17T09:44:47.582Z" tests="0" failures="0" errors="2" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -536,7 +536,7 @@ testScriptError: "undefined" is not valid JSON
 ---
 ]]></system-err>
   </testsuite>
-  <testsuite name="Config Management / Update Client Props / 2 - Client Info" id="4b46fd08-58c0-4cc0-a6dc-93841d5212ce" timestamp="2024-12-17T06:46:45.897Z" tests="2" failures="2" errors="2" time="0.000">
+  <testsuite name="Config Management / Update Client Props / 2 - Client Info" id="b31a9fa6-1409-479f-90c9-f4cd0142b001" timestamp="2024-12-17T09:44:47.582Z" tests="2" failures="2" errors="2" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -575,7 +575,7 @@ testScriptError: "undefined" is not valid JSON
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="Config Management / Update Client Props / 3 - Update Client" id="d23f6f47-f43d-455c-8028-1ff58ecf0df2" timestamp="2024-12-17T06:46:45.897Z" tests="4" failures="4" errors="1" time="0.000">
+  <testsuite name="Config Management / Update Client Props / 3 - Update Client" id="44b2a98c-04b9-4b01-b451-69dfc0f4cb14" timestamp="2024-12-17T09:44:47.582Z" tests="4" failures="4" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -636,7 +636,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /robots.txt" id="dd9b4576-4de6-40aa-a829-444cad75722f" timestamp="2024-12-17T06:46:45.897Z" tests="13" failures="8" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Granted - Paths / /robots.txt" id="da72cf7d-2016-448d-b7a3-6dcf86986248" timestamp="2024-12-17T09:44:47.582Z" tests="13" failures="8" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -750,7 +750,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     <testcase name="X-Forwarded-Port header does not exist" time="0.000" classname="Keycloak"/>
     <testcase name="X-Forwarded-Proto header does not exist" time="0.000" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{USER_REALM_NAME}}" id="dfc12a0c-c8cd-4250-9dd8-9aa6e9ccab3b" timestamp="2024-12-17T06:46:45.897Z" tests="15" failures="10" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{USER_REALM_NAME}}" id="1f038b5e-800c-423a-8b7f-cac6b94d5ee3" timestamp="2024-12-17T09:44:47.582Z" tests="15" failures="10" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -888,7 +888,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     <testcase name="X-Forwarded-Port header does not exist" time="0.000" classname="Keycloak"/>
     <testcase name="X-Forwarded-Proto header does not exist" time="0.000" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{ADMIN_REALM_NAME}}" id="101ba3e8-0fab-4b25-a04d-663c6808580a" timestamp="2024-12-17T06:46:45.897Z" tests="15" failures="10" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{ADMIN_REALM_NAME}}" id="7f86d891-f2d5-46ca-a47d-d90dc79843a7" timestamp="2024-12-17T09:44:47.582Z" tests="15" failures="10" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -1026,7 +1026,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     <testcase name="X-Forwarded-Port header does not exist" time="0.000" classname="Keycloak"/>
     <testcase name="X-Forwarded-Proto header does not exist" time="0.000" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /admin" id="cb4932d2-6b5d-4390-a51b-934145df5f14" timestamp="2024-12-17T06:46:45.897Z" tests="16" failures="11" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Granted - Paths / /admin" id="d2cded03-d36c-4aff-aa20-3b0ca3501c95" timestamp="2024-12-17T09:44:47.582Z" tests="16" failures="11" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -1176,7 +1176,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /admin/{{ADMIN_REALM_NAME}}/console" id="af2768ec-f5e2-47b0-8c3d-062958215d42" timestamp="2024-12-17T06:46:45.897Z" tests="16" failures="11" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Granted - Paths / /admin/{{ADMIN_REALM_NAME}}/console" id="546a4428-1fa9-4f8d-8db6-31dd5e42a41c" timestamp="2024-12-17T09:44:47.582Z" tests="16" failures="11" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -1326,7 +1326,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /admin/{{USER_REALM_NAME}}/console" id="38aeb7a5-ca73-4c7f-84b8-db007b07d683" timestamp="2024-12-17T06:46:45.897Z" tests="16" failures="11" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Granted - Paths / /admin/{{USER_REALM_NAME}}/console" id="504e30da-fe1b-4316-b9f9-113ac640e110" timestamp="2024-12-17T09:44:47.582Z" tests="16" failures="11" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -1476,7 +1476,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /realms/.../openid-connect" id="16862cf0-81f0-42b8-b4c5-859accfdda58" timestamp="2024-12-17T06:46:45.897Z" tests="16" failures="11" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Granted - Paths / /realms/.../openid-connect" id="20e74de2-b869-490c-af1c-7994a724e7e2" timestamp="2024-12-17T09:44:47.582Z" tests="16" failures="11" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -1626,7 +1626,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{ADMIN_REALM_NAME}}/account" id="f383c8c6-44ce-426f-9232-81a0cdf42486" timestamp="2024-12-17T06:46:45.897Z" tests="16" failures="11" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{ADMIN_REALM_NAME}}/account" id="41211dcd-9a56-499a-8a9d-0a7c88e58856" timestamp="2024-12-17T09:44:47.582Z" tests="16" failures="11" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -1776,7 +1776,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{USER_REALM_NAME}}/account" id="dbb4d4d7-a71e-4c67-b899-700c7985a792" timestamp="2024-12-17T06:46:45.897Z" tests="16" failures="11" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{USER_REALM_NAME}}/account" id="b0b051b7-1175-40c2-88ab-c265da564436" timestamp="2024-12-17T09:44:47.582Z" tests="16" failures="11" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -1926,7 +1926,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="Verify URL Access / Denied - Paths / /" id="e29b929b-dc9c-44dc-9134-80b2f465e80a" timestamp="2024-12-17T06:46:45.897Z" tests="8" failures="7" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Denied - Paths / /" id="78720bbf-bb3f-4cd7-a68c-b7fe9a2aaea3" timestamp="2024-12-17T09:44:47.582Z" tests="8" failures="7" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -2024,7 +2024,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     </testcase>
     <testcase name="Host header is preserved by Apache" time="0.000" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Denied - Paths / /realms" id="67b761b4-0e3c-49ce-b321-9435960c6a96" timestamp="2024-12-17T06:46:45.897Z" tests="8" failures="7" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Denied - Paths / /realms" id="cc10fa8d-9a96-46ab-98ab-6ea6362d5692" timestamp="2024-12-17T09:44:47.582Z" tests="8" failures="7" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -2122,7 +2122,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     </testcase>
     <testcase name="Host header is preserved by Apache" time="0.000" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Denied - Paths / /resources" id="77ff084f-3ffa-40c0-9733-a3d7e0c3cfdc" timestamp="2024-12-17T06:46:45.897Z" tests="8" failures="7" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Denied - Paths / /resources" id="9c5040c2-cf90-4cdc-99e8-7bd279e953e0" timestamp="2024-12-17T09:44:47.582Z" tests="8" failures="7" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -2220,7 +2220,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     </testcase>
     <testcase name="Host header is preserved by Apache" time="0.000" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Denied - Paths / /health" id="444627a2-87fc-4793-9008-ccc548d5532a" timestamp="2024-12-17T06:46:45.897Z" tests="8" failures="7" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Denied - Paths / /health" id="61cdc3c0-a333-4e3c-b1c4-a219de265ee1" timestamp="2024-12-17T09:44:47.582Z" tests="8" failures="7" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -2318,7 +2318,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     </testcase>
     <testcase name="Host header is preserved by Apache" time="0.000" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Denied - Paths / /health/ready" id="5392f1fe-cb6a-4a05-94c7-321a19fb7eb5" timestamp="2024-12-17T06:46:45.897Z" tests="8" failures="7" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Denied - Paths / /health/ready" id="aee7a676-bab2-4c76-a790-5aa9cdbba645" timestamp="2024-12-17T09:44:47.582Z" tests="8" failures="7" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -2416,7 +2416,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     </testcase>
     <testcase name="Host header is preserved by Apache" time="0.000" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Denied - Paths / /health/live" id="64c8056c-0234-49ee-913c-cf06443ca179" timestamp="2024-12-17T06:46:45.897Z" tests="8" failures="7" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Denied - Paths / /health/live" id="bfca8888-9e3f-4f1d-b5af-bb8f19ec2968" timestamp="2024-12-17T09:44:47.582Z" tests="8" failures="7" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -2514,7 +2514,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     </testcase>
     <testcase name="Host header is preserved by Apache" time="0.000" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Denied - Paths / /metrics" id="1eed8da6-874c-4922-ad51-89e604e71604" timestamp="2024-12-17T06:46:45.897Z" tests="8" failures="7" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Denied - Paths / /metrics" id="58658ad8-6e1b-42d7-ba31-afc4eb2d8b7e" timestamp="2024-12-17T09:44:47.582Z" tests="8" failures="7" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -2612,7 +2612,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     </testcase>
     <testcase name="Host header is preserved by Apache" time="0.000" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Proxy Headers / Headers Verification" id="07f30421-abfe-43ce-81bf-d0a1f08f8e7c" timestamp="2024-12-17T06:46:45.897Z" tests="13" failures="8" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Proxy Headers / Headers Verification" id="c4d6799b-0102-45f5-b078-5c2f5f992ac0" timestamp="2024-12-17T09:44:47.582Z" tests="13" failures="8" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -2728,7 +2728,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="Verify URL Access / Proxy Headers / Headers Verification Console" id="ac6d1ad2-71dd-496f-a877-edcddf7f48c1" timestamp="2024-12-17T06:46:45.897Z" tests="13" failures="8" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Proxy Headers / Headers Verification Console" id="2691d557-242f-4d2f-b828-aaefb1dfb1b7" timestamp="2024-12-17T09:44:47.582Z" tests="13" failures="8" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)
@@ -2844,7 +2844,7 @@ RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="Verify URL Access / Proxy Headers / Headers Verification Account Copy" id="f09e6fbe-649d-4add-ae1c-25c003867858" timestamp="2024-12-17T06:46:45.897Z" tests="13" failures="8" errors="1" time="0.000">
+  <testsuite name="Verify URL Access / Proxy Headers / Headers Verification Account Copy" id="24b50123-14e0-4038-8024-6833d8d98912" timestamp="2024-12-17T09:44:47.582Z" tests="13" failures="8" errors="1" time="0.000">
     <system-err><![CDATA[Iteration: 0
 RequestError: TypeError [ERR_INVALID_IP_ADDRESS]: Invalid IP address: undefined
     at emitLookup (node:net:1469:17)

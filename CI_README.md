@@ -40,7 +40,7 @@ include:
 ## Workflow Jobs
 
 ### Build Job
-    - Runs on `ubuntu-latest` virtual machine.
+    - Runs on `ubuntu-24.04` virtual machine.
     - Caches Docker images and npm dependencies to speed up subsequent runs.
     - Validates the presence of necessary Postman files (`POSTMAN_COLLECTION`, `POSTMAN_ENVIRONMENT`).
     - Installs Docker and Docker Compose using specific versions defined in the environment variables.

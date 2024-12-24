@@ -155,6 +155,7 @@ So BASE_URL = http://localhost:80 => http://localhost
     * http://localhost/realms/master/account
     * http://localhost/realms/zenithrealm/account
     * http://localhost/realms/quantumrealm/account
+* http://localhost/realms/zenithrealm/protocol/openid-connect/auth?client_id=account
 * http://localhost/realms/zenithrealm/protocol/openid-connect/auth?client_id=security-admin-console
 
 If reverse proxy is disabled, then access them from the keycloak host (i.e. localhost) and ${KEYCLOAK_PORT}.

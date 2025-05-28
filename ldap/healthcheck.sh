@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # Default to ldap:// if not using TLS
-if [ "$LDAP_TLS" = "true" ]; then
-  LDAP_URL="ldaps://localhost:${LDAPS_PORT}"
-else
-  LDAP_URL="ldap://localhost:${LDAP_PORT}"
+if [ "$LDAP_ENABLE_TLS" = "yes" ]; then
+  LDAP_URL="${LDAPS_URL}"
+#else
+  # LDAP_URL="${LDAP_URL}" # Already set in .env file
 fi
 
 if ldapsearch -H "$LDAP_URL" -x \

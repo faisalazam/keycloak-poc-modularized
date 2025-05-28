@@ -3,7 +3,7 @@ objectClass: inetOrgPerson
 cn: admin
 givenName: Admin
 sn: Admin
-userPassword: ldap_admin_password
+userPassword: {{ LDAP_ADMIN_PASSWORD }}
 description: LDAP Administrator
 mail: admin@example.com
 telephoneNumber: +1234567890

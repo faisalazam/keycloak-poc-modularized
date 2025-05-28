@@ -44,15 +44,13 @@ The `.env` file contains the following important configuration variables:
 
 ### OpenLDAP Variables
 
-- **LDAP_PORT**: The port for LDAP access (default: `389`).
+- **LDAP_PORT**: The port for LDAP access (default: `1389`).
 - **LDAP_HOST_NAME**: The hostname for the OpenLDAP service (default: `openldap`).
 - **LDAP_DOMAIN**: The domain for your LDAP setup (default: `example.com`).
 - **LDAP_ORGANISATION**: The organization name for your LDAP (default: `example_org`).
 - **LDAP_BASE_DN**: The base DN for the LDAP directory (default: `dc=example,dc=com`).
 - **LDAP_ADMIN_PASSWORD**: The administrator password for OpenLDAP.
-- **LDAP_CONFIG_PASSWORD**: The password for configuring OpenLDAP.
-- **LDAP_TLS**: Whether to enable TLS (default: `true`).
-- **LDAP_REPLICATION**: Whether replication is enabled (default: `false`).
+- **LDAP_ENABLE_TLS**: Whether to enable TLS (default: `no`).
 - **SETUP_LDAP**: Set to true to enable LDAP integration.
 - **LDAP_URL**: URL of the LDAP server.
 - **LDAP_BIND_DN**: Distinguished Name (DN) for binding to the LDAP server.

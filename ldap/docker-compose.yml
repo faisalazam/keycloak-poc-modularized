@@ -1,27 +1,14 @@
 services:
   openldap:
-    # In this setup, Docker Compose will build an image using the Dockerfile
-    # from the specified context and use it to start the container.
-    # This approach is useful when you need to create a custom image from a
-    # Dockerfile before running the container.
-    # the 'image' tag below: This sets the name and optionally the tag of the
-    # image that will be created. For example, custom-openldap:latest creates
-    # an image named custom-openldap with the tag latest.
-    # To re-build the image: docker build -t custom-openldap -f Dockerfile .
-    build:
-      context: .
-      dockerfile: Dockerfile # Optional, if the Dockerfile has a custom name, specify it here
-    image: custom-openldap:latest
+    image: bitnami/openldap:2.6.10
     container_name: ${LDAP_HOST_NAME}
     env_file:
       - ./.env
     ports:
-      - "${LDAP_PORT:-389}:389"
-      - "${LDAPS_PORT:-636}:636"
-    command: --copy-service
+      - "${LDAP_PORT:-1389}:1389"
+      - "${LDAPS_PORT:-1636}:1636"
     volumes:
-      - ldap_data:/var/lib/ldap
-      - ldap_config:/etc/ldap/slapd.d
+      - ldap_data:/bitnami/openldap
       - ./healthcheck.sh:/usr/local/bin/healthcheck.sh:ro
     healthcheck:
       test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh"]
@@ -58,7 +45,6 @@ services:
 
 volumes:
   ldap_data:
-  ldap_config:
   phpldapadmin_data:
 
 networks:

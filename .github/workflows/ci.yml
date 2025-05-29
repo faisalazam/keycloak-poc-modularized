@@ -8,12 +8,11 @@ on:
 env:
   NPM_VERSION: 10.9.0
   NEWMAN_VERSION: 5.3.0
-  DOCKER_VERSION: 5:27.3.1
   PAGES_FOLDER: github-pages
-  DOCKER_COMPOSE_VERSION: 2.29.2
   DOCKER_COMPOSE_FILE: docker-compose.yml
   NEWMAN_XML_REPORT_FILE: postman-report.xml
   NEWMAN_HTML_REPORT_FILE: postman-report.html
+  DOCKER_VERSION: 5:28.0.1-1~ubuntu.24.04~noble
   #  POSTMAN_COLLECTION: postman/sample.json
   POSTMAN_COLLECTION: postman/keycloak-postman-collection.json
   POSTMAN_ENVIRONMENT: postman/keycloak-local.postman_environment.json
@@ -30,14 +29,6 @@ jobs:
 
       - name: Set SITE_ROOT_URL Variable
         run: echo "SITE_ROOT_URL=https://${GITHUB_ACTOR}.github.io/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-
-      - name: Cache Docker images
-        uses: actions/cache@v4
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-docker-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-docker-
 
       - name: Cache npm dependencies
         uses: actions/cache@v4
@@ -57,17 +48,11 @@ jobs:
           fi
 
       - name: Install Docker with specific version
-        run: |
-          chmod +x ./install_docker.sh
-          ./install_docker.sh
+        run: sh ./install_docker.sh
         working-directory: ./.github/workflows/scripts
 
-      - name: Install Docker Compose with specific version
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/v${{ env.DOCKER_COMPOSE_VERSION }}/docker-compose-$(uname -s)-$(uname -m)" \
-            -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose --version
+      - name: Check if docker compose is available before proceeding
+        run: docker compose version || { echo "docker compose is not installed or not in PATH"; exit 1; }
 
       - name: OpenSSL Version
         run: openssl version
@@ -81,8 +66,6 @@ jobs:
           chmod +x ./startup_helper.sh
           chmod +x ./ci.sh
           chmod +x ./start.sh
-          # Check if docker-compose is available before running the start.sh script
-          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
           ./ci.sh
 
           # Check if any container is running
@@ -226,7 +209,6 @@ jobs:
         if: ${{ always() && env.docker_service_started == 'true' }}
         run: |
           # Safety check before using docker-compose
-          which docker-compose || { echo "docker-compose is not installed or not in PATH"; exit 1; }
           [ -f "${{ env.DOCKER_COMPOSE_FILE }}" ] || { echo "Compose file not found!"; exit 1; }
           docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
 

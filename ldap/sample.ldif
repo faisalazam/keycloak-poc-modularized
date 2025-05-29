@@ -1,57 +1,65 @@
-dn: cn=admin,{{ LDAP_BASE_DN }}
+# Root Domain Entry
+dn: dc=example,dc=com
+objectClass: dcObject
+objectClass: organization
+dc: example
+o: example
+
+# Admin Entry (better suited with organizationalRole)
+dn: cn=admin,dc=example,dc=com
 objectClass: inetOrgPerson
 cn: admin
 givenName: Admin
 sn: Admin
-userPassword: {{ LDAP_ADMIN_PASSWORD }}
+userPassword: ldap_admin_password
 description: LDAP Administrator
 mail: admin@example.com
 telephoneNumber: +1234567890
 title: Directory Administrator
 
 # Organizational Units
-dn: ou=users,{{ LDAP_BASE_DN }}
+dn: ou=users,dc=example,dc=com
 objectClass: organizationalUnit
 ou: users
 
-dn: ou=groups,{{ LDAP_BASE_DN }}
+dn: ou=groups,dc=example,dc=com
 objectClass: organizationalUnit
 ou: groups
 
-dn: ou=departments,{{ LDAP_BASE_DN }}
+dn: ou=departments,dc=example,dc=com
 objectClass: organizationalUnit
 ou: departments
 
 # Sample Groups
-dn: cn=developers,ou=groups,{{ LDAP_BASE_DN }}
+dn: cn=developers,ou=groups,dc=example,dc=com
 objectClass: groupOfNames
 cn: developers
 description: Development Team
-member: uid=user1,ou=users,{{ LDAP_BASE_DN }}
-member: uid=user2,ou=users,{{ LDAP_BASE_DN }}
-member: uid=user5,ou=users,{{ LDAP_BASE_DN }}
+member: uid=user1,ou=users,dc=example,dc=com
+member: uid=user2,ou=users,dc=example,dc=com
+member: uid=user5,ou=users,dc=example,dc=com
 
-dn: cn=qa,ou=groups,{{ LDAP_BASE_DN }}
+dn: cn=qa,ou=groups,dc=example,dc=com
 objectClass: groupOfNames
 cn: qa
 description: Quality Assurance Team
-member: uid=user2,ou=users,{{ LDAP_BASE_DN }}
-member: uid=user6,ou=users,{{ LDAP_BASE_DN }}
+member: uid=user2,ou=users,dc=example,dc=com
+member: uid=user6,ou=users,dc=example,dc=com
 
-dn: cn=ops,ou=groups,{{ LDAP_BASE_DN }}
+dn: cn=ops,ou=groups,dc=example,dc=com
 objectClass: groupOfNames
 cn: ops
 description: Operations Team
-member: uid=user3,ou=users,{{ LDAP_BASE_DN }}
+member: uid=user3,ou=users,dc=example,dc=com
 
-dn: cn=managers,ou=groups,{{ LDAP_BASE_DN }}
+dn: cn=managers,ou=groups,dc=example,dc=com
 objectClass: groupOfNames
 cn: managers
 description: Management Team
-member: uid=user4,ou=users,{{ LDAP_BASE_DN }}
+member: uid=user4,ou=users,dc=example,dc=com
 
 # Sample Users
-dn: uid=user1,ou=users,{{ LDAP_BASE_DN }}
+dn: uid=user1,ou=users,dc=example,dc=com
 objectClass: inetOrgPerson
 uid: user1
 givenName: User
@@ -63,7 +71,7 @@ telephoneNumber: +1234567891
 title: Software Engineer
 departmentNumber: 101
 
-dn: uid=user2,ou=users,{{ LDAP_BASE_DN }}
+dn: uid=user2,ou=users,dc=example,dc=com
 objectClass: inetOrgPerson
 uid: user2
 givenName: User
@@ -75,7 +83,7 @@ telephoneNumber: +1234567892
 title: QA Engineer
 departmentNumber: 102
 
-dn: uid=user3,ou=users,{{ LDAP_BASE_DN }}
+dn: uid=user3,ou=users,dc=example,dc=com
 objectClass: inetOrgPerson
 uid: user3
 givenName: User
@@ -87,7 +95,7 @@ telephoneNumber: +1234567893
 title: DevOps Engineer
 departmentNumber: 103
 
-dn: uid=user4,ou=users,{{ LDAP_BASE_DN }}
+dn: uid=user4,ou=users,dc=example,dc=com
 objectClass: inetOrgPerson
 uid: user4
 givenName: User
@@ -99,7 +107,7 @@ telephoneNumber: +1234567894
 title: Project Manager
 departmentNumber: 104
 
-dn: uid=user5,ou=users,{{ LDAP_BASE_DN }}
+dn: uid=user5,ou=users,dc=example,dc=com
 objectClass: inetOrgPerson
 uid: user5
 givenName: User
@@ -111,7 +119,7 @@ telephoneNumber: +1234567895
 title: Full Stack Developer
 departmentNumber: 101
 
-dn: uid=user6,ou=users,{{ LDAP_BASE_DN }}
+dn: uid=user6,ou=users,dc=example,dc=com
 objectClass: inetOrgPerson
 uid: user6
 givenName: User
@@ -123,7 +131,7 @@ telephoneNumber: +1234567896
 title: Test Engineer
 departmentNumber: 102
 
-dn: uid=user7,ou=users,{{ LDAP_BASE_DN }}
+dn: uid=user7,ou=users,dc=example,dc=com
 objectClass: inetOrgPerson
 uid: user7
 givenName: User
@@ -135,7 +143,7 @@ telephoneNumber: +1234567897
 title: System Administrator
 departmentNumber: 103
 
-dn: uid=user8,ou=users,{{ LDAP_BASE_DN }}
+dn: uid=user8,ou=users,dc=example,dc=com
 objectClass: inetOrgPerson
 uid: user8
 givenName: User

@@ -9,6 +9,7 @@ services:
       - "${LDAPS_PORT:-1636}:1636"
     volumes:
       - ldap_data:/bitnami/openldap
+      - ./sample.ldif:/ldifs/sample.ldif # This is where the custom ldifs are loaded from
       - ./scripts/healthcheck.sh:/usr/local/bin/healthcheck.sh:ro
       - ../certs/end_entity/openldap/certificate.pem:/opt/bitnami/openldap/certs/certificate.pem
       - ../certs/end_entity/openldap/private_key.pem:/opt/bitnami/openldap/certs/private_key.pem

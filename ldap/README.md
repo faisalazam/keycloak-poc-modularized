@@ -44,15 +44,13 @@ The `.env` file contains the following important configuration variables:
 
 ### OpenLDAP Variables
 
-- **LDAP_PORT**: The port for LDAP access (default: `389`).
+- **LDAP_PORT**: The port for LDAP access (default: `1389`).
 - **LDAP_HOST_NAME**: The hostname for the OpenLDAP service (default: `openldap`).
 - **LDAP_DOMAIN**: The domain for your LDAP setup (default: `example.com`).
 - **LDAP_ORGANISATION**: The organization name for your LDAP (default: `example_org`).
 - **LDAP_BASE_DN**: The base DN for the LDAP directory (default: `dc=example,dc=com`).
 - **LDAP_ADMIN_PASSWORD**: The administrator password for OpenLDAP.
-- **LDAP_CONFIG_PASSWORD**: The password for configuring OpenLDAP.
-- **LDAP_TLS**: Whether to enable TLS (default: `true`).
-- **LDAP_REPLICATION**: Whether replication is enabled (default: `false`).
+- **LDAP_ENABLE_TLS**: Whether to enable TLS (default: `no`).
 - **SETUP_LDAP**: Set to true to enable LDAP integration.
 - **LDAP_URL**: URL of the LDAP server.
 - **LDAP_BIND_DN**: Distinguished Name (DN) for binding to the LDAP server.
@@ -243,7 +241,7 @@ health checks will attempt to query the respective services and ensure they resp
 To start the OpenLDAP and phpLDAPadmin services, use the following command:
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 This will build the Docker image for OpenLDAP (if not already built), start the services, and expose them on the
@@ -252,7 +250,7 @@ specified ports.
 To run the services in detached mode, use:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Option 2: Using start.sh
@@ -302,8 +300,8 @@ If you encounter issues, try the following:
 - Ensure the services are healthy by checking the logs using:
 
 ```bash
-docker-compose logs openldap
-docker-compose logs phpadmin
+docker compose logs openldap
+docker compose logs phpadmin
 ```
 
 - Check that the correct ports are exposed and not blocked by any firewall.

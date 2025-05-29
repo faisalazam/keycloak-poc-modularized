@@ -44,7 +44,7 @@ include:
     - Caches Docker images and npm dependencies to speed up subsequent runs.
     - Validates the presence of necessary Postman files (`POSTMAN_COLLECTION`, `POSTMAN_ENVIRONMENT`).
     - Installs Docker and Docker Compose using specific versions defined in the environment variables.
-    - Starts the Docker services using `docker-compose` and `start.sh`.
+    - Starts the Docker services using `docker compose` and `start.sh`.
     - Runs Newman to execute Postman tests.
     - Collects logs from Keycloak, MailHog, OpenLDAP, and other containers.
     - Prepares HTML and XML test reports with build metadata.
@@ -146,19 +146,9 @@ Caches Docker images to speed up the build process.
   run: ./install_docker.sh
 ```
 
-Installs Docker on the GitHub Actions runner.
+Installs Docker and Docker Compose (as plugin) on the GitHub Actions runner.
 
 **Official Docs**: [Install Docker](https://docs.docker.com/get-docker/)
-
-```yaml
-- name: Install Docker Compose with specific version
-  run: |
-  sudo curl -L "https://github.com/docker/compose/releases/download/v${{ env.DOCKER_COMPOSE_VERSION }}/docker-compose-$(uname -s)-$(uname -m)" \
-  -o /usr/local/bin/docker-compose
-  sudo chmod +x /usr/local/bin/docker-compose
-  docker-compose --version
-  Installs Docker Compose with the specified version.
-```
 
 **Official Docs**: [Install Docker Compose](https://docs.docker.com/compose/install)
 

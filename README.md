@@ -1,6 +1,6 @@
 [![CI](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml/badge.svg)](https://github.com/faisalazam/keycloak-poc-modularized/actions/workflows/ci.yml)
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://faisalazam.github.io/keycloak-poc-modularized/postman-report.html)
+[![Build Status](https://img.shields.io/badge/build-failing-red)](https://faisalazam.github.io/keycloak-poc-modularized/postman-report.html)
 
 ![Keycloak](https://img.shields.io/badge/Keycloak-active-blue?style=flat-square)
 ![PhpLdapAdmin](https://img.shields.io/badge/PhpLdapAdmin-active-blue?style=flat-square)
@@ -271,19 +271,19 @@ The deployment of this project is done automatically via the GitHub CI pipeline.
 To view the logs of the running containers, use the following command:
 
 ```bash
-docker-compose logs
+docker compose logs
 ```
 
 To stop all the running services, use:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 To rebuild the containers and restart the services, use:
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 ---

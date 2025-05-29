@@ -9,7 +9,9 @@ services:
       - "${LDAPS_PORT:-1636}:1636"
     volumes:
       - ldap_data:/bitnami/openldap
+      - ../certs:/opt/bitnami/openldap/certs
       - ./healthcheck.sh:/usr/local/bin/healthcheck.sh:ro
+      - ../certs/ca.crt:/usr/local/share/ca-certificates/ca.crt
     healthcheck:
       test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh"]
       interval: ${HEALTHCHECK_INTERVAL:-30s}

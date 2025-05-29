@@ -41,6 +41,7 @@ services:
         condition: service_healthy
     volumes:
       - phpldapadmin_data:/var/www/phpldapadmin
+      - ../certs/ca.crt:/container/service/ldap-client/assets/certs/${PHPLDAPADMIN_LDAP_CLIENT_TLS_CA_CRT_FILENAME}
     healthcheck:
       test: [
         "CMD",

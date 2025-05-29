@@ -16,8 +16,9 @@ services:
       - ../certs/certificate_authority/certificate_chains/root_and_intermediate_chain.bundle:/usr/local/share/ca-certificates/ca.crt
     post_start:
       - command: |
-          sh -c "chown 1001:0 /usr/local/share/ca-certificates/ca.crt && \
-          chmod 644 /usr/local/share/ca-certificates/ca.crt && \
+          sh -c "
+            chown 1001:0 /usr/local/share/ca-certificates/ca.crt && \
+            chmod 644 /usr/local/share/ca-certificates/ca.crt && \
 
             chown 1001:0 /opt/bitnami/openldap/certs/certificate.pem && \
             chown 1001:0 /opt/bitnami/openldap/certs/private_key.pem && \
@@ -27,7 +28,8 @@ services:
             chmod 600 /opt/bitnami/openldap/certs/private_key.pem && \
             chmod 644 /opt/bitnami/openldap/certs/intermediate_and_leaf_chain.bundle && \
 
-          update-ca-certificates"
+            update-ca-certificates
+          "
         user: root
     healthcheck:
       test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh"]
@@ -49,7 +51,9 @@ services:
         condition: service_healthy
     volumes:
       - phpldapadmin_data:/var/www/phpldapadmin
+      - ./phpadmin_entrypoint.sh:/container/entrypoint.sh:ro
       - ../certs/certificate_authority/certificate_chains/root_and_intermediate_chain.bundle:/container/service/ldap-client/assets/certs/${PHPLDAPADMIN_LDAP_CLIENT_TLS_CA_CRT_FILENAME}
+    entrypoint: [ "sh", "/container/entrypoint.sh" ]
     healthcheck:
       test: [
         "CMD",

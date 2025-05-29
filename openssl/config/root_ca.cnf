@@ -1,0 +1,49 @@
+[ ca ]
+default_ca = local_ca
+
+[ local_ca ]
+crl_dir = $ENV::ROOT_CRL_DIR
+serial = $ENV::ROOT_SERIAL_FILE
+private_key = $ENV::ROOT_CA_KEY
+certificate = $ENV::ROOT_CA_CERT
+database = $ENV::ROOT_DATABASE_FILE
+new_certs_dir = $ENV::SIGNED_CERTS_DIR
+
+default_md = sha256
+default_crl_days = $ENV::CRL_EXPIRY_DAYS
+default_days = $ENV::ROOT_CERT_EXPIRY_DAYS
+
+policy = local_ca_policy
+x509_extensions = root_ca_extensions
+
+copy_extensions = copy
+
+[ local_ca_policy ]
+commonName = supplied
+countryName = supplied
+emailAddress = supplied
+organizationName = supplied
+stateOrProvinceName = supplied
+organizationalUnitName = supplied
+
+[ root_ca_extensions ]
+basicConstraints = critical, CA:true, pathlen:1
+keyUsage = critical, keyCertSign, cRLSign
+authorityInfoAccess = OCSP;URI:http://ocsp.security.com
+crlDistributionPoints = URI:http://crl.security.com/root-ca.crl
+
+[ req ]
+prompt = no
+default_md = sha256
+default_bits = $ENV::RSA_KEY_SIZE
+default_keyfile = $ENV::ROOT_CA_KEY
+x509_extensions = root_ca_extensions
+distinguished_name = root_ca_distinguished_name
+
+[ root_ca_distinguished_name ]
+commonName = Root Certificate Authority
+countryName = AU
+emailAddress = support@security.com
+stateOrProvinceName = New South Wales
+organizationName = Security Organization
+organizationalUnitName = Certificate Authority

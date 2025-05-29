@@ -1,0 +1,52 @@
+[ ca ]
+default_ca = intermediate_ca
+
+[ intermediate_ca ]
+crl_dir = $ENV::INTERMEDIATE_CRL_DIR
+new_certs_dir = $ENV::SIGNED_CERTS_DIR
+serial = $ENV::INTERMEDIATE_SERIAL_FILE
+private_key = $ENV::INTERMEDIATE_CA_KEY
+certificate = $ENV::INTERMEDIATE_CA_CERT
+database = $ENV::INTERMEDIATE_DATABASE_FILE
+
+default_md = sha256
+default_crl_days = $ENV::CRL_EXPIRY_DAYS
+default_days = $ENV::INTERMEDIATE_CERT_EXPIRY_DAYS
+
+policy = intermediate_ca_policy
+x509_extensions = intermediate_ca_extensions
+
+copy_extensions = copy
+
+[ intermediate_ca_policy ]
+commonName = supplied
+countryName = supplied
+emailAddress = supplied
+organizationName = supplied
+stateOrProvinceName = supplied
+organizationalUnitName = supplied
+
+[ intermediate_ca_extensions ]
+# Extensions for intermediate CA operations (e.g., signing)
+subjectKeyIdentifier = hash
+basicConstraints = critical,CA:TRUE,pathlen:0
+keyUsage = critical, keyCertSign, cRLSign
+authorityKeyIdentifier = keyid:always,issuer
+crlDistributionPoints = URI:http://crl.security.com/intermediate-ca.crl
+
+[ req ]
+# Settings for generating the intermediate CA certificate
+prompt = no
+default_md = sha256
+default_bits = $ENV::RSA_KEY_SIZE
+default_keyfile = $ENV::INTERMEDIATE_CA_KEY
+x509_extensions = intermediate_ca_extensions
+distinguished_name = intermediate_ca_distinguished_name
+
+[ intermediate_ca_distinguished_name ]
+commonName = Intermediate Certificate Authority
+countryName = AU
+emailAddress = support@security.com
+stateOrProvinceName = New South Wales
+organizationName = Security Organization
+organizationalUnitName = Certificate Authority

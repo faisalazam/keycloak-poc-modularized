@@ -12,6 +12,15 @@ services:
       - ../certs:/opt/bitnami/openldap/certs
       - ./healthcheck.sh:/usr/local/bin/healthcheck.sh:ro
       - ../certs/ca.crt:/usr/local/share/ca-certificates/ca.crt
+    post_start:
+      - command: |
+          sh -c "chown 1001:0 /usr/local/share/ca-certificates/ca.crt && \
+          chown 1001:0 /opt/bitnami/openldap/certs/* && \
+          chmod 644 /usr/local/share/ca-certificates/ca.crt && \
+          chmod 644 /opt/bitnami/openldap/certs/*.crt && \
+          chmod 600 /opt/bitnami/openldap/certs/*.key && \
+          update-ca-certificates"
+        user: root
     healthcheck:
       test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh"]
       interval: ${HEALTHCHECK_INTERVAL:-30s}

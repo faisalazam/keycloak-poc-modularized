@@ -271,19 +271,19 @@ The deployment of this project is done automatically via the GitHub CI pipeline.
 To view the logs of the running containers, use the following command:
 
 ```bash
-docker-compose logs
+docker compose logs
 ```
 
 To stop all the running services, use:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 To rebuild the containers and restart the services, use:
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 ---

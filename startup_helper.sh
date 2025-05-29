@@ -11,7 +11,7 @@ cleanup_and_start() {
 
     # Stop and remove containers and volumes specific to this compose file
     echo "Stopping and removing containers and volumes for the current stack..."
-    docker-compose down --volumes --remove-orphans || handle_error "Failed to stop and remove containers/volumes"
+    docker compose down --volumes --remove-orphans || handle_error "Failed to stop and remove containers/volumes"
 
     # Remove the networks created by Docker Compose
     echo "Removing networks..."
@@ -28,11 +28,11 @@ cleanup_and_start() {
     fi
 
     if [ "$EXPOSE_KEYCLOAK_TO_HOST_ONLY" = "true" ]; then
-      echo "Running 'docker-compose up -d' to start the services with overrides..."
-      docker-compose -f docker-compose.yml -f override.yml up -d || handle_error "Failed to bring up services using docker-compose up"
+      echo "Running 'docker compose up -d' to start the services with overrides..."
+      docker compose -f docker-compose.yml -f override.yml up -d || handle_error "Failed to bring up services using docker compose up"
     else
-      echo "Running 'docker-compose up -d' to start the services without overrides..."
-      docker-compose -f docker-compose.yml up -d || handle_error "Failed to bring up services using docker-compose up"
+      echo "Running 'docker compose up -d' to start the services without overrides..."
+      docker compose -f docker-compose.yml up -d || handle_error "Failed to bring up services using docker compose up"
     fi
 
     echo "Services have been started successfully!"

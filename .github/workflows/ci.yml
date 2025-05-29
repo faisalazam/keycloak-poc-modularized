@@ -208,9 +208,9 @@ jobs:
       - name: Clean up Docker containers and volumes
         if: ${{ always() && env.docker_service_started == 'true' }}
         run: |
-          # Safety check before using docker-compose
+          # Safety check before using docker compose
           [ -f "${{ env.DOCKER_COMPOSE_FILE }}" ] || { echo "Compose file not found!"; exit 1; }
-          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
+          docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} down --volumes --remove-orphans
 
   deploy-gh-pages:
     name: gh-pages-deployment

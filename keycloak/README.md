@@ -441,7 +441,7 @@ To start the full infrastructure setup, run:
 OR
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 [Go to Table of Contents](#table-of-contents)

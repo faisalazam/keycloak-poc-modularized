@@ -241,7 +241,7 @@ health checks will attempt to query the respective services and ensure they resp
 To start the OpenLDAP and phpLDAPadmin services, use the following command:
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 This will build the Docker image for OpenLDAP (if not already built), start the services, and expose them on the
@@ -250,7 +250,7 @@ specified ports.
 To run the services in detached mode, use:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Option 2: Using start.sh
@@ -300,8 +300,8 @@ If you encounter issues, try the following:
 - Ensure the services are healthy by checking the logs using:
 
 ```bash
-docker-compose logs openldap
-docker-compose logs phpadmin
+docker compose logs openldap
+docker compose logs phpadmin
 ```
 
 - Check that the correct ports are exposed and not blocked by any firewall.

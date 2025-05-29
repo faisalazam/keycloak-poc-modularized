@@ -441,14 +441,14 @@ This will:
 You can also use:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 To run each service individually if needed:
 
 ```bash
-docker-compose up -d postgres
-docker-compose up -d pgadmin
+docker compose up -d postgres
+docker compose up -d pgadmin
 ```
 
 To re-build the image:
@@ -465,7 +465,7 @@ docker build -t custom-pgadmin -f Dockerfile.pgadmin .
 To stop and remove the services:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 #### Viewing Logs
@@ -473,8 +473,8 @@ docker-compose down
 To view logs for individual services:
 
 ```bash
-docker-compose logs -f postgres
-docker-compose logs -f pgadmin
+docker compose logs -f postgres
+docker compose logs -f pgadmin
 ```
 
 [Go to Table of Contents](#table-of-contents)  

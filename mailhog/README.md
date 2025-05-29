@@ -191,7 +191,7 @@ Run the following command to start MailHog and any associated services:
 You can also use:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 [Go to Table of Contents](#table-of-contents)  
@@ -267,7 +267,7 @@ the [Docker Healthcheck Documentation](https://docs.docker.com/engine/reference/
 To start MailHog in detached mode:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Stop the MailHog Service
@@ -275,7 +275,7 @@ docker-compose up -d
 To stop the service:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 [Go to Table of Contents](#table-of-contents)  
@@ -286,7 +286,7 @@ docker-compose down
 To remove MailHog and its associated volumes and networks:
 
 ```bash
-docker-compose down --volumes --remove-orphans
+docker compose down --volumes --remove-orphans
 ```
 
 ### View Logs
@@ -294,7 +294,7 @@ docker-compose down --volumes --remove-orphans
 To view the logs for MailHog:
 
 ```bash
-docker-compose logs -f mailhog
+docker compose logs -f mailhog
 ```
 
 ### Start Services Again
@@ -302,7 +302,7 @@ docker-compose logs -f mailhog
 If the services were stopped, you can restart them using:
 
 ```bash
-docker-compose start
+docker compose start
 ```
 
 [Go to Table of Contents](#table-of-contents)  

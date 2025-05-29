@@ -32,7 +32,7 @@ services:
           "
         user: root
     healthcheck:
-      test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh"]
+      test: ["CMD-SHELL", "sh /usr/local/bin/healthcheck.sh"]
       interval: ${HEALTHCHECK_INTERVAL:-30s}
       timeout: ${HEALTHCHECK_TIMEOUT:-10s}
       retries: ${HEALTHCHECK_RETRIES:-5}

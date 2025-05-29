@@ -69,6 +69,12 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
 
+      - name: OpenSSL Version
+        run: openssl version
+
+      - name: Generate certificates
+        run: sh ./scripts/generate_certificate.sh
+
       - name: Build and run services using start.sh script
         id: docker-start
         run: |

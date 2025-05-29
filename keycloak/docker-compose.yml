@@ -44,7 +44,23 @@ services:
       - ../certs/certificate_authority/certificate_chains/root_and_intermediate_chain.bundle:/opt/keycloak/conf/certs/ldap_ca.crt:ro
     networks:
       - keycloak_network
-    command: [ "start-dev", "--import-realm" ]
+    entrypoint:
+      - sh
+      - -c
+      - |
+        # KC_TRUSTSTORE_PATHS defines one or more custom CA certificates that Keycloak should trust.
+        # These are useful when integrating Keycloak with external services (like LDAP, SMTP, or third-party identity providers)
+        # that use TLS/SSL and are signed by a private or non-public certificate authority.
+        #
+        # Specify the full path(s) (comma-separated if multiple) to PEM-encoded `.crt` files, or the directory.
+        # At runtime, Keycloak will automatically import these certificates into its internal truststore.
+        if head -c 1 /opt/keycloak/conf/certs/ldap_ca.crt >/dev/null 2>&1; then
+          export KC_TRUSTSTORE_PATHS=/opt/keycloak/conf/certs/ldap_ca.crt
+          echo "KC_TRUSTSTORE_PATHS set to /opt/keycloak/conf/certs/ldap_ca.crt"
+        else
+          echo "Truststore cert not found, skipping KC_TRUSTSTORE_PATHS"
+        fi
+        exec /opt/keycloak/bin/kc.sh start-dev --import-realm
     healthcheck:
       test: >
         sh -c "

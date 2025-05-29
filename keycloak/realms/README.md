@@ -224,7 +224,7 @@ attributes, and manage users from LDAP.
           "cachePolicy": ["DEFAULT"],
           "bindDn": ["${LDAP_BIND_DN}"],
           "bindCredential": ["${LDAP_BIND_CREDENTIAL}"],
-          "connectionUrl": ["${LDAP_URL}"],
+          "connectionUrl": ["${LDAP_CONNECTION_URL}"],
           "usersDn": ["${LDAP_USERS_DN}"],
           "authType": ["simple"],
           "useTruststoreSpi": ["ldapsOnly"],

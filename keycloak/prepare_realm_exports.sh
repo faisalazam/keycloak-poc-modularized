@@ -8,6 +8,12 @@
 # If the output contains something like below, then it'd mean that it needs fixing to run on unix systems:
 # ASCII text executable, with CRLF line terminators
 
+if [ "$LDAP_ENABLE_TLS" = "yes" ]; then
+  export LDAP_CONNECTION_URL="${LDAPS_URL}"
+else
+  export LDAP_CONNECTION_URL="${LDAP_URL}"
+fi
+
 # Directory containing realm folders
 REALMS_DIR="/tmp/realms"
 

@@ -9,7 +9,7 @@ services:
       - "${LDAPS_PORT:-1636}:1636"
     volumes:
       - ldap_data:/bitnami/openldap
-      - ./healthcheck.sh:/usr/local/bin/healthcheck.sh:ro
+      - ./scripts/healthcheck.sh:/usr/local/bin/healthcheck.sh:ro
       - ../certs/end_entity/openldap/certificate.pem:/opt/bitnami/openldap/certs/certificate.pem
       - ../certs/end_entity/openldap/private_key.pem:/opt/bitnami/openldap/certs/private_key.pem
       - ../certs/end_entity/openldap/intermediate_and_leaf_chain.bundle:/opt/bitnami/openldap/certs/intermediate_and_leaf_chain.bundle
@@ -51,9 +51,9 @@ services:
         condition: service_healthy
     volumes:
       - phpldapadmin_data:/var/www/phpldapadmin
-      - ./phpadmin_entrypoint.sh:/container/entrypoint.sh:ro
+      - ./scripts/phpadmin_entrypoint.sh:/usr/local/bin/entrypoint.sh:ro
       - ../certs/certificate_authority/certificate_chains/root_and_intermediate_chain.bundle:/container/service/ldap-client/assets/certs/${PHPLDAPADMIN_LDAP_CLIENT_TLS_CA_CRT_FILENAME}
-    entrypoint: [ "sh", "/container/entrypoint.sh" ]
+    entrypoint: [ "sh", "/usr/local/bin/entrypoint.sh" ]
     healthcheck:
       test: [
         "CMD",

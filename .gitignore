@@ -30,4 +30,4 @@ bin/
 /apache-server/logs/
 /desktop.ini
 
-/certs/*
+/certs

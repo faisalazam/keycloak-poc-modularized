@@ -77,26 +77,26 @@ Example .env file:
 
 ```ini
 # PostgreSQL Settings
-POSTGRES_DB=keycloak
-POSTGRES_USER=keycloak
-POSTGRES_PASSWORD=password
+POSTGRES_DB = keycloak
+POSTGRES_USER = keycloak
+POSTGRES_PASSWORD = password
 
 # Keycloak Settings
-KEYCLOAK_PORT=8080
-KEYCLOAK_MANAGEMENT_PORT=9000
-KC_DB=postgres
-KC_DB_URL_HOST=postgres
-KC_DB_URL_DATABASE=${POSTGRES_DB}
-KC_DB_USERNAME=${POSTGRES_USER}
-KC_DB_PASSWORD=${POSTGRES_PASSWORD}
-KC_BOOTSTRAP_ADMIN_USERNAME=admin
-KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+KEYCLOAK_PORT = 8080
+KEYCLOAK_MANAGEMENT_PORT = 9000
+KC_DB = postgres
+KC_DB_URL_HOST = postgres
+KC_DB_URL_DATABASE = ${POSTGRES_DB}
+KC_DB_USERNAME = ${POSTGRES_USER}
+KC_DB_PASSWORD = ${POSTGRES_PASSWORD}
+KC_BOOTSTRAP_ADMIN_USERNAME = admin
+KC_BOOTSTRAP_ADMIN_PASSWORD = admin
 
 # Health Check Settings
-KC_HEALTH_ENABLED=true
-KEYCLOAK_HEALTHCHECK_INTERVAL=30s
-KEYCLOAK_HEALTHCHECK_TIMEOUT=10s
-KEYCLOAK_HEALTHCHECK_RETRIES=5
+KC_HEALTH_ENABLED = true
+KEYCLOAK_HEALTHCHECK_INTERVAL = 30s
+KEYCLOAK_HEALTHCHECK_TIMEOUT = 10s
+KEYCLOAK_HEALTHCHECK_RETRIES = 5
 ```
 
 [Go to Table of Contents](#table-of-contents)
@@ -256,12 +256,30 @@ keycloak:
       condition: service_completed_successfully
     postgres:
       condition: service_healthy
-  volumes:
-    - keycloak_data:/opt/keycloak/data/import
-  networks:
-    - keycloak_network
-  command: [ "start-dev", "--import-realm" ]
-  healthcheck:
+      volumes:
+        - keycloak_data:/opt/keycloak/data/import
+        # If the ../certs dir is missing, then run `../scripts/generate_certificate.sh` first to generate the certificates.
+        - ../certs/certificate_authority/certificate_chains/root_and_intermediate_chain.bundle:/opt/keycloak/conf/certs/ldap_ca.crt:ro
+    networks:
+      - keycloak_network
+    entrypoint:
+      - sh
+      - -c
+      - |
+        # KC_TRUSTSTORE_PATHS defines one or more custom CA certificates that Keycloak should trust.
+        # These are useful when integrating Keycloak with external services (like LDAP, SMTP, or third-party identity providers)
+        # that use TLS/SSL and are signed by a private or non-public certificate authority.
+        #
+        # Specify the full path(s) (comma-separated if multiple) to PEM-encoded `.crt` files, or the directory.
+        # At runtime, Keycloak will automatically import these certificates into its internal truststore.
+        if head -c 1 /opt/keycloak/conf/certs/ldap_ca.crt >/dev/null 2>&1; then
+          export KC_TRUSTSTORE_PATHS=/opt/keycloak/conf/certs/ldap_ca.crt
+          echo "KC_TRUSTSTORE_PATHS set to /opt/keycloak/conf/certs/ldap_ca.crt"
+        else
+          echo "Truststore cert not found, skipping KC_TRUSTSTORE_PATHS"
+        fi
+        exec /opt/keycloak/bin/kc.sh start-dev --import-realm
+    healthcheck:
     test: >
       sh -c "
         exec 3<>/dev/tcp/127.0.0.1/9000 && echo -n 'GET /health/ready HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n' >&3 && \
@@ -304,15 +322,21 @@ keycloak:
     - `keycloak_data:/opt/keycloak/data/import`: This mounts the `keycloak_data` Docker volume to
       `/opt/keycloak/data/import` inside the container. It's used to import realm configuration files prepared by the
       `realm-setup` service.
+    - ../certs/certificate_authority/certificate_chains/root_and_intermediate_chain.bundle:
+      /opt/keycloak/conf/certs/ldap_ca.crt:ro
+      If the ../certs dir is missing, then run `../scripts/generate_certificate.sh` first to generate the certificates,
+      so that keycloak can communicate with LDAP on secure port.
+
 
 7. **`networks:`**
     - `keycloak_network`: Attaches the container to the `keycloak_network` network, allowing it to communicate with
       other containers, like the PostgreSQL database and `realm-setup`.
 
-8. **`command:`**
-    - `["start-dev", "--import-realm"]`: This specifies the command to run when the Keycloak container starts. In this
-      case, it runs Keycloak in development mode (`start-dev`) and automatically imports realms using the
-      `--import-realm` flag.
+8. **`entrypoint:`**
+    - Set the `KC_TRUSTSTORE_PATHS` to configure the `Keycloak -> LDAP` secure connection.
+    - `exec /opt/keycloak/bin/kc.sh start-dev --import-realm`: This specifies the command to run when the Keycloak
+      container starts. In this case, it runs Keycloak in development mode (`start-dev`) and automatically imports
+      realms using the `--import-realm` flag.
 
 9. **`healthcheck:`**  
    Defines a health check for the container to ensure that Keycloak is ready to accept requests.

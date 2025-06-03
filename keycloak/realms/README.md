@@ -227,7 +227,7 @@ attributes, and manage users from LDAP.
           "connectionUrl": ["${LDAP_CONNECTION_URL}"],
           "usersDn": ["${LDAP_USERS_DN}"],
           "authType": ["simple"],
-          "useTruststoreSpi": ["ldapsOnly"],
+          "useTruststoreSpi": ["always"],
           "connectionPooling": ["true"],
           "connectionTimeout": ["5000"],
           "startTls": ["false"],

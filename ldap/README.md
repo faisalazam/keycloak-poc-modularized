@@ -40,32 +40,84 @@ Official documentation links:
 
 ## Environment Variables
 
-The `.env` file contains the following important configuration variables:
+The `.env` file contains important configuration variables for OpenLDAP and phpLDAPadmin services.
 
-### OpenLDAP Variables
+### 🔐 OpenLDAP Variables
 
-- **LDAP_PORT**: The port for LDAP access (default: `1389`).
-- **LDAP_HOST_NAME**: The hostname for the OpenLDAP service (default: `openldap`).
-- **LDAP_DOMAIN**: The domain for your LDAP setup (default: `example.com`).
-- **LDAP_ORGANISATION**: The organization name for your LDAP (default: `example_org`).
-- **LDAP_BASE_DN**: The base DN for the LDAP directory (default: `dc=example,dc=com`).
-- **LDAP_ADMIN_PASSWORD**: The administrator password for OpenLDAP.
-- **LDAP_ENABLE_TLS**: Whether to enable TLS (default: `no`).
-- **SETUP_LDAP**: Set to true to enable LDAP integration.
-- **LDAP_URL**: URL of the LDAP server.
-- **LDAP_BIND_DN**: Distinguished Name (DN) for binding to the LDAP server.
-- **LDAP_BIND_CREDENTIAL**: Password for the bind DN.
-- **LDAP_USERS_DN**: DN to use for querying users.
+- **LDAP_PORT**: Port for plain LDAP (default: `1389`).
+- **LDAPS_PORT**: Port for secure LDAPS (default: `1636`).
+- **LDAP_HOST_NAME**: Hostname of the OpenLDAP container (default: `openldap`).
+- **LDAP_DOMAIN**: Domain for LDAP setup (e.g. `example.com`).
+- **LDAP_ROOT / LDAP_BASE_DN**: Base DN for LDAP (e.g. `dc=example,dc=com`).
+- **LDAP_ORGANIZATION**: Organization name (e.g. `example_org`).
+- **LDAP_ADMIN_USERNAME**: LDAP admin username (default: `admin`).
+- **LDAP_ADMIN_PASSWORD**: Password for the admin user.
+- **SETUP_LDAP**: Toggle for enabling LDAP integration (default: `false`).
+- **LDAP_BIND_DN**: Bind DN used by clients to authenticate (e.g. `cn=admin,dc=example,dc=com`).
+- **LDAP_BIND_CREDENTIAL**: Password for the bind DN (same as `LDAP_ADMIN_PASSWORD`).
+- **LDAP_USERS_DN**: DN under which users are located (e.g. `ou=users,dc=example,dc=com`).
 
-### phpLDAPadmin Variables
+#### TLS Settings
 
-- **PHP_LDAPADMIN_PORT**: The port for accessing phpLDAPadmin (default: `6443`).
-- **PHPLDAPADMIN_HTTPS**: Whether to use HTTPS for phpLDAPadmin (default: `false`).
-- **PHP_ADMIN_HOST_NAME**: The hostname for the phpLDAPadmin service (default: `phpldapadmin`).
-- **PHPLDAPADMIN_LDAP_HOSTS**: The host(s) for the OpenLDAP service (defaults to `${LDAP_HOST_NAME}`).
+- **LDAP_ENABLE_TLS**: Enable TLS (yes/no).
+- **LDAP_REQUIRE_TLS**: Enforce TLS-only connections (yes/no).
+- **LDAPTLS_REQCERT**: Client certificate verification policy (`demand`, `allow`, etc.).
+- **LDAP_TLS_KEY_FILE**: Path to the TLS private key file.
+- **LDAP_TLS_CERT_FILE**: Path to the TLS certificate file.
+- **LDAP_TLS_CA_FILE**: Path to the CA bundle used for TLS trust.
+
+#### Health Check
+
+- **LDAP_HEALTHCHECK_INTERVAL**: Interval between health checks (e.g. `30s`).
+- **LDAP_HEALTHCHECK_TIMEOUT**: Timeout for health checks (e.g. `10s`).
+- **LDAP_HEALTHCHECK_RETRIES**: Number of retries before marking unhealthy.
+
+#### URLs
+
+- **LDAP_URL**: Plain LDAP URL for client access (e.g. `ldap://openldap:1389`).
+- **LDAPS_URL**: Secure LDAPS URL (e.g. `ldaps://openldap:1636`).
+
+---
+
+### 🧭 phpLDAPadmin Variables
+
+- **PHP_LDAPADMIN_PORT**: Port for accessing phpLDAPadmin (default: `6443`).
+- **PHPLDAPADMIN_HTTPS**: Enable HTTPS for phpLDAPadmin (default: `false`).
+- **PHP_ADMIN_HOST_NAME**: Hostname for the phpLDAPadmin service (default: `phpldapadmin`).
+- **PHPLDAPADMIN_LDAP_HOSTS**: LDAP server(s) phpLDAPadmin should connect to. It is set from the
+  `phpadmin_entrypoint.sh` script based on the `LDAP_ENABLE_TLS` flag.
+
+#### TLS (Client)
+
+- **PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT**: TLS cert validation policy (e.g. `demand`).
+- **PHPLDAPADMIN_LDAP_CLIENT_TLS_CA_CRT_FILENAME**: Filename for trusted CA certificate (e.g. `ldap_ca.crt`).
+
+---
+
+### 🧪 Quick LDAP Search Examples
+
+```sh
+# Plain LDAP
+ldapsearch -H ldap://127.0.0.1:1389 \
+  -x -b "dc=example,dc=com" \
+  -D "cn=admin,dc=example,dc=com" \
+  -w ldap_admin_password
+
+# Secure LDAPS
+ldapsearch -H ldaps://127.0.0.1:1636 \
+  -x -b "dc=example,dc=com" \
+  -D "cn=admin,dc=example,dc=com" \
+  -w ldap_admin_password
+
+# Secure LDAPS
+ldapsearch -H ldaps://openldap:1636 \
+  -x -b "dc=example,dc=com" \
+  -D "cn=admin,dc=example,dc=com" \
+  -w ldap_admin_password
+```
 
 For more information on environment variables, refer to the
-official [osixia/openldap documentation](https://github.com/osixia/docker-openldap)
+official [bitnami/openldap documentation](https://github.com/bitnami/containers/tree/main/bitnami/openldap)
 and [phpLDAPadmin Docker documentation](https://hub.docker.com/r/osixia/phpldapadmin/).
 
 [Go to Table of Contents](#table-of-contents)  
@@ -75,49 +127,13 @@ and [phpLDAPadmin Docker documentation](https://hub.docker.com/r/osixia/phpldapa
 
 ## Docker Setup
 
-This folder contains two key files for the Docker setup: `Dockerfile` and `docker-compose.yml`.
-
-### Dockerfile
-
-The `Dockerfile` builds a custom image for OpenLDAP by adding the `sample.ldif` file to the container. This file
-contains example data that will be imported into the LDAP server when the container is started.
-
-```dockerfile
-FROM osixia/openldap:stable
-
-# Add the LDIF file to the container's assets directory
-ADD sample.ldif /container/service/slapd/assets/config/bootstrap/ldif/sample.ldif
-
-# You do not need to run /container/tool/run manually;
-# the container will take care of it automatically
-```
-
-#### Detailed Explanation:
-
-- **FROM osixia/openldap**: This line pulls the base `osixia/openldap` image, which contains a stable version of
-  OpenLDAP.
-- **ADD sample.ldif**: This command adds the `sample.ldif` file from the local directory to the container’s specific
-  assets directory. This LDIF file contains example LDAP entries (e.g., users, groups) that will be automatically
-  imported into the LDAP database during container startup.
-
-The container will automatically run the necessary startup commands: The OpenLDAP container will automatically apply the
-`sample.ldif` file to its LDAP database, ensuring it is populated with example data when the service is initialized.
-
-#### To rebuild the image:
-
-If you need to rebuild the image, run the following command:
-
-```bash
-docker build -t custom-openldap -f Dockerfile .
-```
-
-This will build the Docker image using the specified Dockerfile and tag it as custom-openldap.
+This folder contains the key file for the Docker setup: `docker-compose.yml`.
 
 ### docker-compose.yml
 
 The `docker-compose.yml` file defines two services: `openldap` and `phpadmin`.
 
-- **openldap**: This service runs OpenLDAP using the `osixia/openldap` image. It is configured with the environment
+- **openldap**: This service runs OpenLDAP using the `bitnami/openldap` image. It is configured with the environment
   variables provided in the `.env` file, exposes ports for both LDAP and LDAPS, and includes a health check to verify
   the service is functioning.
 - **phpadmin**: This service runs phpLDAPadmin using the `osixia/phpldapadmin` image. It depends on the OpenLDAP service
@@ -129,29 +145,40 @@ The `docker-compose.yml` file defines two services: `openldap` and `phpadmin`.
 ```yaml
 services:
   openldap:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: custom-openldap:latest
+    image: bitnami/openldap:2.6.10
     container_name: ${LDAP_HOST_NAME}
     env_file:
       - ./.env
     ports:
-      - "${LDAP_PORT:-389}:389"
-      - "${LDAPS_PORT:-636}:636"
-    command: --copy-service
+      - "${LDAP_PORT:-1389}:1389"
+      - "${LDAPS_PORT:-1636}:1636"
     volumes:
-      - ldap_data:/var/lib/ldap
-      - ldap_config:/etc/ldap/slapd.d
+      - ldap_data:/bitnami/openldap
+      - ./sample.ldif:/ldifs/sample.ldif # This is where the custom ldifs are loaded from
+      - ./scripts/healthcheck.sh:/usr/local/bin/healthcheck.sh:ro
+      - ../certs/end_entity/openldap/certificate.pem:/opt/bitnami/openldap/certs/certificate.pem
+      - ../certs/end_entity/openldap/private_key.pem:/opt/bitnami/openldap/certs/private_key.pem
+      - ../certs/end_entity/openldap/intermediate_and_leaf_chain.bundle:/opt/bitnami/openldap/certs/intermediate_and_leaf_chain.bundle
+      - ../certs/certificate_authority/certificate_chains/root_and_intermediate_chain.bundle:/usr/local/share/ca-certificates/ca.crt
+    post_start:
+      - command: |
+          sh -c "
+            chown 1001:0 /usr/local/share/ca-certificates/ca.crt && \
+            chmod 644 /usr/local/share/ca-certificates/ca.crt && \
+
+            chown 1001:0 /opt/bitnami/openldap/certs/certificate.pem && \
+            chown 1001:0 /opt/bitnami/openldap/certs/private_key.pem && \
+            chown 1001:0 /opt/bitnami/openldap/certs/intermediate_and_leaf_chain.bundle && \
+
+            chmod 644 /opt/bitnami/openldap/certs/certificate.pem && \
+            chmod 600 /opt/bitnami/openldap/certs/private_key.pem && \
+            chmod 644 /opt/bitnami/openldap/certs/intermediate_and_leaf_chain.bundle && \
+
+            update-ca-certificates
+          "
+        user: root
     healthcheck:
-      test: [
-        "CMD",
-        "ldapsearch",
-        "-x",
-        "-b", "${LDAP_BASE_DN}",
-        "-D", "cn=admin,${LDAP_BASE_DN}",
-        "-w", "${LDAP_ADMIN_PASSWORD}"
-      ]
+      test: [ "CMD-SHELL", "sh /usr/local/bin/healthcheck.sh" ]
       interval: ${HEALTHCHECK_INTERVAL:-30s}
       timeout: ${HEALTHCHECK_TIMEOUT:-10s}
       retries: ${HEALTHCHECK_RETRIES:-5}
@@ -170,6 +197,10 @@ services:
         condition: service_healthy
     volumes:
       - phpldapadmin_data:/var/www/phpldapadmin
+      - ./scripts/phpadmin_entrypoint.sh:/usr/local/bin/entrypoint.sh:ro
+      # If the ../certs dir is missing, then run `../scripts/generate_certificate.sh` first to generate the certificates.
+      - ../certs/certificate_authority/certificate_chains/root_and_intermediate_chain.bundle:/container/service/ldap-client/assets/certs/${PHPLDAPADMIN_LDAP_CLIENT_TLS_CA_CRT_FILENAME}
+    entrypoint: [ "sh", "/usr/local/bin/entrypoint.sh" ]
     healthcheck:
       test: [
         "CMD",
@@ -186,32 +217,19 @@ services:
 
 ##### Detailed Explanation:
 
-- **build context:**
-    - `context: .` tells Docker Compose to use the current directory as the context for the build process.
-    - `dockerfile: Dockerfile` specifies that the `Dockerfile` in the current directory should be used to build the
-      image.
-
 - **image:**
-    - The image tag specifies the name and optionally the tag for the image that will be created (e.g.,
-      `custom-openldap:latest`).
-    - This tag ensures that the built image will be named `custom-openldap` with the `latest` tag.
-    - The `latest` tag ensures you always get the most recent build of this image when running the container.
+    - The image tag specifies the name and optionally the tag for the image that will be used (e.g.,
+      `bitnami/openldap:2.6.10`).
+    - This tag ensures that the used image will be named `bitnami/openldap` with the `2.6.10` tag.
+    - The `2.6.10` tag ensures you always get the stable build of this image when running the container.
 
 - **volumes:**
-    - Volumes are used to persist the OpenLDAP data and configuration across container restarts.
-    - The volume `ldap_data` stores the LDAP database, and `ldap_config` stores the LDAP configuration.
+    - Volumes are used to persist the OpenLDAP data across container restarts.
+    - The volume `ldap_data` stores the LDAP related data.
 
 - **healthcheck:**
     - This configuration ensures that Docker continuously monitors the health of the container. It runs an `ldapsearch`
       command to check if the LDAP service is running correctly.
-
-##### Rebuilding the OpenLDAP image:
-
-To rebuild the image (if necessary), run:
-
-```bash
-docker build -t custom-openldap -f Dockerfile .
-```
 
 For more information about `docker-compose.yml` configuration, refer to the
 official [Docker Compose documentation](https://docs.docker.com/compose/).
@@ -321,6 +339,10 @@ and [phpLDAPadmin troubleshooting](https://github.com/osixia/docker-phpLDAPadmin
 
 This `sample.ldif` file contains LDAP data in **LDIF (LDAP Data Interchange Format)**, a standard for representing
 directory service entries. It includes users, organizational units (OUs), and groups for an LDAP directory structure.
+
+The file is automatically imported into the LDAP server when the container starts, ensuring the directory is
+pre-populated with example data.
+
 Here’s a breakdown of what the file contains and how it works:
 
 1. **LDAP Base DN**:
@@ -377,8 +399,7 @@ Here’s a breakdown of what the file contains and how it works:
 
 - This `sample.ldif` can be imported into your LDAP server to populate it with sample data.
 - If using Docker with OpenLDAP, the `LDIF` file should be placed in a directory that is mounted to the container at the
-  appropriate path (e.g., `/container/service/slapd/assets/config/bootstrap/ldif/`). This ensures that the data is
-  automatically imported when the container starts.
+  appropriate path (e.g., `/ldifs/`). This ensures that the data is automatically imported when the container starts.
 
 [Go to Table of Contents](#table-of-contents)  
 [Go back to Project](../README.md)

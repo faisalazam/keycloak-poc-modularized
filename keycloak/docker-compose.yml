@@ -41,6 +41,7 @@ services:
         condition: service_healthy
     volumes:
       - keycloak_data:/opt/keycloak/data/import
+      # If the ../certs dir is missing, then run `../scripts/generate_certificate.sh` first to generate the certificates.
       - ../certs/certificate_authority/certificate_chains/root_and_intermediate_chain.bundle:/opt/keycloak/conf/certs/ldap_ca.crt:ro
     networks:
       - keycloak_network

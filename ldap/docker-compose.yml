@@ -11,6 +11,7 @@ services:
       - ldap_data:/bitnami/openldap
       - ./sample.ldif:/ldifs/sample.ldif # This is where the custom ldifs are loaded from
       - ./scripts/healthcheck.sh:/usr/local/bin/healthcheck.sh:ro
+      # If the ../certs dir is missing, then run `../scripts/generate_certificate.sh` first to generate the certificates.
       - ../certs/end_entity/openldap/certificate.pem:/opt/bitnami/openldap/certs/certificate.pem
       - ../certs/end_entity/openldap/private_key.pem:/opt/bitnami/openldap/certs/private_key.pem
       - ../certs/end_entity/openldap/intermediate_and_leaf_chain.bundle:/opt/bitnami/openldap/certs/intermediate_and_leaf_chain.bundle
@@ -53,6 +54,7 @@ services:
     volumes:
       - phpldapadmin_data:/var/www/phpldapadmin
       - ./scripts/phpadmin_entrypoint.sh:/usr/local/bin/entrypoint.sh:ro
+      # If the ../certs dir is missing, then run `../scripts/generate_certificate.sh` first to generate the certificates.
       - ../certs/certificate_authority/certificate_chains/root_and_intermediate_chain.bundle:/container/service/ldap-client/assets/certs/${PHPLDAPADMIN_LDAP_CLIENT_TLS_CA_CRT_FILENAME}
     entrypoint: [ "sh", "/usr/local/bin/entrypoint.sh" ]
     healthcheck:

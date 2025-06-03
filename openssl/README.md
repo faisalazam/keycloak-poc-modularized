@@ -18,29 +18,43 @@ environment. It ensures that the certificates follow industry standards for TLS 
 ## **Usage**
 
 1. Clone the repository and navigate to the script directory.
-2. Configure the necessary parameters in `DeployHub/scripts/generate_certificate.sh` and `DeployHub/certs/config/*.cnf`
-   files.
+2. Configure the necessary parameters in `keycloak-poc-modularized/scripts/generate_certificate.sh` and
+   `keycloak-poc-modularized/openssl/config/*.cnf` files.
 3. Run the script:
 
 ```sh
-cd DeployHub/scripts
+cd keycloak-poc-modularized/scripts
 ./generate_certificate.sh
 ```
 
 ## **Directory Structure**
 
 - `certs/`: Contains generated certificates and keys.
-    - `vaultCA/`: Root CA files and server certificates.
-    - `config/`: OpenSSL configuration files.
-    - `database/`: Files required for the OpenSSL CA database.
-- `scripts/`: Contains the main script and supporting files.
+- `openssl/config/`: OpenSSL configuration files.
+- `scripts/`: Contains the main script file.
 
 ## **Output**
 
-- Root CA Certificate: `certs/vaultCA/cacert.pem`
-- Server Key: `certs/vaultCA/server/private_key.pem`
-- Server Certificate: `certs/vaultCA/server/certificate.pem`
-- Full Chain: `certs/vaultCA/server/intermediate_and_leaf_chain.bundle`
+- **Root CA Certificate**:  
+  `certs/certificate_authority/root/cacert.pem`
+
+- **Intermediate CA Certificate**:  
+  `certs/certificate_authority/intermediate/cacert.pem`
+
+- **Root + Intermediate Chain**:  
+  `certs/certificate_authority/certificate_chains/root_and_intermediate_chain.bundle`
+
+- **Server Certificate & Key (OpenLDAP)**:
+  - Certificate: `certs/end_entity/openldap/certificate.pem`
+  - Private Key: `certs/end_entity/openldap/private_key.pem`
+  - Full Chain (Intermediate + Server): `certs/end_entity/openldap/intermediate_and_leaf_chain.bundle`
+
+- **CRLs (Certificate Revocation Lists)**:
+  - Root: `certs/certificate_authority/root/crl/root_ca.crl`
+  - Intermediate: `certs/certificate_authority/intermediate/crl/intermediate_ca.crl`
+
+- **CA Database Files**:  
+  Located under `certs/ca_database/`, separated into `root/` and `intermediate/` folders.
 
 ## **Validation**
 
@@ -52,7 +66,7 @@ cd DeployHub/scripts
 ## **Customization**
 
 - Modify key size, passphrase, and expiration days in the script.
-- Update SANs in `certs/config/server.cnf` for your environment.
+- Update SANs in `openssl/config/openldap.cnf` for your environment.
 
 ## **Sharing .p12 Files with Private Keys**
 

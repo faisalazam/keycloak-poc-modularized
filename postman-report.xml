@@ -1,86 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	Build Number: 207
+	Build Number: 208
 	Workflow: CI/CD Workflow
-	Commit: c12cf4524d1ceb2092be75af7190e54c9200f47c
+	Commit: 8efcb7befa36002d27dd3e7237def020e9f7213e
 	Project Link: https://faisalazam.github.io/keycloak-poc-modularized
 -->
-<testsuites name="Keycloak" tests="39" time="1.593">
-  <testsuite name="User/Auth Management / Login / Login - Admin" id="17a92daf-2f2d-454c-8ab0-8361bce53dc0" timestamp="2025-05-29T12:17:57.283Z" tests="4" failures="0" errors="0" time="0.076">
-    <testcase name="Status code is 200" time="0.076" classname="Keycloak"/>
-    <testcase name="Response body contains access token" time="0.076" classname="Keycloak"/>
-    <testcase name="Log token for debugging" time="0.076" classname="Keycloak"/>
-    <testcase name="Handle error if status code is not 200" time="0.076" classname="Keycloak"/>
+<testsuites name="Keycloak" tests="39" time="1.702">
+  <testsuite name="User/Auth Management / Login / Login - Admin" id="b61827ed-15ba-4b8b-82c8-28227d088d00" timestamp="2025-06-03T02:15:07.220Z" tests="4" failures="0" errors="0" time="0.068">
+    <testcase name="Status code is 200" time="0.068" classname="Keycloak"/>
+    <testcase name="Response body contains access token" time="0.068" classname="Keycloak"/>
+    <testcase name="Log token for debugging" time="0.068" classname="Keycloak"/>
+    <testcase name="Handle error if status code is not 200" time="0.068" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="User/Auth Management / Login / Login - User" id="f1b22efb-bce9-432e-b945-8ef59b46a252" timestamp="2025-05-29T12:17:57.283Z" tests="4" failures="0" errors="0" time="0.029">
-    <testcase name="Status code is 200" time="0.029" classname="Keycloak"/>
-    <testcase name="Response body contains access token" time="0.029" classname="Keycloak"/>
-    <testcase name="Log token for debugging" time="0.029" classname="Keycloak"/>
-    <testcase name="Handle error if status code is not 200" time="0.029" classname="Keycloak"/>
+  <testsuite name="User/Auth Management / Login / Login - User" id="b6f6f3fc-a287-4999-8f66-eb93519dc4cb" timestamp="2025-06-03T02:15:07.220Z" tests="4" failures="0" errors="0" time="0.034">
+    <testcase name="Status code is 200" time="0.034" classname="Keycloak"/>
+    <testcase name="Response body contains access token" time="0.034" classname="Keycloak"/>
+    <testcase name="Log token for debugging" time="0.034" classname="Keycloak"/>
+    <testcase name="Handle error if status code is not 200" time="0.034" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="User/Auth Management / Logout / 1 - Login - User" id="6998d282-b7d2-490d-b294-2f293332816b" timestamp="2025-05-29T12:17:57.283Z" tests="1" failures="0" errors="0" time="0.014">
-    <testcase name="Login - User: Access token retrieved and stored" time="0.014" classname="Keycloak"/>
+  <testsuite name="User/Auth Management / Logout / 1 - Login - User" id="c2bb9cff-9582-431d-ab52-82a496b91e06" timestamp="2025-06-03T02:15:07.220Z" tests="1" failures="0" errors="0" time="0.019">
+    <testcase name="Login - User: Access token retrieved and stored" time="0.019" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="User/Auth Management / Logout / 2 - Logout - User" id="8c0a717b-6abc-44fe-a8bf-5bc2b363fab3" timestamp="2025-05-29T12:17:57.283Z" tests="2" failures="0" errors="0" time="0.295">
-    <testcase name="Logout - User: Logout request successful" time="0.295" classname="Keycloak"/>
-    <testcase name="Handle error if status code is not 200" time="0.295" classname="Keycloak"/>
+  <testsuite name="User/Auth Management / Logout / 2 - Logout - User" id="49610081-a7c5-4215-8a5d-358cf58ea362" timestamp="2025-06-03T02:15:07.220Z" tests="2" failures="0" errors="0" time="0.377">
+    <testcase name="Logout - User: Logout request successful" time="0.377" classname="Keycloak"/>
+    <testcase name="Handle error if status code is not 200" time="0.377" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="User/Auth Management / Get User Info / 1 - Login - User" id="e143acd6-482f-4b8f-93a2-3ede9960f17e" timestamp="2025-05-29T12:17:57.283Z" tests="1" failures="0" errors="0" time="0.013">
+  <testsuite name="User/Auth Management / Get User Info / 1 - Login - User" id="c123a67b-63bb-4038-a79b-965adc8e1c79" timestamp="2025-06-03T02:15:07.220Z" tests="1" failures="0" errors="0" time="0.013">
     <testcase name="User Login: Status code should be 200" time="0.013" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="User/Auth Management / Get User Info / 2 - Get User (Name)" id="3fdeb69d-d84b-4287-8490-d6a84914c372" timestamp="2025-05-29T12:17:57.283Z" tests="1" failures="0" errors="0" time="0.172">
-    <testcase name="Get User (Name): User retrieval status should be 200" time="0.172" classname="Keycloak"/>
+  <testsuite name="User/Auth Management / Get User Info / 2 - Get User (Name)" id="a4f269ae-1b95-4564-86d4-301f9ecd9b4a" timestamp="2025-06-03T02:15:07.220Z" tests="1" failures="0" errors="0" time="0.179">
+    <testcase name="Get User (Name): User retrieval status should be 200" time="0.179" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="User/Auth Management / Get User Info / 3 - Get User Info" id="b172eded-f29c-4fbd-8835-6c7ba4e988af" timestamp="2025-05-29T12:17:57.283Z" tests="2" failures="0" errors="0" time="0.070">
-    <testcase name="Get User Info: Response status should be 200" time="0.070" classname="Keycloak"/>
-    <testcase name="User info should have valid structure" time="0.070" classname="Keycloak"/>
+  <testsuite name="User/Auth Management / Get User Info / 3 - Get User Info" id="5624de10-e8fe-45d7-8ead-94edf64cfde9" timestamp="2025-06-03T02:15:07.220Z" tests="2" failures="0" errors="0" time="0.072">
+    <testcase name="Get User Info: Response status should be 200" time="0.072" classname="Keycloak"/>
+    <testcase name="User info should have valid structure" time="0.072" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="User/Auth Management / Delete User / 1 - Login - User" id="6b8e6945-6fe3-406c-b91a-3425eea2ad59" timestamp="2025-05-29T12:17:57.283Z" tests="1" failures="0" errors="0" time="0.011">
-    <testcase name="User Login: Status code should be 200" time="0.011" classname="Keycloak"/>
-  </testsuite>
-  <testsuite name="User/Auth Management / Delete User / 2 - Get User (Name)" id="e4845c59-34b8-4baf-a372-3a199db8e253" timestamp="2025-05-29T12:17:57.283Z" tests="1" failures="0" errors="0" time="0.065">
-    <testcase name="Get User (Name): User retrieval status should be 200" time="0.065" classname="Keycloak"/>
-  </testsuite>
-  <testsuite name="User/Auth Management / Delete User / 3 - Delete User - Admin" id="4184254f-c814-4c2b-8633-732b750fc10b" timestamp="2025-05-29T12:17:57.283Z" tests="2" failures="0" errors="0" time="0.211">
-    <testcase name="Delete User: User should be deleted successfully" time="0.211" classname="Keycloak"/>
-    <testcase name="Ensure no unexpected error during deletion" time="0.211" classname="Keycloak"/>
-  </testsuite>
-  <testsuite name="User/Auth Management / Delete User / 4 - Get User (Name) - Admin" id="76eaaf05-609a-42d5-b9f8-fa2b186d3162" timestamp="2025-05-29T12:17:57.283Z" tests="1" failures="0" errors="0" time="0.057">
-    <testcase name="Negative Test - User retrieval should return no data" time="0.057" classname="Keycloak"/>
-  </testsuite>
-  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 1 - Login - User" id="af699bb2-cda3-444a-bb68-5b596215b3ac" timestamp="2025-05-29T12:17:57.283Z" tests="1" failures="0" errors="0" time="0.010">
+  <testsuite name="User/Auth Management / Delete User / 1 - Login - User" id="6bc618fe-c994-458c-ba0a-9609dbf4cbcd" timestamp="2025-06-03T02:15:07.220Z" tests="1" failures="0" errors="0" time="0.010">
     <testcase name="User Login: Status code should be 200" time="0.010" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 2 - Get User (Email)" id="be91c340-c762-4d1d-b8d8-e720d34c0641" timestamp="2025-05-29T12:17:57.283Z" tests="1" failures="0" errors="0" time="0.058">
-    <testcase name="User ID retrieved successfully" time="0.058" classname="Keycloak"/>
+  <testsuite name="User/Auth Management / Delete User / 2 - Get User (Name)" id="0518ebac-385c-4ce6-9ace-5d57132151e4" timestamp="2025-06-03T02:15:07.220Z" tests="1" failures="0" errors="0" time="0.069">
+    <testcase name="Get User (Name): User retrieval status should be 200" time="0.069" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 3 - Update Password - Trigger Email" id="c11932a1-fa65-4c62-a1be-e5844d10ab70" timestamp="2025-05-29T12:17:57.283Z" tests="2" failures="0" errors="0" time="0.100">
-    <testcase name="User ID and Access Token set correctly" time="0.100" classname="Keycloak"/>
-    <testcase name="Password reset email sent successfully" time="0.100" classname="Keycloak"/>
+  <testsuite name="User/Auth Management / Delete User / 3 - Delete User - Admin" id="5d132245-757d-497c-844d-6276ec671421" timestamp="2025-06-03T02:15:07.220Z" tests="2" failures="0" errors="0" time="0.227">
+    <testcase name="Delete User: User should be deleted successfully" time="0.227" classname="Keycloak"/>
+    <testcase name="Ensure no unexpected error during deletion" time="0.227" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="User/Auth Management / Reset Password Directly / 1 - Login - User" id="232c1962-a894-40a2-a14f-75dea9b1f406" timestamp="2025-05-29T12:17:57.283Z" tests="1" failures="0" errors="0" time="0.019">
-    <testcase name="User Login: Status code should be 200" time="0.019" classname="Keycloak"/>
+  <testsuite name="User/Auth Management / Delete User / 4 - Get User (Name) - Admin" id="16a99c99-dab0-44b4-bade-4603ba867d74" timestamp="2025-06-03T02:15:07.220Z" tests="1" failures="0" errors="0" time="0.056">
+    <testcase name="Negative Test - User retrieval should return no data" time="0.056" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="User/Auth Management / Reset Password Directly / 2 - Get User (Email)" id="e94ed125-4260-4e6e-904c-1762e08d8f1a" timestamp="2025-05-29T12:17:57.283Z" tests="1" failures="0" errors="0" time="0.060">
+  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 1 - Login - User" id="5b604692-b914-41bc-85ec-c1b1a3f68253" timestamp="2025-06-03T02:15:07.220Z" tests="1" failures="0" errors="0" time="0.010">
+    <testcase name="User Login: Status code should be 200" time="0.010" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 2 - Get User (Email)" id="285c3415-226c-480c-aff7-6582459630fb" timestamp="2025-06-03T02:15:07.220Z" tests="1" failures="0" errors="0" time="0.060">
     <testcase name="User ID retrieved successfully" time="0.060" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="User/Auth Management / Reset Password Directly / 3 - Reset Password" id="d70171a2-6217-4353-a723-713786e329e8" timestamp="2025-05-29T12:17:57.283Z" tests="1" failures="0" errors="0" time="0.048">
+  <testsuite name="User/Auth Management / Reset/Forgot Password via Email / 3 - Update Password - Trigger Email" id="294f2fe1-26bb-452e-a01a-e4acf41b124c" timestamp="2025-06-03T02:15:07.220Z" tests="2" failures="0" errors="0" time="0.092">
+    <testcase name="User ID and Access Token set correctly" time="0.092" classname="Keycloak"/>
+    <testcase name="Password reset email sent successfully" time="0.092" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Reset Password Directly / 1 - Login - User" id="91d2dda6-ab08-403c-8d89-3d154868b138" timestamp="2025-06-03T02:15:07.220Z" tests="1" failures="0" errors="0" time="0.009">
+    <testcase name="User Login: Status code should be 200" time="0.009" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Reset Password Directly / 2 - Get User (Email)" id="7db09ca3-e87a-4fb4-8669-2e360db9f4b4" timestamp="2025-06-03T02:15:07.220Z" tests="1" failures="0" errors="0" time="0.057">
+    <testcase name="User ID retrieved successfully" time="0.057" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="User/Auth Management / Reset Password Directly / 3 - Reset Password" id="6743b092-ccee-4832-b6f4-aecd9812d374" timestamp="2025-06-03T02:15:07.220Z" tests="1" failures="0" errors="0" time="0.048">
     <testcase name="Password reset successfully" time="0.048" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Config Management / Update Client Props / 1 - Login - User" id="de17b875-7973-4708-ab1e-42711517bbe1" timestamp="2025-05-29T12:17:57.283Z" tests="1" failures="0" errors="0" time="0.013">
-    <testcase name="User Login: Status code should be 200" time="0.013" classname="Keycloak"/>
+  <testsuite name="Config Management / Update Client Props / 1 - Login - User" id="12578207-95f9-4b47-8bf6-3612abb0b42f" timestamp="2025-06-03T02:15:07.220Z" tests="1" failures="0" errors="0" time="0.014">
+    <testcase name="User Login: Status code should be 200" time="0.014" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Config Management / Update Client Props / 2 - Client Info" id="62361828-50b4-41a2-a434-f1c18fed6903" timestamp="2025-05-29T12:17:57.283Z" tests="4" failures="0" errors="0" time="0.008">
-    <testcase name="Status code is 200" time="0.008" classname="Keycloak"/>
-    <testcase name="Response contains client array with at least one item" time="0.008" classname="Keycloak"/>
-    <testcase name="First client in array has a valid UUID" time="0.008" classname="Keycloak"/>
-    <testcase name="CLIENT_UUID is set correctly" time="0.008" classname="Keycloak"/>
+  <testsuite name="Config Management / Update Client Props / 2 - Client Info" id="bb277eaf-02c2-4956-8c18-3d924b58aee1" timestamp="2025-06-03T02:15:07.220Z" tests="4" failures="0" errors="0" time="0.009">
+    <testcase name="Status code is 200" time="0.009" classname="Keycloak"/>
+    <testcase name="Response contains client array with at least one item" time="0.009" classname="Keycloak"/>
+    <testcase name="First client in array has a valid UUID" time="0.009" classname="Keycloak"/>
+    <testcase name="CLIENT_UUID is set correctly" time="0.009" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Config Management / Update Client Props / 3 - Update Client" id="199afc9a-0b38-4137-8c4d-49a29a2c605c" timestamp="2025-05-29T12:17:57.283Z" tests="2" failures="0" errors="0" time="0.041">
-    <testcase name="Status code is 204 for successful update" time="0.041" classname="Keycloak"/>
-    <testcase name="Client updated successfully" time="0.041" classname="Keycloak"/>
+  <testsuite name="Config Management / Update Client Props / 3 - Update Client" id="6e9c8137-751b-45d1-90e8-2aed0a02d75f" timestamp="2025-06-03T02:15:07.220Z" tests="2" failures="0" errors="0" time="0.046">
+    <testcase name="Status code is 204 for successful update" time="0.046" classname="Keycloak"/>
+    <testcase name="Client updated successfully" time="0.046" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /robots.txt" id="a3ac3ca4-12de-43f7-805c-9d47a2861658" timestamp="2025-05-29T12:17:57.283Z" tests="13" failures="0" errors="0" time="0.006">
+  <testsuite name="Verify URL Access / Granted - Paths / /robots.txt" id="48cd0022-5b6a-4c98-9fc5-e4882d9434b1" timestamp="2025-06-03T02:15:07.220Z" tests="13" failures="0" errors="0" time="0.006">
     <testcase name="Response status code is 200" time="0.006" classname="Keycloak"/>
     <testcase name="Response time is within acceptable range" time="0.006" classname="Keycloak"/>
     <testcase name="Server header should just be 'Apache' without any extra info" time="0.006" classname="Keycloak"/>
@@ -95,7 +95,7 @@
     <testcase name="X-Forwarded-Port header does not exist" time="0.006" classname="Keycloak"/>
     <testcase name="X-Forwarded-Proto header does not exist" time="0.006" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{USER_REALM_NAME}}" id="a543765a-2a4d-4db7-b8bb-efcdd0d117f2" timestamp="2025-05-29T12:17:57.283Z" tests="15" failures="0" errors="0" time="0.005">
+  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{USER_REALM_NAME}}" id="906ca987-b7f7-463c-aa28-9d83ac4e962a" timestamp="2025-06-03T02:15:07.220Z" tests="15" failures="0" errors="0" time="0.005">
     <testcase name="Response status code is 200" time="0.005" classname="Keycloak"/>
     <testcase name="Response time is within acceptable range" time="0.005" classname="Keycloak"/>
     <testcase name="Server header should just be 'Apache' without any extra info" time="0.005" classname="Keycloak"/>
@@ -112,7 +112,7 @@
     <testcase name="X-Forwarded-Port header does not exist" time="0.005" classname="Keycloak"/>
     <testcase name="X-Forwarded-Proto header does not exist" time="0.005" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{ADMIN_REALM_NAME}}" id="3c338df6-dacc-4a76-84f6-7c2dab5e95d6" timestamp="2025-05-29T12:17:57.283Z" tests="15" failures="0" errors="0" time="0.005">
+  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{ADMIN_REALM_NAME}}" id="5df3019e-054b-4191-ae21-6e7d80c48f9a" timestamp="2025-06-03T02:15:07.220Z" tests="15" failures="0" errors="0" time="0.005">
     <testcase name="Response status code is 200" time="0.005" classname="Keycloak"/>
     <testcase name="Response time is within acceptable range" time="0.005" classname="Keycloak"/>
     <testcase name="Server header should just be 'Apache' without any extra info" time="0.005" classname="Keycloak"/>
@@ -129,7 +129,7 @@
     <testcase name="X-Forwarded-Port header does not exist" time="0.005" classname="Keycloak"/>
     <testcase name="X-Forwarded-Proto header does not exist" time="0.005" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /admin" id="ac2f2fdf-e3a7-43bb-bd13-5b7f136b828b" timestamp="2025-05-29T12:17:57.283Z" tests="16" failures="0" errors="0" time="0.036">
+  <testsuite name="Verify URL Access / Granted - Paths / /admin" id="55219df2-1a32-47d1-bd54-061e77c6e8b2" timestamp="2025-06-03T02:15:07.220Z" tests="16" failures="0" errors="0" time="0.036">
     <testcase name="Response status code is 200" time="0.036" classname="Keycloak"/>
     <testcase name="Response time is within acceptable range" time="0.036" classname="Keycloak"/>
     <testcase name="Server header should just be 'Apache' without any extra info" time="0.036" classname="Keycloak"/>
@@ -147,61 +147,43 @@
     <testcase name="X-Forwarded-Proto header does not exist" time="0.036" classname="Keycloak"/>
     <testcase name="Validate the response schema for required fields" time="0.036" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /admin/{{ADMIN_REALM_NAME}}/console" id="2a456402-ade1-48b2-a05d-d8d4fdf53c79" timestamp="2025-05-29T12:17:57.283Z" tests="16" failures="0" errors="0" time="0.014">
-    <testcase name="Response status code is 200" time="0.014" classname="Keycloak"/>
-    <testcase name="Response time is within acceptable range" time="0.014" classname="Keycloak"/>
-    <testcase name="Server header should just be 'Apache' without any extra info" time="0.014" classname="Keycloak"/>
-    <testcase name="Cache-Control is no-cache" time="0.014" classname="Keycloak"/>
-    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.014" classname="Keycloak"/>
-    <testcase name="X-Content-Type-Options is nosniff" time="0.014" classname="Keycloak"/>
-    <testcase name="X-XSS-Protection is set" time="0.014" classname="Keycloak"/>
-    <testcase name="Strict-Transport-Security is configured" time="0.014" classname="Keycloak"/>
-    <testcase name="Host header is preserved by Apache" time="0.014" classname="Keycloak"/>
-    <testcase name="Content type is text/html" time="0.014" classname="Keycloak"/>
-    <testcase name="Validate the response" time="0.014" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Host header does not exist" time="0.014" classname="Keycloak"/>
-    <testcase name="X-Forwarded-For header does not exist" time="0.014" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Port header does not exist" time="0.014" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Proto header does not exist" time="0.014" classname="Keycloak"/>
-    <testcase name="Validate the response schema for required fields" time="0.014" classname="Keycloak"/>
+  <testsuite name="Verify URL Access / Granted - Paths / /admin/{{ADMIN_REALM_NAME}}/console" id="ca3f05db-190e-4623-b2ba-66c59f0ea3c6" timestamp="2025-06-03T02:15:07.220Z" tests="16" failures="0" errors="0" time="0.017">
+    <testcase name="Response status code is 200" time="0.017" classname="Keycloak"/>
+    <testcase name="Response time is within acceptable range" time="0.017" classname="Keycloak"/>
+    <testcase name="Server header should just be 'Apache' without any extra info" time="0.017" classname="Keycloak"/>
+    <testcase name="Cache-Control is no-cache" time="0.017" classname="Keycloak"/>
+    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.017" classname="Keycloak"/>
+    <testcase name="X-Content-Type-Options is nosniff" time="0.017" classname="Keycloak"/>
+    <testcase name="X-XSS-Protection is set" time="0.017" classname="Keycloak"/>
+    <testcase name="Strict-Transport-Security is configured" time="0.017" classname="Keycloak"/>
+    <testcase name="Host header is preserved by Apache" time="0.017" classname="Keycloak"/>
+    <testcase name="Content type is text/html" time="0.017" classname="Keycloak"/>
+    <testcase name="Validate the response" time="0.017" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Host header does not exist" time="0.017" classname="Keycloak"/>
+    <testcase name="X-Forwarded-For header does not exist" time="0.017" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Port header does not exist" time="0.017" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Proto header does not exist" time="0.017" classname="Keycloak"/>
+    <testcase name="Validate the response schema for required fields" time="0.017" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /admin/{{USER_REALM_NAME}}/console" id="73599c79-ac85-4e06-a3f6-84979a43ddfa" timestamp="2025-05-29T12:17:57.283Z" tests="16" failures="0" errors="0" time="0.019">
-    <testcase name="Response status code is 200" time="0.019" classname="Keycloak"/>
-    <testcase name="Response time is within acceptable range" time="0.019" classname="Keycloak"/>
-    <testcase name="Server header should just be 'Apache' without any extra info" time="0.019" classname="Keycloak"/>
-    <testcase name="Cache-Control is no-cache" time="0.019" classname="Keycloak"/>
-    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.019" classname="Keycloak"/>
-    <testcase name="X-Content-Type-Options is nosniff" time="0.019" classname="Keycloak"/>
-    <testcase name="X-XSS-Protection is set" time="0.019" classname="Keycloak"/>
-    <testcase name="Strict-Transport-Security is configured" time="0.019" classname="Keycloak"/>
-    <testcase name="Host header is preserved by Apache" time="0.019" classname="Keycloak"/>
-    <testcase name="Content type is text/html" time="0.019" classname="Keycloak"/>
-    <testcase name="Validate the response" time="0.019" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Host header does not exist" time="0.019" classname="Keycloak"/>
-    <testcase name="X-Forwarded-For header does not exist" time="0.019" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Port header does not exist" time="0.019" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Proto header does not exist" time="0.019" classname="Keycloak"/>
-    <testcase name="Validate the response schema for required fields" time="0.019" classname="Keycloak"/>
+  <testsuite name="Verify URL Access / Granted - Paths / /admin/{{USER_REALM_NAME}}/console" id="9e0850ae-6350-4bf0-9fb6-fc23c043cb31" timestamp="2025-06-03T02:15:07.220Z" tests="16" failures="0" errors="0" time="0.016">
+    <testcase name="Response status code is 200" time="0.016" classname="Keycloak"/>
+    <testcase name="Response time is within acceptable range" time="0.016" classname="Keycloak"/>
+    <testcase name="Server header should just be 'Apache' without any extra info" time="0.016" classname="Keycloak"/>
+    <testcase name="Cache-Control is no-cache" time="0.016" classname="Keycloak"/>
+    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.016" classname="Keycloak"/>
+    <testcase name="X-Content-Type-Options is nosniff" time="0.016" classname="Keycloak"/>
+    <testcase name="X-XSS-Protection is set" time="0.016" classname="Keycloak"/>
+    <testcase name="Strict-Transport-Security is configured" time="0.016" classname="Keycloak"/>
+    <testcase name="Host header is preserved by Apache" time="0.016" classname="Keycloak"/>
+    <testcase name="Content type is text/html" time="0.016" classname="Keycloak"/>
+    <testcase name="Validate the response" time="0.016" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Host header does not exist" time="0.016" classname="Keycloak"/>
+    <testcase name="X-Forwarded-For header does not exist" time="0.016" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Port header does not exist" time="0.016" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Proto header does not exist" time="0.016" classname="Keycloak"/>
+    <testcase name="Validate the response schema for required fields" time="0.016" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /realms/.../openid-connect" id="fb63a914-be00-4193-bf7d-01e88eafc362" timestamp="2025-05-29T12:17:57.283Z" tests="16" failures="0" errors="0" time="0.030">
-    <testcase name="Response status code is 200" time="0.030" classname="Keycloak"/>
-    <testcase name="Response time is within acceptable range" time="0.030" classname="Keycloak"/>
-    <testcase name="Server header should just be 'Apache' without any extra info" time="0.030" classname="Keycloak"/>
-    <testcase name="Cache-Control is no-cache" time="0.030" classname="Keycloak"/>
-    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.030" classname="Keycloak"/>
-    <testcase name="X-Content-Type-Options is nosniff" time="0.030" classname="Keycloak"/>
-    <testcase name="X-XSS-Protection is set" time="0.030" classname="Keycloak"/>
-    <testcase name="Strict-Transport-Security is configured" time="0.030" classname="Keycloak"/>
-    <testcase name="Host header is preserved by Apache" time="0.030" classname="Keycloak"/>
-    <testcase name="Content type is text/html" time="0.030" classname="Keycloak"/>
-    <testcase name="Validate the response" time="0.030" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Host header does not exist" time="0.030" classname="Keycloak"/>
-    <testcase name="X-Forwarded-For header does not exist" time="0.030" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Port header does not exist" time="0.030" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Proto header does not exist" time="0.030" classname="Keycloak"/>
-    <testcase name="Validate the response schema for required fields" time="0.030" classname="Keycloak"/>
-  </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{ADMIN_REALM_NAME}}/account" id="1165c541-df75-43c1-9146-77351a639118" timestamp="2025-05-29T12:17:57.283Z" tests="16" failures="0" errors="0" time="0.033">
+  <testsuite name="Verify URL Access / Granted - Paths / /realms/.../openid-connect" id="ebb094bb-87c6-47f1-b9ae-f583491644ee" timestamp="2025-06-03T02:15:07.220Z" tests="16" failures="0" errors="0" time="0.033">
     <testcase name="Response status code is 200" time="0.033" classname="Keycloak"/>
     <testcase name="Response time is within acceptable range" time="0.033" classname="Keycloak"/>
     <testcase name="Server header should just be 'Apache' without any extra info" time="0.033" classname="Keycloak"/>
@@ -219,25 +201,83 @@
     <testcase name="X-Forwarded-Proto header does not exist" time="0.033" classname="Keycloak"/>
     <testcase name="Validate the response schema for required fields" time="0.033" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{USER_REALM_NAME}}/account" id="e4b852c0-90ed-4e61-bb30-7b0b40aea16b" timestamp="2025-05-29T12:17:57.283Z" tests="16" failures="0" errors="0" time="0.024">
-    <testcase name="Response status code is 200" time="0.024" classname="Keycloak"/>
-    <testcase name="Response time is within acceptable range" time="0.024" classname="Keycloak"/>
-    <testcase name="Server header should just be 'Apache' without any extra info" time="0.024" classname="Keycloak"/>
-    <testcase name="Cache-Control is no-cache" time="0.024" classname="Keycloak"/>
-    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.024" classname="Keycloak"/>
-    <testcase name="X-Content-Type-Options is nosniff" time="0.024" classname="Keycloak"/>
-    <testcase name="X-XSS-Protection is set" time="0.024" classname="Keycloak"/>
-    <testcase name="Strict-Transport-Security is configured" time="0.024" classname="Keycloak"/>
-    <testcase name="Host header is preserved by Apache" time="0.024" classname="Keycloak"/>
-    <testcase name="Content type is text/html" time="0.024" classname="Keycloak"/>
-    <testcase name="Validate the response" time="0.024" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Host header does not exist" time="0.024" classname="Keycloak"/>
-    <testcase name="X-Forwarded-For header does not exist" time="0.024" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Port header does not exist" time="0.024" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Proto header does not exist" time="0.024" classname="Keycloak"/>
-    <testcase name="Validate the response schema for required fields" time="0.024" classname="Keycloak"/>
+  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{ADMIN_REALM_NAME}}/account" id="7b0b6d15-1458-4685-a0f5-cdaa28317276" timestamp="2025-06-03T02:15:07.220Z" tests="16" failures="0" errors="0" time="0.037">
+    <testcase name="Response status code is 200" time="0.037" classname="Keycloak"/>
+    <testcase name="Response time is within acceptable range" time="0.037" classname="Keycloak"/>
+    <testcase name="Server header should just be 'Apache' without any extra info" time="0.037" classname="Keycloak"/>
+    <testcase name="Cache-Control is no-cache" time="0.037" classname="Keycloak"/>
+    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.037" classname="Keycloak"/>
+    <testcase name="X-Content-Type-Options is nosniff" time="0.037" classname="Keycloak"/>
+    <testcase name="X-XSS-Protection is set" time="0.037" classname="Keycloak"/>
+    <testcase name="Strict-Transport-Security is configured" time="0.037" classname="Keycloak"/>
+    <testcase name="Host header is preserved by Apache" time="0.037" classname="Keycloak"/>
+    <testcase name="Content type is text/html" time="0.037" classname="Keycloak"/>
+    <testcase name="Validate the response" time="0.037" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Host header does not exist" time="0.037" classname="Keycloak"/>
+    <testcase name="X-Forwarded-For header does not exist" time="0.037" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Port header does not exist" time="0.037" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Proto header does not exist" time="0.037" classname="Keycloak"/>
+    <testcase name="Validate the response schema for required fields" time="0.037" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Denied - Paths / /" id="31bb03f6-9adf-40ad-bde8-dea53f686aae" timestamp="2025-05-29T12:17:57.283Z" tests="8" failures="0" errors="0" time="0.001">
+  <testsuite name="Verify URL Access / Granted - Paths / /realms/{{USER_REALM_NAME}}/account" id="47c71f8d-d1ad-43aa-b6a9-aca92f508fe1" timestamp="2025-06-03T02:15:07.220Z" tests="16" failures="0" errors="0" time="0.020">
+    <testcase name="Response status code is 200" time="0.020" classname="Keycloak"/>
+    <testcase name="Response time is within acceptable range" time="0.020" classname="Keycloak"/>
+    <testcase name="Server header should just be 'Apache' without any extra info" time="0.020" classname="Keycloak"/>
+    <testcase name="Cache-Control is no-cache" time="0.020" classname="Keycloak"/>
+    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.020" classname="Keycloak"/>
+    <testcase name="X-Content-Type-Options is nosniff" time="0.020" classname="Keycloak"/>
+    <testcase name="X-XSS-Protection is set" time="0.020" classname="Keycloak"/>
+    <testcase name="Strict-Transport-Security is configured" time="0.020" classname="Keycloak"/>
+    <testcase name="Host header is preserved by Apache" time="0.020" classname="Keycloak"/>
+    <testcase name="Content type is text/html" time="0.020" classname="Keycloak"/>
+    <testcase name="Validate the response" time="0.020" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Host header does not exist" time="0.020" classname="Keycloak"/>
+    <testcase name="X-Forwarded-For header does not exist" time="0.020" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Port header does not exist" time="0.020" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Proto header does not exist" time="0.020" classname="Keycloak"/>
+    <testcase name="Validate the response schema for required fields" time="0.020" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="Verify URL Access / Denied - Paths / /" id="f15540c5-e1b3-41a5-bd99-8332125b76e0" timestamp="2025-06-03T02:15:07.220Z" tests="8" failures="0" errors="0" time="0.002">
+    <testcase name="Response status code is 403" time="0.002" classname="Keycloak"/>
+    <testcase name="Response time is within acceptable range" time="0.002" classname="Keycloak"/>
+    <testcase name="Server header should just be 'Apache' without any extra info" time="0.002" classname="Keycloak"/>
+    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.002" classname="Keycloak"/>
+    <testcase name="X-Content-Type-Options is nosniff" time="0.002" classname="Keycloak"/>
+    <testcase name="X-XSS-Protection is set" time="0.002" classname="Keycloak"/>
+    <testcase name="Strict-Transport-Security is configured" time="0.002" classname="Keycloak"/>
+    <testcase name="Host header is preserved by Apache" time="0.002" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="Verify URL Access / Denied - Paths / /realms" id="34668db6-c4ed-40dd-b63f-0b348e5989e1" timestamp="2025-06-03T02:15:07.220Z" tests="8" failures="0" errors="0" time="0.002">
+    <testcase name="Response status code is 403" time="0.002" classname="Keycloak"/>
+    <testcase name="Response time is within acceptable range" time="0.002" classname="Keycloak"/>
+    <testcase name="Server header should just be 'Apache' without any extra info" time="0.002" classname="Keycloak"/>
+    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.002" classname="Keycloak"/>
+    <testcase name="X-Content-Type-Options is nosniff" time="0.002" classname="Keycloak"/>
+    <testcase name="X-XSS-Protection is set" time="0.002" classname="Keycloak"/>
+    <testcase name="Strict-Transport-Security is configured" time="0.002" classname="Keycloak"/>
+    <testcase name="Host header is preserved by Apache" time="0.002" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="Verify URL Access / Denied - Paths / /resources" id="134de24a-b3eb-4823-8f72-2372581adb30" timestamp="2025-06-03T02:15:07.220Z" tests="8" failures="0" errors="0" time="0.002">
+    <testcase name="Response status code is 403" time="0.002" classname="Keycloak"/>
+    <testcase name="Response time is within acceptable range" time="0.002" classname="Keycloak"/>
+    <testcase name="Server header should just be 'Apache' without any extra info" time="0.002" classname="Keycloak"/>
+    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.002" classname="Keycloak"/>
+    <testcase name="X-Content-Type-Options is nosniff" time="0.002" classname="Keycloak"/>
+    <testcase name="X-XSS-Protection is set" time="0.002" classname="Keycloak"/>
+    <testcase name="Strict-Transport-Security is configured" time="0.002" classname="Keycloak"/>
+    <testcase name="Host header is preserved by Apache" time="0.002" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="Verify URL Access / Denied - Paths / /health" id="b6792c4c-32a2-4905-8203-d91288345abc" timestamp="2025-06-03T02:15:07.220Z" tests="8" failures="0" errors="0" time="0.002">
+    <testcase name="Response status code is 403" time="0.002" classname="Keycloak"/>
+    <testcase name="Response time is within acceptable range" time="0.002" classname="Keycloak"/>
+    <testcase name="Server header should just be 'Apache' without any extra info" time="0.002" classname="Keycloak"/>
+    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.002" classname="Keycloak"/>
+    <testcase name="X-Content-Type-Options is nosniff" time="0.002" classname="Keycloak"/>
+    <testcase name="X-XSS-Protection is set" time="0.002" classname="Keycloak"/>
+    <testcase name="Strict-Transport-Security is configured" time="0.002" classname="Keycloak"/>
+    <testcase name="Host header is preserved by Apache" time="0.002" classname="Keycloak"/>
+  </testsuite>
+  <testsuite name="Verify URL Access / Denied - Paths / /health/ready" id="586374ef-b9ce-45e6-a894-0147961f6f99" timestamp="2025-06-03T02:15:07.220Z" tests="8" failures="0" errors="0" time="0.001">
     <testcase name="Response status code is 403" time="0.001" classname="Keycloak"/>
     <testcase name="Response time is within acceptable range" time="0.001" classname="Keycloak"/>
     <testcase name="Server header should just be 'Apache' without any extra info" time="0.001" classname="Keycloak"/>
@@ -247,67 +287,27 @@
     <testcase name="Strict-Transport-Security is configured" time="0.001" classname="Keycloak"/>
     <testcase name="Host header is preserved by Apache" time="0.001" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Denied - Paths / /realms" id="b2d6ce4c-a06a-4a04-a868-8b582dd9ddcf" timestamp="2025-05-29T12:17:57.283Z" tests="8" failures="0" errors="0" time="0.001">
-    <testcase name="Response status code is 403" time="0.001" classname="Keycloak"/>
-    <testcase name="Response time is within acceptable range" time="0.001" classname="Keycloak"/>
-    <testcase name="Server header should just be 'Apache' without any extra info" time="0.001" classname="Keycloak"/>
-    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.001" classname="Keycloak"/>
-    <testcase name="X-Content-Type-Options is nosniff" time="0.001" classname="Keycloak"/>
-    <testcase name="X-XSS-Protection is set" time="0.001" classname="Keycloak"/>
-    <testcase name="Strict-Transport-Security is configured" time="0.001" classname="Keycloak"/>
-    <testcase name="Host header is preserved by Apache" time="0.001" classname="Keycloak"/>
+  <testsuite name="Verify URL Access / Denied - Paths / /health/live" id="0c84fc10-fc9e-4046-a04d-ab77c59e9b04" timestamp="2025-06-03T02:15:07.220Z" tests="8" failures="0" errors="0" time="0.002">
+    <testcase name="Response status code is 403" time="0.002" classname="Keycloak"/>
+    <testcase name="Response time is within acceptable range" time="0.002" classname="Keycloak"/>
+    <testcase name="Server header should just be 'Apache' without any extra info" time="0.002" classname="Keycloak"/>
+    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.002" classname="Keycloak"/>
+    <testcase name="X-Content-Type-Options is nosniff" time="0.002" classname="Keycloak"/>
+    <testcase name="X-XSS-Protection is set" time="0.002" classname="Keycloak"/>
+    <testcase name="Strict-Transport-Security is configured" time="0.002" classname="Keycloak"/>
+    <testcase name="Host header is preserved by Apache" time="0.002" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Denied - Paths / /resources" id="b071b0ca-9b4e-440a-b825-739a60a44c1d" timestamp="2025-05-29T12:17:57.283Z" tests="8" failures="0" errors="0" time="0.001">
-    <testcase name="Response status code is 403" time="0.001" classname="Keycloak"/>
-    <testcase name="Response time is within acceptable range" time="0.001" classname="Keycloak"/>
-    <testcase name="Server header should just be 'Apache' without any extra info" time="0.001" classname="Keycloak"/>
-    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.001" classname="Keycloak"/>
-    <testcase name="X-Content-Type-Options is nosniff" time="0.001" classname="Keycloak"/>
-    <testcase name="X-XSS-Protection is set" time="0.001" classname="Keycloak"/>
-    <testcase name="Strict-Transport-Security is configured" time="0.001" classname="Keycloak"/>
-    <testcase name="Host header is preserved by Apache" time="0.001" classname="Keycloak"/>
+  <testsuite name="Verify URL Access / Denied - Paths / /metrics" id="5ab8c9fa-edf1-4bca-91ee-c3e9e8333764" timestamp="2025-06-03T02:15:07.220Z" tests="8" failures="0" errors="0" time="0.002">
+    <testcase name="Response status code is 403" time="0.002" classname="Keycloak"/>
+    <testcase name="Response time is within acceptable range" time="0.002" classname="Keycloak"/>
+    <testcase name="Server header should just be 'Apache' without any extra info" time="0.002" classname="Keycloak"/>
+    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.002" classname="Keycloak"/>
+    <testcase name="X-Content-Type-Options is nosniff" time="0.002" classname="Keycloak"/>
+    <testcase name="X-XSS-Protection is set" time="0.002" classname="Keycloak"/>
+    <testcase name="Strict-Transport-Security is configured" time="0.002" classname="Keycloak"/>
+    <testcase name="Host header is preserved by Apache" time="0.002" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Denied - Paths / /health" id="2085a341-0d95-4ebb-8b03-c4ee447b3621" timestamp="2025-05-29T12:17:57.283Z" tests="8" failures="0" errors="0" time="0.001">
-    <testcase name="Response status code is 403" time="0.001" classname="Keycloak"/>
-    <testcase name="Response time is within acceptable range" time="0.001" classname="Keycloak"/>
-    <testcase name="Server header should just be 'Apache' without any extra info" time="0.001" classname="Keycloak"/>
-    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.001" classname="Keycloak"/>
-    <testcase name="X-Content-Type-Options is nosniff" time="0.001" classname="Keycloak"/>
-    <testcase name="X-XSS-Protection is set" time="0.001" classname="Keycloak"/>
-    <testcase name="Strict-Transport-Security is configured" time="0.001" classname="Keycloak"/>
-    <testcase name="Host header is preserved by Apache" time="0.001" classname="Keycloak"/>
-  </testsuite>
-  <testsuite name="Verify URL Access / Denied - Paths / /health/ready" id="1535a7d5-4792-4a06-8ffc-9a36707813a4" timestamp="2025-05-29T12:17:57.283Z" tests="8" failures="0" errors="0" time="0.001">
-    <testcase name="Response status code is 403" time="0.001" classname="Keycloak"/>
-    <testcase name="Response time is within acceptable range" time="0.001" classname="Keycloak"/>
-    <testcase name="Server header should just be 'Apache' without any extra info" time="0.001" classname="Keycloak"/>
-    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.001" classname="Keycloak"/>
-    <testcase name="X-Content-Type-Options is nosniff" time="0.001" classname="Keycloak"/>
-    <testcase name="X-XSS-Protection is set" time="0.001" classname="Keycloak"/>
-    <testcase name="Strict-Transport-Security is configured" time="0.001" classname="Keycloak"/>
-    <testcase name="Host header is preserved by Apache" time="0.001" classname="Keycloak"/>
-  </testsuite>
-  <testsuite name="Verify URL Access / Denied - Paths / /health/live" id="bca88c0a-915e-468c-ad94-8f6aca4651e8" timestamp="2025-05-29T12:17:57.283Z" tests="8" failures="0" errors="0" time="0.001">
-    <testcase name="Response status code is 403" time="0.001" classname="Keycloak"/>
-    <testcase name="Response time is within acceptable range" time="0.001" classname="Keycloak"/>
-    <testcase name="Server header should just be 'Apache' without any extra info" time="0.001" classname="Keycloak"/>
-    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.001" classname="Keycloak"/>
-    <testcase name="X-Content-Type-Options is nosniff" time="0.001" classname="Keycloak"/>
-    <testcase name="X-XSS-Protection is set" time="0.001" classname="Keycloak"/>
-    <testcase name="Strict-Transport-Security is configured" time="0.001" classname="Keycloak"/>
-    <testcase name="Host header is preserved by Apache" time="0.001" classname="Keycloak"/>
-  </testsuite>
-  <testsuite name="Verify URL Access / Denied - Paths / /metrics" id="861c7310-83fe-4be7-9f9b-257b99a14aa6" timestamp="2025-05-29T12:17:57.283Z" tests="8" failures="0" errors="0" time="0.001">
-    <testcase name="Response status code is 403" time="0.001" classname="Keycloak"/>
-    <testcase name="Response time is within acceptable range" time="0.001" classname="Keycloak"/>
-    <testcase name="Server header should just be 'Apache' without any extra info" time="0.001" classname="Keycloak"/>
-    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.001" classname="Keycloak"/>
-    <testcase name="X-Content-Type-Options is nosniff" time="0.001" classname="Keycloak"/>
-    <testcase name="X-XSS-Protection is set" time="0.001" classname="Keycloak"/>
-    <testcase name="Strict-Transport-Security is configured" time="0.001" classname="Keycloak"/>
-    <testcase name="Host header is preserved by Apache" time="0.001" classname="Keycloak"/>
-  </testsuite>
-  <testsuite name="Verify URL Access / Proxy Headers / Headers Verification" id="3599fde5-c366-462a-9094-88358ec1b5c2" timestamp="2025-05-29T12:17:57.283Z" tests="13" failures="0" errors="0" time="0.006">
+  <testsuite name="Verify URL Access / Proxy Headers / Headers Verification" id="f86cb8d8-4ee2-4fc7-bd9d-cccfb1950582" timestamp="2025-06-03T02:15:07.220Z" tests="13" failures="0" errors="0" time="0.006">
     <testcase name="Response status code is 200" time="0.006" classname="Keycloak"/>
     <testcase name="Response time is within acceptable range" time="0.006" classname="Keycloak"/>
     <testcase name="X-Frame-Options is SAMEORIGIN" time="0.006" classname="Keycloak"/>
@@ -322,34 +322,34 @@
     <testcase name="Content type is application/json" time="0.006" classname="Keycloak"/>
     <testcase name="Validate the response schema for required fields" time="0.006" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Proxy Headers / Headers Verification Console" id="e3a91f9d-aff7-461d-8a60-000ea010e604" timestamp="2025-05-29T12:17:57.283Z" tests="13" failures="0" errors="0" time="0.014">
-    <testcase name="Response status code is 200" time="0.014" classname="Keycloak"/>
-    <testcase name="Response time is within acceptable range" time="0.014" classname="Keycloak"/>
-    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.014" classname="Keycloak"/>
-    <testcase name="X-Content-Type-Options is nosniff" time="0.014" classname="Keycloak"/>
-    <testcase name="X-XSS-Protection is set" time="0.014" classname="Keycloak"/>
-    <testcase name="Strict-Transport-Security is configured" time="0.014" classname="Keycloak"/>
-    <testcase name="Host header is preserved by Apache" time="0.014" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Host header is keycloak-server" time="0.014" classname="Keycloak"/>
-    <testcase name="X-Forwarded-For header is 192.168.182.123" time="0.014" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Port header is 38497" time="0.014" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Proto header is https" time="0.014" classname="Keycloak"/>
-    <testcase name="Content type is application/json" time="0.014" classname="Keycloak"/>
-    <testcase name="Validate the response schema for required fields" time="0.014" classname="Keycloak"/>
+  <testsuite name="Verify URL Access / Proxy Headers / Headers Verification Console" id="1c571cac-80a4-4223-a614-1e1a94edeb24" timestamp="2025-06-03T02:15:07.220Z" tests="13" failures="0" errors="0" time="0.022">
+    <testcase name="Response status code is 200" time="0.022" classname="Keycloak"/>
+    <testcase name="Response time is within acceptable range" time="0.022" classname="Keycloak"/>
+    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.022" classname="Keycloak"/>
+    <testcase name="X-Content-Type-Options is nosniff" time="0.022" classname="Keycloak"/>
+    <testcase name="X-XSS-Protection is set" time="0.022" classname="Keycloak"/>
+    <testcase name="Strict-Transport-Security is configured" time="0.022" classname="Keycloak"/>
+    <testcase name="Host header is preserved by Apache" time="0.022" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Host header is keycloak-server" time="0.022" classname="Keycloak"/>
+    <testcase name="X-Forwarded-For header is 192.168.182.123" time="0.022" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Port header is 38497" time="0.022" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Proto header is https" time="0.022" classname="Keycloak"/>
+    <testcase name="Content type is application/json" time="0.022" classname="Keycloak"/>
+    <testcase name="Validate the response schema for required fields" time="0.022" classname="Keycloak"/>
   </testsuite>
-  <testsuite name="Verify URL Access / Proxy Headers / Headers Verification Account Copy" id="ba24f458-45fb-4355-b8d5-7f923b616522" timestamp="2025-05-29T12:17:57.283Z" tests="13" failures="0" errors="0" time="0.024">
-    <testcase name="Response status code is 200" time="0.024" classname="Keycloak"/>
-    <testcase name="Response time is within acceptable range" time="0.024" classname="Keycloak"/>
-    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.024" classname="Keycloak"/>
-    <testcase name="X-Content-Type-Options is nosniff" time="0.024" classname="Keycloak"/>
-    <testcase name="X-XSS-Protection is set" time="0.024" classname="Keycloak"/>
-    <testcase name="Strict-Transport-Security is configured" time="0.024" classname="Keycloak"/>
-    <testcase name="Host header is preserved by Apache" time="0.024" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Host header is keycloak-server" time="0.024" classname="Keycloak"/>
-    <testcase name="X-Forwarded-For header is 192.168.182.123" time="0.024" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Port header is 38497" time="0.024" classname="Keycloak"/>
-    <testcase name="X-Forwarded-Proto header is https" time="0.024" classname="Keycloak"/>
-    <testcase name="Content type is application/json" time="0.024" classname="Keycloak"/>
-    <testcase name="Validate the response schema for required fields" time="0.024" classname="Keycloak"/>
+  <testsuite name="Verify URL Access / Proxy Headers / Headers Verification Account Copy" id="474c747d-d552-422d-8399-85dc078a3ae9" timestamp="2025-06-03T02:15:07.220Z" tests="13" failures="0" errors="0" time="0.017">
+    <testcase name="Response status code is 200" time="0.017" classname="Keycloak"/>
+    <testcase name="Response time is within acceptable range" time="0.017" classname="Keycloak"/>
+    <testcase name="X-Frame-Options is SAMEORIGIN" time="0.017" classname="Keycloak"/>
+    <testcase name="X-Content-Type-Options is nosniff" time="0.017" classname="Keycloak"/>
+    <testcase name="X-XSS-Protection is set" time="0.017" classname="Keycloak"/>
+    <testcase name="Strict-Transport-Security is configured" time="0.017" classname="Keycloak"/>
+    <testcase name="Host header is preserved by Apache" time="0.017" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Host header is keycloak-server" time="0.017" classname="Keycloak"/>
+    <testcase name="X-Forwarded-For header is 192.168.182.123" time="0.017" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Port header is 38497" time="0.017" classname="Keycloak"/>
+    <testcase name="X-Forwarded-Proto header is https" time="0.017" classname="Keycloak"/>
+    <testcase name="Content type is application/json" time="0.017" classname="Keycloak"/>
+    <testcase name="Validate the response schema for required fields" time="0.017" classname="Keycloak"/>
   </testsuite>
 </testsuites>

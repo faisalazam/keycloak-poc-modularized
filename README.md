@@ -139,6 +139,8 @@ MailHog for authentication and email testing.
 Keycloak is configured to work with OpenLDAP for authentication and uses PostgreSQL for storing its data. You can find
 more details about Keycloak setup in the [Keycloak README](./keycloak/README.md).
 
+➡️ To integrate your Java Spring Boot web app with Keycloak, see [Spring Integration Guide](./SPRING_INTEGRATION.md).
+
 With the reverse proxy in place, Keycloak should be accessible on the following URLs:
 
 BASE_URL = http://${APACHE_HOST}:${HTTPD_PORT} => Let's assume APACHE_HOST is localhost and HTTPD_PORT is 80:

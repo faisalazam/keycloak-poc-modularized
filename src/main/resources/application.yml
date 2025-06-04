@@ -1,0 +1,74 @@
+server:
+  port: 8090
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          # ----- OAuth2 Client Registration for the identity provider -----
+          # The "registrationId" is an arbitrary name, and unique ID for this OAuth2 provider configuration.
+          # e.g. 'keycloak', 'authserver', 'sso', or anything else. I'm using 'authserver' here.
+          # The same "registrationId" must be used in both the 'registration' and 'provider' sections.
+
+          authserver: # registrationId
+            scope: openid
+            client-id: spring-boot-app-client
+            client-secret: hard_coded_secret_used_in_local_env # Get this from Keycloak
+            authorization-grant-type: authorization_code
+
+            # Callback URL Keycloak will redirect to after login.
+            # Spring Boot replaces {baseUrl} and {registrationId} at runtime.
+            # Example: http://localhost:8081/login/oauth2/code/authserver
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          # ----- OAuth2 Provider Configuration -----
+          # This section must use the same registrationId ('authserver') as above.
+
+          authserver:
+            # maps the user's principal name in Spring Security to the 'preferred_username' claim from the ID token
+            user-name-attribute: preferred_username
+            issuer-uri: http://localhost/realms/zenithrealm
+
+# -----------------------------------------------------------------------------
+# ✅ Next Steps: Double-check your Keycloak configuration
+#
+# 1. Client Configuration:
+#    - Client ID: 'spring-boot-app-client'
+#    - Enable Client authentication
+#    - Enabled Flows:
+#        ✔ Standard Flow (Authorization Code)
+#        ✘ Implicit Flow (leave disabled)
+#        ✘ Direct Access Grants (optional for login via REST)
+#        ✘ Service Accounts (not needed)
+#    - Root URL: http://localhost:8090
+#    - Home URL: http://localhost:8090 (If left blank, Keycloak will default to the Root URL)
+#    - Valid Redirect URI: http://localhost:8090/login/oauth2/code/* (* is needed to support Spring Boot's {registrationId} in the redirect.)
+#    - Valid Post Logout Redirect URI: http://localhost:8090/*
+#    - Web Origins: http://localhost:8090 or use '+' to mirror redirect URIs
+#    - Client Secret: (must match 'hard_coded_secret_used_in_local_env' in this YAML)
+#
+# 2. Realm:
+#    - Ensure 'zenithrealm' exists
+#    - Accessible at: http://localhost/realms/zenithrealm
+#
+# 3. User Account:
+#    - A test user should exist (e.g., 'user1')
+#    - User must have a password set and be enabled
+#    - Assign roles as needed (Keycloak roles or client-specific roles)
+#    - HINT: see sample.ldif file for loaded/imported users (username/password)
+#
+# 🔁 Result on successful login:
+# http://localhost:8090/hello → redirects to Keycloak → login
+# Example response after login:
+# {
+#   "message": "Hello, user1!",
+#   "username": "user1",
+#   "roles": [
+#     "OIDC_USER",
+#     "SCOPE_email",
+#     "SCOPE_openid",
+#     "SCOPE_profile"
+#   ]
+# }
+# -----------------------------------------------------------------------------

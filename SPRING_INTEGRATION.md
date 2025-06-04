@@ -40,8 +40,8 @@ spring:
           # The same "registrationId" must be used in both the 'registration' and 'provider' sections.
 
           authserver: # registrationId
-            client-id: my-web-app
-            client-secret: YOUR_SECRET
+            client-id: spring-boot-app-client
+            client-secret: hard_coded_secret_used_in_local_env
             authorization-grant-type: authorization_code
 
             # Callback URL Keycloak will redirect to after login.
@@ -73,8 +73,8 @@ spring:
 # The same "registrationId" must be used in both the 'registration' and 'provider' sections.
 # So, all the 'spring.security.oauth2.client' properties below will follow the pattern:
 # spring.security.oauth2.client.registration.{registrationId}.*
-spring.security.oauth2.client.registration.authserver.client-id=my-web-app
-spring.security.oauth2.client.registration.authserver.client-secret=YOUR_SECRET
+spring.security.oauth2.client.registration.authserver.client-id=spring-boot-app-client
+spring.security.oauth2.client.registration.authserver.client-secret=hard_coded_secret_used_in_local_env
 spring.security.oauth2.client.registration.authserver.authorization-grant-type=authorization_code
 # Callback URL Keycloak will redirect to after login.
 # Spring Boot replaces {baseUrl} and {registrationId} at runtime.
@@ -117,11 +117,11 @@ spring.security.oauth2.client.provider.authserver.issuer-uri=http://localhost:80
 
 Go to **Keycloak Admin Console → Clients → Create**:
 
-| Setting         | Value            |
-|-----------------|------------------|
-| Client ID       | `my-web-app`     |
-| Client Protocol | `openid-connect` |
-| Client Type     | `Confidential`   |
+| Setting         | Value                    |
+|-----------------|--------------------------|
+| Client ID       | `spring-boot-app-client` |
+| Client Protocol | `openid-connect`         |
+| Client Type     | `Confidential`           |
 
 Click **Save**.
 

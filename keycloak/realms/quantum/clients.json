@@ -33,6 +33,52 @@
       "redirectUris": [
         "${QUANTUM_REALM_REDIRECT_URI}"
       ]
+    },
+    {
+      "enabled": true,
+      "protocol": "openid-connect",
+      "name": "spring-boot-app",
+      "clientId": "spring-boot-app-client",
+      "description": "Spring Boot OAuth2 login client",
+      "clientAuthenticatorType": "client-secret",
+      "secret": "${SPRING_BOOT_APP_CLIENT_SECRET}",
+      "publicClient": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "fullScopeAllowed": false,
+      "redirectUris": [
+        "${SPRING_BOOT_APP_BASE_URI}/login/oauth2/code/*"
+      ],
+      "webOrigins": [
+        "${SPRING_BOOT_APP_BASE_URI}"
+      ],
+      "rootUrl": "${SPRING_BOOT_APP_BASE_URI}",
+      "baseUrl": "${SPRING_BOOT_APP_BASE_URI}/",
+      "attributes": {
+        "use.refresh.tokens": "true",
+        "oidc.ciba.grant.enabled": "false",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "post.logout.redirect.uris": "${SPRING_BOOT_APP_BASE_URI}/*"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "roles",
+        "profile",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "organization",
+        "offline_access",
+        "microprofile-jwt"
+      ]
     }
   ]
 }
